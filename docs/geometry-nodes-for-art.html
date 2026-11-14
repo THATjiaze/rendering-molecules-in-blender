@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="en" data-socket="vector">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Geometry Nodes for art | Rendering Molecules in Blender</title>
+<meta name="description" content="The same nodes fed by formulas instead of files: instances, variation, curves and motion in three worked pieces.">
+<script>
+  (function () {
+    var root = document.documentElement;
+    root.classList.add('js');
+    try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') root.dataset.theme = t; } catch (e) {}
+  })();
+</script>
+<link rel="preload" href="assets/fonts/literata.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body class="is-part">
+<a class="skip" href="#main">Skip to the text</a>
+<header class="topbar">
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="rail">Contents</button>
+  <a class="topbar-title" href="index.html">Rendering Molecules in Blender</a>
+  <span class="topbar-end">
+    <a class="topbar-about" href="about.html">About</a>
+    <button class="theme-toggle" type="button" hidden>Dark theme</button>
+  </span>
+</header>
+<div class="shell">
+  <nav class="rail" id="rail" aria-label="Contents">
+    <a class="site-name" href="index.html">Rendering Molecules in Blender</a>
+    <div class="search" role="search">
+      <label class="visually-hidden" for="search-input">Search the guide</label>
+      <input id="search-input" type="search" placeholder="Search the guide" autocomplete="off" spellcheck="false">
+      <ol class="search-results" id="search-results" hidden></ol>
+    </div>
+    <ol class="parts">
+      <li data-socket="material">
+        <a class="part-link" href="material-recipes.html"><span class="sock" aria-hidden="true"></span>Recipes</a>
+      </li>
+      <li data-socket="color">
+        <a class="part-link" href="designing-a-look.html"><span class="sock" aria-hidden="true"></span>Designing a look</a>
+      </li>
+      <li data-socket="string">
+        <a class="part-link" href="lighting.html"><span class="sock" aria-hidden="true"></span>Lighting</a>
+      </li>
+      <li data-socket="shader">
+        <a class="part-link" href="shaders.html"><span class="sock" aria-hidden="true"></span>Shaders</a>
+      </li>
+      <li data-socket="geometry">
+        <a class="part-link" href="geometry-nodes.html"><span class="sock" aria-hidden="true"></span>Geometry Nodes</a>
+      </li>
+      <li data-socket="vector" class="is-current">
+        <a class="part-link" href="geometry-nodes-for-art.html" aria-current="page"><span class="sock" aria-hidden="true"></span>Geometry Nodes for art</a>
+        <ol class="chapters">
+          <li><a href="#chapter-1"><span class="num">1</span><span>What changes when the goal is a picture</span></a></li>
+          <li><a href="#chapter-2"><span class="num">2</span><span>Something from nothing</span></a></li>
+          <li><a href="#chapter-3"><span class="num">3</span><span>Repetition</span></a></li>
+          <li><a href="#chapter-4"><span class="num">4</span><span>Variation</span></a></li>
+          <li><a href="#chapter-5"><span class="num">5</span><span>Curves as a pen</span></a></li>
+          <li><a href="#chapter-6"><span class="num">6</span><span>Color and light for a piece</span></a></li>
+          <li><a href="#chapter-7"><span class="num">7</span><span>Motion</span></a></li>
+          <li><a href="#chapter-8"><span class="num">8</span><span>Three worked pieces</span></a></li>
+          <li><a href="#chapter-9"><span class="num">9</span><span>Chooser, glossary and sources</span></a></li>
+        </ol>
+      </li>
+      <li data-socket="boolean">
+        <a class="part-link" href="molecular-nodes.html"><span class="sock" aria-hidden="true"></span>Molecular Nodes</a>
+      </li>
+      <li data-socket="object">
+        <a class="part-link" href="objects-and-modeling.html"><span class="sock" aria-hidden="true"></span>Objects and modeling</a>
+      </li>
+    </ol>
+    <div class="rail-foot">
+      <a href="about.html">About this guide</a>
+      <button class="theme-toggle" type="button" hidden>Dark theme</button>
+    </div>
+  </nav>
+  <main id="main" class="page">
+    <header class="part-head">
+      <h1>Geometry Nodes for art</h1>
+      <div class="lead">
+<p>The same nodes that draw a cryo-EM map draw the paper spirals in the manual's Geometry Nodes introduction. This part turns the <a href="geometry-nodes.html">Geometry Nodes part</a> around: the data comes from formulas instead of files, the goal is a feeling instead of a fact, and surprises are kept rather than debugged. Work through it in a new, empty scene.</p>
+<p><strong>Notation.</strong> As in the <a href="geometry-nodes.html">Geometry Nodes part</a>: Shift + A › menu is a path, Node › Socket names an output, and <span class="arrow">→</span> is a link you draw. Every exercise starts from Add › Mesh › Plane with a new Geometry Nodes modifier and Group Input disconnected, unless it says otherwise.</p>
+
+      </div>
+      <p class="progress" hidden><span class="progress-count"></span> of 13 exercises done</p>
+    </header>
+    <article class="chapter" aria-labelledby="chapter-1">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 1</span>          <h2 id="chapter-1">What changes when the goal is a picture</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Say what procedural art is and why a node tree suits it.</li>
+            <li>Name the five parts every piece is built from.</li>
+            <li>Adopt the working habit: expose, scrub, keep.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="the-same-tool-turned-around">
+        <h3>The same tool, turned around</h3>
+<p>In the <a href="geometry-nodes.html">Geometry Nodes part</a> a tree starts with atoms from a file and ends in a faithful picture of them. Here the tree starts with nothing and ends in a shape that never existed, and the nodes are the same. A Molecular Nodes tree is a generator, a distribution and a style; a piece of art is the same three with the file replaced by a formula.</p>
+<p>Three things change. The data comes from primitives and math, so there is nothing to be faithful to. Randomness is a material, not a bug: a seed slider is often the best control in the tree. And judging the result means looking, not checking a column in the Spreadsheet.</p>
+
+      </section>
+      <section id="the-five-parts-of-any-piece">
+        <h3>The five parts of any piece</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Part</th>
+<th>What it does</th>
+<th>Typical nodes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Generator</td>
+<td>Makes something from nothing</td>
+<td>Grid, Cube, Curve Circle, Spiral, Points</td>
+</tr>
+<tr>
+<td>Distribution</td>
+<td>Decides where things go</td>
+<td>Distribute Points on Faces, Points with a formula, Curve to Points</td>
+</tr>
+<tr>
+<td>Repetition</td>
+<td>Copies one thing many times</td>
+<td>Instance on Points, Duplicate Elements</td>
+</tr>
+<tr>
+<td>Variation</td>
+<td>Makes the copies differ</td>
+<td>Index, Random Value, Noise Texture, Map Range</td>
+</tr>
+<tr>
+<td>Surface</td>
+<td>Gives it color and light</td>
+<td>Set Material, Store Named Attribute read by a material</td>
+</tr>
+</tbody>
+</table></div>
+<p>Most pieces are these five in that order, and most troubleshooting is asking which part is missing. A grid of identical cubes lacks variation; a noise landscape with nothing on it lacks repetition.</p>
+
+      </section>
+      <section id="the-working-habit">
+        <h3>The working habit</h3>
+<p>Expose every number you touch twice to the modifier panel and name it. Scrub it with the mouse while watching the viewport, and when something good happens by accident, duplicate the object (Shift + D) before you change anything else. A piece is usually chosen from a dozen accidents, not designed in advance.</p>
+<p>Keep Material Preview on, with a plain studio HDRI from the viewport shading popover, so color reads from the start. Save often: a scrubbed slider is easy to lose.</p>
+
+      </section>
+      <section class="exercise" id="exercise-1-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 1.1</span> <span class="exercise-name">Read the manual's spiral</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes-for-art/exercise-1-1"> Done</label>
+        </div>
+<ol>
+<li>Open the Blender manual's Geometry Nodes introduction and look at the paper-spiral image without reading. Name its five parts in a sentence each: what generates, what distributes, what repeats, what varies, and what the surface does.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> A spiral curve swept into a ribbon (generator), a scatter of points (distribution), one ribbon copied onto each (repetition), rotation, size and color differing per copy (variation), and a matte pastel material under soft light (surface). Chapter <a class="ref" href="#chapter-8">8</a> builds exactly this.</p>
+
+      </section>
+      <section class="check" id="chapter-1-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">What replaces the file in an art tree?</p><details><summary>Answer</summary><p>A generator: a primitive, a formula, or a scatter of points.</p></details></li>
+<li><p class="q">Which of the five parts is missing from a field of identical spheres?</p><details><summary>Answer</summary><p>Variation.</p></details></li>
+<li><p class="q">What is the first thing to do when an accident looks good?</p><details><summary>Answer</summary><p>Duplicate the object before changing anything else.</p></details></li>
+<li><p class="q">Why does the Spreadsheet matter less here?</p><details><summary>Answer</summary><p>The result is judged by looking; there is no reference to check against.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-2">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 2</span>          <h2 id="chapter-2">Something from nothing</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Start a tree on an object that contributes no geometry.</li>
+            <li>Use mesh primitives, curve primitives and the Points node as generators.</li>
+            <li>Build the Spiral node into a coil and expose its controls.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="an-object-that-gives-nothing">
+        <h3>An object that gives nothing</h3>
+<p>Every tree needs an object to live on, but the object's own mesh need not be used. Add › Mesh › Plane, add a Geometry Nodes modifier, and in the tree disconnect Group Input from Group Output. Whatever you plug into Group Output replaces the plane. The object is now a container for the tree, and its origin is where the tree's (0, 0, 0) sits.</p>
+
+      </section>
+      <section id="mesh-primitives">
+        <h3>Mesh primitives</h3>
+<p>Shift + A › Mesh › Primitives holds Grid, Cube, UV Sphere, Ico Sphere, Cylinder, Cone and Mesh Circle. Each takes dimensions and vertex counts, and most output a UV Map field you can store for texturing. Grid is the workhorse: a flat sheet to scatter on, displace, or instance over. Ico Sphere at Subdivisions 1 is the cheap low-poly ball of a thousand pieces.</p>
+
+      </section>
+      <section id="curve-primitives">
+        <h3>Curve primitives</h3>
+<p>Shift + A › Curve › Primitives holds Curve Circle, Curve Line, Arc, Star, Quadrilateral, Bézier Segment, Quadratic Bézier and Spiral. A curve draws nothing until something gives it a surface (Chapter <a class="ref" href="#chapter-5">5</a>), so a curve primitive is a path, not a shape. Curve Circle and Quadrilateral double as profiles: the cross-section swept along another curve.</p>
+<p>The Spiral node is the one behind the manual's picture. Resolution is points per turn, Rotations the number of turns, Start Radius and End Radius the size at each end, and Height the rise over the whole length. Height 0 gives a flat coil, Height 2 a spring. Reverse flips the winding.</p>
+
+      </section>
+      <section id="points-from-a-count">
+        <h3>Points from a count</h3>
+<p>The Points node makes N points at one position; with a field in Position it makes N points wherever the formula says, which is how Chapter <a class="ref" href="#chapter-4">4</a> draws a sunflower. Mesh to Points turns any mesh's vertices into points, and Distribute Points on Faces scatters them over faces (Chapter <a class="ref" href="#chapter-3">3</a>).</p>
+
+      </section>
+      <section class="exercise" id="exercise-2-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 2.1</span> <span class="exercise-name">A coil</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes-for-art/exercise-2-1"> Done</label>
+        </div>
+<ol>
+<li>Add Spiral (Resolution 32, Rotations 3, Start Radius 0.1, End Radius 1, Height 0) <span class="arrow">→</span> Curve to Mesh's Curve, and Curve Circle (Radius 0.05) <span class="arrow">→</span> Curve to Mesh's Profile Curve. Curve to Mesh <span class="arrow">→</span> Group Output.</li>
+<li>Set Height to 1, then Rotations to 8, then Resolution to 6.</li>
+<li>Connect Rotations and End Radius to Group Input, name them, and scrub them from the modifier panel.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> A flat coiled tube, then a spring, then a tight spring, then a chunky hexagonal one when Resolution drops. The modifier panel shows two sliders that reshape it live.</p>
+
+      </section>
+      <section class="exercise" id="exercise-2-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 2.2</span> <span class="exercise-name">A sheet and a ball</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes-for-art/exercise-2-2"> Done</label>
+        </div>
+<ol>
+<li>Add Grid (Size 4 × 4, Vertices 40 × 40) and view it with Shade Smooth off.</li>
+<li>Replace it with Ico Sphere at Subdivisions 1, then 3.</li>
+<li>Join both with Join Geometry and move the sphere up 1 m with Transform Geometry.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> A flat lattice, a twenty-sided ball, a smoother ball, and finally the ball floating over the sheet, all from one object with no mesh of its own.</p>
+
+      </section>
+      <section class="check" id="chapter-2-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Why disconnect Group Input?</p><details><summary>Answer</summary><p>So the plane's own mesh plays no part; the tree builds everything.</p></details></li>
+<li><p class="q">What does a curve primitive look like in a render?</p><details><summary>Answer</summary><p>Nothing, until Curve to Mesh or another node gives it a surface.</p></details></li>
+<li><p class="q">What does Spiral's Height do?</p><details><summary>Answer</summary><p>Lifts the end of the coil above the start; 0 keeps it flat.</p></details></li>
+<li><p class="q">Where is the tree's origin?</p><details><summary>Answer</summary><p>At the object's origin, the orange dot.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-3">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 3</span>          <h2 id="chapter-3">Repetition</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Scatter points by density or by a formula.</li>
+            <li>Copy a shape onto points with Instance on Points, and vary which shape with Pick Instance.</li>
+            <li>Decide when instances must be realized.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="points-to-put-things-on">
+        <h3>Points to put things on</h3>
+<p>Distribute Points on Faces (Shift + A › Point) scatters points across any mesh. Random mode takes Density and Seed. Poisson Disk mode adds Distance Min, so no two points sit closer than that, which is what a tidy scatter needs. Its Rotation output aligns each point with the face normal, so things stand up on a slope.</p>
+<p>Mesh to Points puts one point on every vertex, and Curve to Points spaces them along a curve. Points with a formula in Position puts them wherever the math says.</p>
+
+      </section>
+      <section id="instance-on-points">
+        <h3>Instance on Points</h3>
+<p>Instance on Points (Shift + A › Instances) takes Points, Instance (the thing to copy), Rotation and Scale, and makes one lightweight copy per point. The copies share one mesh, so a million instances cost little until Realize Instances turns them into real geometry. Rotation and Scale are fields evaluated per point, which is where Chapter <a class="ref" href="#chapter-4">4</a>'s variation plugs in.</p>
+<p>Pick Instance, with a collection from Collection Info (Separate Children on) as the Instance, chooses one child per point by Instance Index. Index <span class="arrow">→</span> Math Modulo 3 cycles through three shapes; Random Value (Integer, 0 to 2) picks at random.</p>
+
+      </section>
+      <section id="realize-or-not">
+        <h3>Realize or not</h3>
+<p>Leave instances as instances for speed and for the Object Info › Random trick in Chapter <a class="ref" href="#chapter-6">6</a>. Realize when a later node needs real vertices: Set Position on the copies' points, Mesh Boolean, Merge by Distance, or any mesh-level smoothing. Realize Instances is where memory jumps, so put it last and only when needed.</p>
+
+      </section>
+      <section class="exercise" id="exercise-3-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 3.1</span> <span class="exercise-name">A field of coils</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes-for-art/exercise-3-1"> Done</label>
+        </div>
+<ol>
+<li>Grid (Size 6 × 6, Vertices 2 × 2) <span class="arrow">→</span> Distribute Points on Faces (Poisson Disk, Distance Min 0.6, Density Max 10, Seed 0) <span class="arrow">→</span> Instance on Points' Points.</li>
+<li>The coil from <a class="ref" href="#exercise-2-1">Exercise 2.1</a> (Curve to Mesh's output) <span class="arrow">→</span> Instance on Points' Instance.</li>
+<li>Scrub Seed, then Distance Min.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> A few dozen coils in a tidy scatter, re-rolled on each Seed change, sparser as Distance Min grows. All identical for now; Chapter <a class="ref" href="#chapter-4">4</a> fixes that.</p>
+
+      </section>
+      <section class="exercise" id="exercise-3-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 3.2</span> <span class="exercise-name">Three shapes by lot</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes-for-art/exercise-3-2"> Done</label>
+        </div>
+<ol>
+<li>Make a collection called Shapes with a small Cube, Cone and Ico Sphere in it, each at the origin, and hide the collection in the Outliner.</li>
+<li>Collection Info (Separate Children on, Reset Children on) <span class="arrow">→</span> Instance on Points' Instance, Pick Instance on, Random Value (Integer, Min 0, Max 2) <span class="arrow">→</span> Instance Index.</li>
+<li>Replace Random Value with Index <span class="arrow">→</span> Math Modulo 3.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The scatter from 3.1 with a random mix of three shapes, then a strict repeating order of cube, cone, sphere.</p>
+
+      </section>
+      <section class="check" id="chapter-3-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">What does Poisson Disk give that Random does not?</p><details><summary>Answer</summary><p>A minimum spacing between points.</p></details></li>
+<li><p class="q">Why are a million instances cheap?</p><details><summary>Answer</summary><p>They share one mesh; only a transform is stored per copy.</p></details></li>
+<li><p class="q">When must you realize?</p><details><summary>Answer</summary><p>When a later node needs the copies' own vertices, such as Set Position or a Boolean.</p></details></li>
+<li><p class="q">What does Pick Instance need to work?</p><details><summary>Answer</summary><p>A geometry with several children, from Collection Info with Separate Children on, and an Instance Index.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-4">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 4</span>          <h2 id="chapter-4">Variation</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Drive scale, rotation, position and color from Index, Random Value and Noise Texture.</li>
+            <li>Write a formula into Points' Position and draw a sunflower.</li>
+            <li>Keep variation adjustable with a seed and a strength.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="three-sources-of-difference">
+        <h3>Three sources of difference</h3>
+<p>Index is orderly: it counts 0, 1, 2 along the points, so Index <span class="arrow">→</span> Map Range gives a gradient and Index <span class="arrow">→</span> Math Modulo gives a repeat. Random Value is disorderly: a different number per element, re-rolled by Seed. Noise Texture is smooth: nearby points get similar values, so clumps and waves appear rather than static. Most pieces mix one orderly and one smooth source.</p>
+
+      </section>
+      <section id="where-variation-plugs-in">
+        <h3>Where variation plugs in</h3>
+<p>Scale on Instance on Points: Random Value (Float, 0.6 to 1.4), or Noise Texture › Fac <span class="arrow">→</span> Map Range. Rotation: Random Value (Vector, Min 0 and Max 6.283 on Z only) <span class="arrow">→</span> Instance on Points' Rotation, which spins each copy about its axis. Position: Set Position with Offset = Noise Texture › Color minus 0.5, scaled, which jitters or warps. Color: Store Named Attribute (Color, Point) on the points before instancing, read in the material (Chapter <a class="ref" href="#chapter-6">6</a>).</p>
+<p>Noise Texture's Scale is features per meter; Detail adds finer ripples and Roughness sets their strength. Set the node to 4D and feed W from Scene Time › Seconds for noise that drifts (Chapter <a class="ref" href="#chapter-7">7</a>).</p>
+
+      </section>
+      <section id="a-formula-in-position">
+        <h3>A formula in Position</h3>
+<p>Points (Count 400) with a field in Position places each point by a formula of its Index. The sunflower, or phyllotaxis, pattern is angle = Index × 2.39996 radians (the golden angle) and radius = 0.08 × √Index. Combine XYZ (radius × cos angle, radius × sin angle, 0) <span class="arrow">→</span> Position.</p>
+
+      </section>
+      <section class="exercise" id="exercise-4-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 4.1</span> <span class="exercise-name">Make the coils differ</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes-for-art/exercise-4-1"> Done</label>
+        </div>
+<ol>
+<li>On the field from <a class="ref" href="#exercise-3-1">Exercise 3.1</a>, Random Value (Float, 0.5 to 1.5, Seed 1) <span class="arrow">→</span> Instance on Points' Scale.</li>
+<li>Random Value (Vector, Min (0, 0, 0), Max (0, 0, 6.283)) <span class="arrow">→</span> Rotation.</li>
+<li>Noise Texture (Scale 0.4) › Fac <span class="arrow">→</span> Map Range (0 to 1 <span class="arrow">→</span> 0.3 to 1.6) <span class="arrow">→</span> Scale, replacing step 1.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> Coils of random size, then also randomly turned, then sizes that swell and shrink in smooth patches across the field instead of at random.</p>
+
+      </section>
+      <section class="exercise" id="exercise-4-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 4.2</span> <span class="exercise-name">A sunflower</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes-for-art/exercise-4-2"> Done</label>
+        </div>
+<ol>
+<li>Points (Count 400) <span class="arrow">→</span> Instance on Points with Ico Sphere (Radius 0.05) as Instance.</li>
+<li>Index <span class="arrow">→</span> Math Multiply 2.39996 <span class="arrow">→</span> Math Cosine and Math Sine. Index <span class="arrow">→</span> Math Square Root <span class="arrow">→</span> Math Multiply 0.08. Multiply the radius by each, Combine XYZ <span class="arrow">→</span> Points' Position.</li>
+<li>Index <span class="arrow">→</span> Map Range (0 to 400 <span class="arrow">→</span> 0.3 to 1.2) <span class="arrow">→</span> Scale. Expose Count and the 0.08.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The seed head of a sunflower, spheres growing toward the rim, with the familiar crossing spirals. Change 2.39996 to 2.4 and the spirals become straight arms: the pattern depends on the golden angle to the fourth decimal.</p>
+
+      </section>
+      <section class="check" id="chapter-4-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Which source gives clumps rather than static?</p><details><summary>Answer</summary><p>Noise Texture; nearby points get similar values.</p></details></li>
+<li><p class="q">How do you spin instances at random about Z only?</p><details><summary>Answer</summary><p>Random Value, Vector, with Min and Max zero on X and Y and 0 to 6.283 on Z, into Rotation.</p></details></li>
+<li><p class="q">Where does the sunflower's formula live?</p><details><summary>Answer</summary><p>In Points' Position, as a field of Index.</p></details></li>
+<li><p class="q">What makes a repeat rather than a gradient from Index?</p><details><summary>Answer</summary><p>Math Modulo.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-5">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 5</span>          <h2 id="chapter-5">Curves as a pen</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Give a curve a body with Curve to Mesh and profiles.</li>
+            <li>Shape it along its length with Spline Parameter, Set Curve Radius and Set Curve Tilt.</li>
+            <li>Cut and grow it with Trim Curve.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="profiles">
+        <h3>Profiles</h3>
+<p>Curve to Mesh sweeps a profile curve along a path. Curve Circle gives a tube, Curve Line gives a ribbon, Quadrilateral gives a strip with thickness, and Star gives a ridged cord. The profile's own size sets the body's size, so a thin ribbon is a Curve Line 0.3 long and a thick one a Quadrilateral 0.02 wide and 0.3 tall. Fill Caps closes the ends of a closed profile.</p>
+<p>Which way the profile stands depends on the path's normals. Add Set Curve Normal set to Z Up before Curve to Mesh and the orientation stops depending on the curve's twist. If a strip then lies flat where it should stand, swap the profile's Width and Height.</p>
+
+      </section>
+      <section id="along-the-length">
+        <h3>Along the length</h3>
+<p>Spline Parameter › Factor runs 0 to 1 along each spline, and nodes that take a field use it to vary with length. Set Curve Radius with Factor <span class="arrow">→</span> Float Curve scales the profile for a taper, as in the slime strands. Set Curve Tilt with Factor <span class="arrow">→</span> Math Multiply 6.283 twists the profile one full turn over the length, which turns a ribbon into a helix. Resample Curve first, with Count 64 or more, so the twist has points to show on.</p>
+
+      </section>
+      <section id="cutting-and-bending">
+        <h3>Cutting and bending</h3>
+<p>Trim Curve keeps the part between Start and End, as factors 0 to 1; driving End with time grows a line (Chapter <a class="ref" href="#chapter-7">7</a>). Fillet Curve rounds the corners of a polyline, which is how a Star becomes a flower. Set Spline Type to Bézier or NURBS smooths a jagged primitive. Curve to Points places things along the path; Curve Length and Sample Curve read it.</p>
+
+      </section>
+      <section class="exercise" id="exercise-5-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 5.1</span> <span class="exercise-name">The paper ribbon</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes-for-art/exercise-5-1"> Done</label>
+        </div>
+<ol>
+<li>Spiral (Resolution 48, Rotations 2.5, Start Radius 0.05, End Radius 0.8, Height 0) <span class="arrow">→</span> Resample Curve (Count 200) <span class="arrow">→</span> Set Curve Normal (Z Up) <span class="arrow">→</span> Curve to Mesh's Curve.</li>
+<li>Quadrilateral (Rectangle, Width 0.02, Height 0.35) <span class="arrow">→</span> Curve to Mesh's Profile Curve. Set Shade Smooth <span class="arrow">→</span> Group Output.</li>
+<li>Insert Set Curve Tilt before Curve to Mesh: Spline Parameter › Factor <span class="arrow">→</span> Math Multiply 0.5 <span class="arrow">→</span> Tilt.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> A strip of paper rolled into a flat spiral, standing on its edge, the thickness visible on the outer end; after step 3 the strip leans as it unrolls, like a loosened roll of quilling paper.</p>
+
+      </section>
+      <section class="exercise" id="exercise-5-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 5.2</span> <span class="exercise-name">A twisted cord</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes-for-art/exercise-5-2"> Done</label>
+        </div>
+<ol>
+<li>Curve Line (Start (0, 0, 0), End (3, 0, 0)) <span class="arrow">→</span> Resample Curve (Count 128) <span class="arrow">→</span> Set Curve Tilt (Spline Parameter › Factor <span class="arrow">→</span> Math Multiply 12.566 <span class="arrow">→</span> Tilt) <span class="arrow">→</span> Curve to Mesh with Star (Points 5, Inner Radius 0.05, Outer Radius 0.1) as the profile.</li>
+<li>Replace Set Curve Tilt with Set Curve Radius (Factor <span class="arrow">→</span> Float Curve, 1 at both ends and 0.3 in the middle).</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> A five-ridged cord twisting twice along its length, then an untwisted cord pinched in the middle.</p>
+
+      </section>
+      <section class="check" id="chapter-5-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">What decides the thickness of a swept body?</p><details><summary>Answer</summary><p>The profile curve's own size.</p></details></li>
+<li><p class="q">Which field runs 0 to 1 along a spline?</p><details><summary>Answer</summary><p>Spline Parameter › Factor.</p></details></li>
+<li><p class="q">Why resample before tilting?</p><details><summary>Answer</summary><p>A twist shows only where the curve has points.</p></details></li>
+<li><p class="q">What node grows a line over time?</p><details><summary>Answer</summary><p>Trim Curve with End driven by Scene Time.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-6">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 6</span>          <h2 id="chapter-6">Color and light for a piece</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Give each copy its own color, three ways.</li>
+            <li>Build a palette rather than picking colors one by one.</li>
+            <li>Light a piece for mood instead of for measurement.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="color-per-copy">
+        <h3>Color per copy</h3>
+<p>The quickest way needs no attribute: in the material, Object Info › Random <span class="arrow">→</span> Color Ramp <span class="arrow">→</span> Base Color. In Cycles each instance draws a different random number, so a field of coils gets a scatter of ramp colors from one node. It only works on instances left unrealized, and it cannot be steered.</p>
+<p>The controlled way stores the color in the tree. Before Instance on Points, Store Named Attribute (Color, Point, Name <code>tint</code>) on the points, fed by whatever you like: Index <span class="arrow">→</span> Map Range <span class="arrow">→</span> Color Ramp for a gradient across the field, Random Value <span class="arrow">→</span> Color Ramp for a scatter, Noise <span class="arrow">→</span> Color Ramp for patches. Instance on Points carries point attributes onto the copies, and Realize Instances carries them onto the realized mesh. In the material, Attribute (Name <code>tint</code>) › Color <span class="arrow">→</span> Base Color.</p>
+<p>The third way is per element inside one mesh: Store Named Attribute on the points of a displaced grid, read the same way, which paints a landscape by height or slope.</p>
+
+      </section>
+      <section id="a-palette">
+        <h3>A palette</h3>
+<p>Set a Color Ramp to Constant interpolation and give it four or five stops: that is a palette. Any 0 to 1 input then picks one of the colors, never a mix, which is what makes a piece look designed rather than rendered. Pastel palettes (low saturation, high value) on a dark background are the look of most procedural work; one accent color on a tenth of the copies, chosen by Random Value, is usually enough.</p>
+
+      </section>
+      <section id="the-surface-of-paper-and-plastic">
+        <h3>The surface of paper and plastic</h3>
+<p>The <a href="material-recipes.html">Recipes part</a>'s rows still apply. Matte paper is Roughness 0.6, Specular IOR Level 0.3 and a touch of Sheen; soft plastic is Roughness 0.4 with Subsurface 0.05 so edges glow; clay is Roughness 0.8. Keep Metallic at 0 unless the piece is about metal. Set Shade Smooth on the instance before instancing, once, rather than on the realized mesh.</p>
+
+      </section>
+      <section id="light-for-mood">
+        <h3>Light for mood</h3>
+<p>The <a href="lighting.html">Lighting part</a>'s scientific rig is deliberately neutral. For a piece, start from its high-key setup and break two rules on purpose: let the key be warm (4500 K) and the fill cool (7500 K), and let the shadows go dark. A large Area key 30 degrees above the camera and a World from a studio HDRI at Strength 0.5 carry most pieces. Add Depth of Field on the camera (F-Stop 2, focus on the nearest coil) for the miniature look of the manual's image.</p>
+
+      </section>
+      <section class="exercise" id="exercise-6-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 6.1</span> <span class="exercise-name">Three ways to color the field</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes-for-art/exercise-6-1"> Done</label>
+        </div>
+<ol>
+<li>On the field from <a class="ref" href="#exercise-4-1">Exercise 4.1</a>, give the coil's material Object Info › Random <span class="arrow">→</span> Color Ramp (two pastel stops) <span class="arrow">→</span> Base Color, and render in Cycles.</li>
+<li>Replace it: Store Named Attribute (Color, Point, <code>tint</code>) on the points before Instance on Points, with Noise Texture › Fac <span class="arrow">→</span> Color Ramp (Constant, four stops) as the value; Realize Instances after instancing; Attribute <code>tint</code> <span class="arrow">→</span> Base Color.</li>
+<li>Change the Color Ramp to Linear interpolation.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> A random scatter of two tints; then four flat colors in patches that follow the noise, with realized geometry in the Spreadsheet; then smooth blends between the four.</p>
+
+      </section>
+      <section class="exercise" id="exercise-6-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 6.2</span> <span class="exercise-name">Mood</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes-for-art/exercise-6-2"> Done</label>
+        </div>
+<ol>
+<li>Light the field with one Area key (Size 3 m, 45 degrees from above, 4500 K), a World HDRI at 0.5, and a dark gray ground plane.</li>
+<li>Add Depth of Field, F-Stop 2, with the nearest coil as the focus object.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> Warm-lit coils with soft shadows, the far ones melting into blur: the same scene as the manual's picture, on your own objects.</p>
+
+      </section>
+      <section class="check" id="chapter-6-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Why does Object Info › Random stop working after Realize Instances?</p><details><summary>Answer</summary><p>Realized copies are one mesh in one object, so there is one random number.</p></details></li>
+<li><p class="q">How does a stored point color reach an instance's material?</p><details><summary>Answer</summary><p>Instance on Points carries point attributes onto the copies, Realize Instances carries them onto the mesh, and Attribute reads them.</p></details></li>
+<li><p class="q">What does Constant interpolation on a Color Ramp give?</p><details><summary>Answer</summary><p>A palette: one of the stops, never a blend.</p></details></li>
+<li><p class="q">Which rule of the scientific rig is broken for mood?</p><details><summary>Answer</summary><p>Neutral color; a warm key and cool fill are allowed.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-7">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 7</span>          <h2 id="chapter-7">Motion</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Drive any value with Scene Time.</li>
+            <li>Grow, spin and breathe a piece.</li>
+            <li>Build a first Simulation Zone that accumulates.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="time-as-an-input">
+        <h3>Time as an input</h3>
+<p>Scene Time (Shift + A › Input › Scene) outputs Seconds and Frame, single values that change every frame. Any socket fed from it animates with no keyframes: Spiral's Rotations from Seconds, a Transform Geometry rotation from Seconds × 0.5, Noise Texture's W from Seconds so patches drift. Keyframing an exposed modifier input (hover it, press I) works too, and gives easing in the Graph Editor.</p>
+
+      </section>
+      <section id="three-motions">
+        <h3>Three motions</h3>
+<p>Grow: Trim Curve with End = Scene Time › Seconds <span class="arrow">→</span> Map Range (0 to 4 <span class="arrow">→</span> 0 to 1), so a line draws itself over four seconds. Spin: Rotate Instances with Scene Time › Seconds <span class="arrow">→</span> Rotation on Z, which turns every copy in place. Breathe: Instance on Points' Scale from Math Sine of (Seconds + Index × 0.3), remapped to 0.7 to 1.3, so a wave of size runs across the field.</p>
+
+      </section>
+      <section id="a-simulation-zone-briefly">
+        <h3>A Simulation Zone, briefly</h3>
+<p>A Simulation Zone (Shift + A › Simulation) feeds its output back as the next frame's input, so the tree can accumulate. Inside the zone, Set Position with a small Offset from Noise moves points a little each frame, and because the input is last frame's output, the points wander instead of jittering. Play the timeline to see it; return to frame 1 to reset. It is the door to particles, growth and cloth, and Chapter <a class="ref" href="geometry-nodes.html#chapter-8">8</a> of the <a href="geometry-nodes.html">Geometry Nodes part</a> says more.</p>
+
+      </section>
+      <section class="exercise" id="exercise-7-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 7.1</span> <span class="exercise-name">Draw the spiral</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes-for-art/exercise-7-1"> Done</label>
+        </div>
+<ol>
+<li>Spiral (Rotations 4) <span class="arrow">→</span> Trim Curve (End = Scene Time › Seconds <span class="arrow">→</span> Map Range (0 to 5 <span class="arrow">→</span> 0 to 1)) <span class="arrow">→</span> Curve to Mesh with Curve Circle (Radius 0.03).</li>
+<li>Set the scene's End frame to 150 and press Space over the viewport.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The coil drawing itself from the center outward over five seconds, finished at frame 120.</p>
+
+      </section>
+      <section class="exercise" id="exercise-7-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 7.2</span> <span class="exercise-name">Wander</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes-for-art/exercise-7-2"> Done</label>
+        </div>
+<ol>
+<li>Points (Count 200) with Random Value (Vector, −2 to 2) <span class="arrow">→</span> Position <span class="arrow">→</span> a Simulation Zone; inside, Set Position with Offset = Noise Texture (4D, W from Scene Time › Seconds) › Color minus 0.5, scaled by 0.05 <span class="arrow">→</span> the zone's output.</li>
+<li>After the zone, Instance on Points with a small Ico Sphere. Play.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> Two hundred specks drifting in slow currents, each path smooth, never snapping back; stop and return to frame 1 and they jump home.</p>
+
+      </section>
+      <section class="check" id="chapter-7-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">What does Scene Time output?</p><details><summary>Answer</summary><p>Seconds and Frame, as single values.</p></details></li>
+<li><p class="q">Which node makes a curve draw itself?</p><details><summary>Answer</summary><p>Trim Curve with End driven by time.</p></details></li>
+<li><p class="q">Why does the Simulation Zone wander rather than jitter?</p><details><summary>Answer</summary><p>Its input each frame is the previous frame's output, so the offsets add up.</p></details></li>
+<li><p class="q">How is a scrubbed value animated with easing instead?</p><details><summary>Answer</summary><p>Keyframe the exposed modifier input with I.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-8">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 8</span>          <h2 id="chapter-8">Three worked pieces</h2>
+        </div>
+      </header>
+<p>Each piece lists its full chain once, with the chapter that explains each step, then what you should see. Build them in order; each reuses the one before.</p>
+
+      <section id="piece-1-the-paper-spirals-from-the-manual">
+        <h3>Piece 1: the paper spirals from the manual</h3>
+<ol>
+<li>Ribbon (Chapter <a class="ref" href="#chapter-5">5</a>): Spiral (Resolution 48, Rotations 2.5, Start Radius 0.05, End Radius 0.8, Height 0) <span class="arrow">→</span> Resample Curve (200) <span class="arrow">→</span> Set Curve Normal (Z Up) <span class="arrow">→</span> Set Curve Tilt (Spline Parameter › Factor <span class="arrow">→</span> Multiply 0.4) <span class="arrow">→</span> Curve to Mesh with Quadrilateral (0.02 × 0.35) <span class="arrow">→</span> Set Shade Smooth.</li>
+<li>Scatter (Chapter <a class="ref" href="#chapter-3">3</a>): Grid (8 × 8, 2 × 2 vertices) <span class="arrow">→</span> Distribute Points on Faces (Poisson Disk, Distance Min 1.0, Density Max 4) <span class="arrow">→</span> Instance on Points with the ribbon.</li>
+<li>Variation (Chapter <a class="ref" href="#chapter-4">4</a>): Random Value (Float, 0.5 to 1.3) <span class="arrow">→</span> Scale; Random Value (Vector, 0 to 6.283 on Z) <span class="arrow">→</span> Rotation.</li>
+<li>Color (Chapter <a class="ref" href="#chapter-6">6</a>): Random Value (Float) <span class="arrow">→</span> Color Ramp (Constant, five pastel stops) <span class="arrow">→</span> Store Named Attribute (Color, Point, <code>tint</code>) on the points before instancing; Realize Instances; material Attribute <code>tint</code> <span class="arrow">→</span> Base Color, Roughness 0.6.</li>
+<li>Camera from above at 60 degrees, one warm Area key, HDRI at 0.5, Depth of Field at F-Stop 2.8.</li>
+</ol>
+<p>What you should see: a tabletop of rolled paper strips in five colors, each a different size and turn, leaning as they unroll, the far ones softening into blur. Scrub Distance Min down to 0.6 for the overlapping crowd of the manual's picture.</p>
+
+      </section>
+      <section id="piece-2-a-phyllotaxis-flower">
+        <h3>Piece 2: a phyllotaxis flower</h3>
+<ol>
+<li>Points (Count 300) with Position from the sunflower formula of Chapter <a class="ref" href="#chapter-4">4</a>, radius 0.08 × √Index.</li>
+<li>Petal: Curve Line (Start (0, 0, 0), End (0.6, 0, 0)) <span class="arrow">→</span> Resample Curve (16) <span class="arrow">→</span> Set Curve Radius (Spline Parameter › Factor <span class="arrow">→</span> Float Curve: 0 at the start, 1 at 0.6, 0 at the end) <span class="arrow">→</span> Curve to Mesh with Curve Circle (Radius 0.08, Resolution 8) <span class="arrow">→</span> Set Shade Smooth.</li>
+<li>Instance on Points with the petal. Rotation: Align Rotation to Vector (Axis X) with Vector = Position, so every petal points away from the center; then Rotate Rotation (Local) by an Euler whose Y is Index <span class="arrow">→</span> Map Range (0 to 300 <span class="arrow">→</span> −0.8 to 0), so inner petals tilt up.</li>
+<li>Scale: Index <span class="arrow">→</span> Map Range (0 to 300 <span class="arrow">→</span> 0.2 to 1).</li>
+<li>Color: Index <span class="arrow">→</span> Map Range (0 to 300 <span class="arrow">→</span> 0 to 1) <span class="arrow">→</span> Color Ramp (Linear, yellow at 0 to red at 1), stored as <code>tint</code> before instancing, realized, read by the material.</li>
+</ol>
+<p>What you should see: a flower seen from above, small upright petals at the center opening into large flat ones at the rim, color running from the center out, every petal sitting on one of the crossing spirals.</p>
+
+      </section>
+      <section id="piece-3-a-low-poly-island">
+        <h3>Piece 3: a low-poly island</h3>
+<ol>
+<li>Ground: Grid (10 × 10, 60 × 60 vertices) <span class="arrow">→</span> Set Position with Offset = Combine XYZ (0, 0, Z), where Z = Noise Texture (Scale 0.3, Detail 2) › Fac <span class="arrow">→</span> Map Range (0 to 1 <span class="arrow">→</span> −0.5 to 1.5). A second Noise Texture at Scale 2, × 0.1, added to Z gives small bumps. Shade Flat.</li>
+<li>Water: Grid (10 × 10, 2 × 2) raised to Z 0.2 with Transform Geometry, a blue glossy material, joined with Join Geometry.</li>
+<li>Trees: Distribute Points on Faces on the ground (Poisson Disk, Distance Min 0.25, Density Max 30), with Selection = Position <span class="arrow">→</span> Separate XYZ › Z <span class="arrow">→</span> Compare Greater Than 0.4, so nothing grows below the waterline, and Density Factor = Noise Texture (Scale 1) › Fac so trees cluster. Instance on Points with a tree (Cone, Radius 0.12, Depth 0.4, on a Cylinder, Radius 0.02, Depth 0.15, joined and Shade Flat); Rotation from the Distribute node's Rotation output; Scale from Random Value (0.6 to 1.2).</li>
+<li>Color: Store Named Attribute <code>height</code> (the displaced Z) on the ground's points; its material reads it into a Color Ramp (Constant: sand, grass, dark green, gray, white).</li>
+<li>Light: Sun at 35 degrees, 5500 K, Strength 3; World sky at 0.3; camera at 45 degrees.</li>
+</ol>
+<p>What you should see: a faceted island with sand at the shore, green slopes, gray peaks and white tops, forested in clumps above the water, lit by one sun with crisp shadows: the low-poly look in one tree.</p>
+
+      </section>
+      <section class="check" id="chapter-8-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">In piece 1, why store the color before Instance on Points?</p><details><summary>Answer</summary><p>So each point's color rides onto its copy; after instancing, the points no longer exist.</p></details></li>
+<li><p class="q">In piece 2, what makes petals point outward?</p><details><summary>Answer</summary><p>Align Rotation to Vector with each point's Position as the vector.</p></details></li>
+<li><p class="q">In piece 3, why does the Distribute node's Rotation output matter?</p><details><summary>Answer</summary><p>It stands each tree on the slope's normal instead of straight up.</p></details></li>
+<li><p class="q">Which pieces need Realize Instances, and why?</p><details><summary>Answer</summary><p>Pieces 1 and 2, for the stored color; piece 3 does not, because its trees share one plain material.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-9">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 9</span>          <h2 id="chapter-9">Chooser, glossary and sources</h2>
+        </div>
+      </header>
+
+      <section id="i-want-this-use-that">
+        <h3>I want this, use that</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>I want</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A shape from nothing</td>
+<td>Mesh Primitives or Curve Primitives, with Group Input disconnected</td>
+</tr>
+<tr>
+<td>Things scattered evenly</td>
+<td>Distribute Points on Faces, Poisson Disk</td>
+</tr>
+<tr>
+<td>Points placed by a formula</td>
+<td>Points with a field of Index in Position</td>
+</tr>
+<tr>
+<td>One thing copied everywhere</td>
+<td>Instance on Points</td>
+</tr>
+<tr>
+<td>Several things mixed</td>
+<td>Collection Info, Pick Instance, Instance Index</td>
+</tr>
+<tr>
+<td>Copies that differ at random</td>
+<td>Random Value into Scale, Rotation or a stored color</td>
+</tr>
+<tr>
+<td>Copies that differ in patches</td>
+<td>Noise Texture into the same sockets</td>
+</tr>
+<tr>
+<td>A gradient across the piece</td>
+<td>Index or Position <span class="arrow">→</span> Map Range</td>
+</tr>
+<tr>
+<td>A path with a body</td>
+<td>Curve to Mesh with a profile</td>
+</tr>
+<tr>
+<td>A ribbon that twists</td>
+<td>Set Curve Tilt from Spline Parameter</td>
+</tr>
+<tr>
+<td>A line that draws itself</td>
+<td>Trim Curve, End from Scene Time</td>
+</tr>
+<tr>
+<td>A flat palette</td>
+<td>Color Ramp, Constant interpolation</td>
+</tr>
+<tr>
+<td>Color per copy, quick</td>
+<td>Object Info › Random in the material, Cycles</td>
+</tr>
+<tr>
+<td>Color per copy, controlled</td>
+<td>Store Named Attribute before instancing, Realize, Attribute in the material</td>
+</tr>
+<tr>
+<td>Motion with no keyframes</td>
+<td>Scene Time into any socket</td>
+</tr>
+<tr>
+<td>Motion that accumulates</td>
+<td>Simulation Zone</td>
+</tr>
+<tr>
+<td>The blocky low-poly look</td>
+<td>Low vertex counts and Shade Flat</td>
+</tr>
+</tbody>
+</table></div>
+
+      </section>
+      <section id="glossary">
+        <h3>Glossary</h3>
+<ul>
+<li><strong>Generator</strong>: a node that makes geometry from numbers alone: a primitive, Points, or a formula.</li>
+<li><strong>Golden angle</strong>: 2.39996 radians, 137.5 degrees; the turn between successive seeds in phyllotaxis.</li>
+<li><strong>Instance</strong>: a lightweight copy that shares one mesh; cheap until realized.</li>
+<li><strong>Palette</strong>: a Color Ramp set to Constant, so inputs pick colors instead of blending them.</li>
+<li><strong>Pick Instance</strong>: choosing one of several children per point by Instance Index.</li>
+<li><strong>Poisson Disk</strong>: a scatter with a minimum spacing between points.</li>
+<li><strong>Profile</strong>: the cross-section curve that Curve to Mesh sweeps along a path.</li>
+<li><strong>Realize</strong>: turn instances into real geometry, carrying their attributes onto it.</li>
+<li><strong>Scene Time</strong>: the node that outputs the current Seconds and Frame.</li>
+<li><strong>Seed</strong>: the integer that re-rolls a random node; the same seed gives the same result.</li>
+<li><strong>Simulation Zone</strong>: a region whose output becomes the next frame's input.</li>
+<li><strong>Tilt</strong>: rotation of a curve's profile about the curve's own direction.</li>
+<li><strong>Trim</strong>: keeping the part of a curve between two factors.</li>
+</ul>
+
+      </section>
+      <section id="sources">
+        <h3>Sources</h3>
+<ul>
+<li><a href="https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/index.html" rel="noopener">Blender 5.2 manual: Geometry Nodes</a>. The introduction page carries the paper-spiral image.</li>
+<li><a href="https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/fields.html" rel="noopener">Blender 5.2 manual: Fields</a>.</li>
+<li>In Blender, F1 over any node opens its manual page.</li>
+</ul>
+
+      </section>
+    </article>
+    <nav class="pager" aria-label="Parts">
+<a class="pager-prev" href="geometry-nodes.html" data-socket="geometry"><span class="pager-label">Previous part</span><span class="pager-title"><span class="sock" aria-hidden="true"></span>Geometry Nodes, from zero</span></a><a class="pager-next" href="molecular-nodes.html" data-socket="boolean"><span class="pager-label">Next part</span><span class="pager-title"><span class="sock" aria-hidden="true"></span>Molecular Nodes as a second ChimeraX</span></a>    </nav>
+  </main>
+</div>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

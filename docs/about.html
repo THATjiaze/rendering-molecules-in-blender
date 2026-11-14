@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About this guide | Rendering Molecules in Blender</title>
+<meta name="description" content="A workbook for structural biologists: materials, light, shaders, Geometry Nodes and Molecular Nodes, taught through exercises in Blender 5.2.">
+<script>
+  (function () {
+    var root = document.documentElement;
+    root.classList.add('js');
+    try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') root.dataset.theme = t; } catch (e) {}
+  })();
+</script>
+<link rel="preload" href="assets/fonts/literata.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body class="is-plain">
+<a class="skip" href="#main">Skip to the text</a>
+<header class="topbar">
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="rail">Contents</button>
+  <a class="topbar-title" href="index.html">Rendering Molecules in Blender</a>
+  <span class="topbar-end">
+    <a class="topbar-about" href="about.html">About</a>
+    <button class="theme-toggle" type="button" hidden>Dark theme</button>
+  </span>
+</header>
+<div class="shell">
+  <nav class="rail" id="rail" aria-label="Contents">
+    <a class="site-name" href="index.html">Rendering Molecules in Blender</a>
+    <div class="search" role="search">
+      <label class="visually-hidden" for="search-input">Search the guide</label>
+      <input id="search-input" type="search" placeholder="Search the guide" autocomplete="off" spellcheck="false">
+      <ol class="search-results" id="search-results" hidden></ol>
+    </div>
+    <ol class="parts">
+      <li data-socket="material">
+        <a class="part-link" href="material-recipes.html"><span class="sock" aria-hidden="true"></span>Recipes</a>
+      </li>
+      <li data-socket="color">
+        <a class="part-link" href="designing-a-look.html"><span class="sock" aria-hidden="true"></span>Designing a look</a>
+      </li>
+      <li data-socket="string">
+        <a class="part-link" href="lighting.html"><span class="sock" aria-hidden="true"></span>Lighting</a>
+      </li>
+      <li data-socket="shader">
+        <a class="part-link" href="shaders.html"><span class="sock" aria-hidden="true"></span>Shaders</a>
+      </li>
+      <li data-socket="geometry">
+        <a class="part-link" href="geometry-nodes.html"><span class="sock" aria-hidden="true"></span>Geometry Nodes</a>
+      </li>
+      <li data-socket="vector">
+        <a class="part-link" href="geometry-nodes-for-art.html"><span class="sock" aria-hidden="true"></span>Geometry Nodes for art</a>
+      </li>
+      <li data-socket="boolean">
+        <a class="part-link" href="molecular-nodes.html"><span class="sock" aria-hidden="true"></span>Molecular Nodes</a>
+      </li>
+      <li data-socket="object">
+        <a class="part-link" href="objects-and-modeling.html"><span class="sock" aria-hidden="true"></span>Objects and modeling</a>
+      </li>
+    </ol>
+    <div class="rail-foot">
+      <a href="about.html">About this guide</a>
+      <button class="theme-toggle" type="button" hidden>Dark theme</button>
+    </div>
+  </nav>
+  <main id="main" class="page">
+    <header class="part-head">
+      <h1>About this guide</h1>
+    </header>
+    <div class="prose">
+<h2>How it was made</h2>
+<p>This guide was written by Claude, an AI model made by Anthropic, over a series of working sessions with Jiaze Liu, a structural biologist who was learning Blender at the time. He asked the questions, did the exercises in Blender 5.2 LTS on a Mac, and sent back a screenshot whenever a step did not behave as written. Each time, the text was corrected.</p>
+<h2>How far to trust it</h2>
+<p>Not every chapter has been through that loop. Most of <em>Geometry Nodes, from zero</em> and scattered exercises in the other parts were done in Blender and fixed where they failed. The rest has not been checked click by click, so expect some wrong menu paths, renamed nodes and settings that have moved, more so in a version of Blender or Molecular Nodes other than the one above.</p>
+<p>The explanations of how things work are more reliable than the exact names of nodes and menus. When a step fails, the <a href="https://docs.blender.org/manual/en/latest/">Blender manual</a> and the <a href="https://bradyajohnston.github.io/MolecularNodes/">Molecular Nodes documentation</a> are the authorities, and most parts end with the pages they lean on.</p>
+<h2>Reporting a mistake</h2>
+<p>If you find one, please say so. The text lives in the repository as Markdown, one file per part, so a correction is usually a one-line change.</p>
+<h2>Typefaces</h2>
+<p>The text is set in Literata, the interface in Inter, which is also Blender's own interface typeface, and code in JetBrains Mono. All three are used under the SIL Open Font License.</p>
+
+    </div>
+  </main>
+</div>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

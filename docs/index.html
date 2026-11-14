@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rendering Molecules in Blender</title>
+<meta name="description" content="A workbook for structural biologists: materials, light, shaders, Geometry Nodes and Molecular Nodes, taught through exercises in Blender 5.2.">
+<script>
+  (function () {
+    var root = document.documentElement;
+    root.classList.add('js');
+    try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') root.dataset.theme = t; } catch (e) {}
+  })();
+</script>
+<link rel="preload" href="assets/fonts/literata.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body class="is-home">
+<a class="skip" href="#main">Skip to the text</a>
+<header class="topbar">
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="rail">Contents</button>
+  <a class="topbar-title" href="index.html">Rendering Molecules in Blender</a>
+  <span class="topbar-end">
+    <a class="topbar-about" href="about.html">About</a>
+    <button class="theme-toggle" type="button" hidden>Dark theme</button>
+  </span>
+</header>
+<div class="shell">
+  <nav class="rail" id="rail" aria-label="Contents">
+    <a class="site-name" href="index.html">Rendering Molecules in Blender</a>
+    <div class="search" role="search">
+      <label class="visually-hidden" for="search-input">Search the guide</label>
+      <input id="search-input" type="search" placeholder="Search the guide" autocomplete="off" spellcheck="false">
+      <ol class="search-results" id="search-results" hidden></ol>
+    </div>
+    <ol class="parts">
+      <li data-socket="material">
+        <a class="part-link" href="material-recipes.html"><span class="sock" aria-hidden="true"></span>Recipes</a>
+      </li>
+      <li data-socket="color">
+        <a class="part-link" href="designing-a-look.html"><span class="sock" aria-hidden="true"></span>Designing a look</a>
+      </li>
+      <li data-socket="string">
+        <a class="part-link" href="lighting.html"><span class="sock" aria-hidden="true"></span>Lighting</a>
+      </li>
+      <li data-socket="shader">
+        <a class="part-link" href="shaders.html"><span class="sock" aria-hidden="true"></span>Shaders</a>
+      </li>
+      <li data-socket="geometry">
+        <a class="part-link" href="geometry-nodes.html"><span class="sock" aria-hidden="true"></span>Geometry Nodes</a>
+      </li>
+      <li data-socket="vector">
+        <a class="part-link" href="geometry-nodes-for-art.html"><span class="sock" aria-hidden="true"></span>Geometry Nodes for art</a>
+      </li>
+      <li data-socket="boolean">
+        <a class="part-link" href="molecular-nodes.html"><span class="sock" aria-hidden="true"></span>Molecular Nodes</a>
+      </li>
+      <li data-socket="object">
+        <a class="part-link" href="objects-and-modeling.html"><span class="sock" aria-hidden="true"></span>Objects and modeling</a>
+      </li>
+    </ol>
+    <div class="rail-foot">
+      <a href="about.html">About this guide</a>
+      <button class="theme-toggle" type="button" hidden>Dark theme</button>
+    </div>
+  </nav>
+  <main id="main" class="page">
+    <header class="hero">
+      <h1>Rendering Molecules in Blender</h1>
+      <p class="hero-lede">A workbook for structural biologists who can already make a figure in ChimeraX and want what Blender adds: materials, light and geometry you control yourself.</p>
+      <p class="hero-facts">8 parts, 73 chapters and 127 exercises, written for Blender 5.2 LTS and the Molecular Nodes add-on.</p>
+    </header>
+
+    <div class="graph" aria-hidden="true">
+      <svg viewBox="0 0 1218 448" focusable="false">
+        <g class="wires">
+          <path d="M152 214C202 214 202 80 252 80" data-socket="float"/>
+          <path d="M152 214C202 214 202 192 252 192" data-socket="float"/>
+          <path d="M152 214C202 214 202 304 252 304" data-socket="float"/>
+          <path d="M456 56C612 56 612 80 768 80" data-socket="object"/>
+          <path d="M456 168C492 168 474 192 510 192" data-socket="material"/>
+          <path d="M714 168C750 168 732 192 768 192" data-socket="color"/>
+          <path d="M456 280C492 280 474 304 510 304" data-socket="geometry"/>
+          <path d="M456 280C492 280 474 416 510 416" data-socket="geometry"/>
+          <path d="M972 56C1019 56 1019 190 1066 190" data-socket="string"/>
+          <path d="M972 168C1019 168 1019 214 1066 214" data-socket="shader"/>
+          <path d="M714 280C890 280 890 238 1066 238" data-socket="vector"/>
+          <path d="M714 392C890 392 890 238 1066 238" data-socket="boolean"/>
+        </g>
+        <g transform="translate(16 172.0)" data-socket="float">
+          <rect class="gnode-body" width="136" height="60" rx="6"/>
+          <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h124a6 6 0 0 1 6 6v22z"/>
+          <text class="gnode-title" x="10" y="19">Group Input</text>
+          <text class="gnode-row" x="123" y="46" text-anchor="end">Your structure</text>
+          <circle class="gsock" cx="136" cy="42" r="5.5"/>
+        </g>
+        <a href="material-recipes.html" tabindex="-1">
+          <g transform="translate(252 126)" data-socket="material">
+            <rect class="gnode-body" width="204" height="84" rx="6"/>
+            <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h192a6 6 0 0 1 6 6v22z"/>
+            <text class="gnode-title" x="10" y="19">Recipes</text>
+            <text class="gnode-row" x="191" y="46" text-anchor="end">Named looks</text>
+            <text class="gnode-quiet" x="13" y="70">9 chapters, 13 exercises</text>
+            <circle class="gsock" cx="204" cy="42" r="5.5"/>
+            <circle class="gsock" cx="0" cy="66" r="5.5" data-socket="float"/>
+          </g>
+        </a>
+        <a href="designing-a-look.html" tabindex="-1">
+          <g transform="translate(510 126)" data-socket="color">
+            <rect class="gnode-body" width="204" height="84" rx="6"/>
+            <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h192a6 6 0 0 1 6 6v22z"/>
+            <text class="gnode-title" x="10" y="19">Designing a look</text>
+            <text class="gnode-row" x="191" y="46" text-anchor="end">A look of your own</text>
+            <text class="gnode-quiet" x="13" y="70">8 chapters, 12 exercises</text>
+            <circle class="gsock" cx="204" cy="42" r="5.5"/>
+            <circle class="gsock" cx="0" cy="66" r="5.5" data-socket="float"/>
+          </g>
+        </a>
+        <a href="lighting.html" tabindex="-1">
+          <g transform="translate(768 14)" data-socket="string">
+            <rect class="gnode-body" width="204" height="84" rx="6"/>
+            <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h192a6 6 0 0 1 6 6v22z"/>
+            <text class="gnode-title" x="10" y="19">Lighting</text>
+            <text class="gnode-row" x="191" y="46" text-anchor="end">A lit scene</text>
+            <text class="gnode-quiet" x="13" y="70">9 chapters, 19 exercises</text>
+            <circle class="gsock" cx="204" cy="42" r="5.5"/>
+            <circle class="gsock" cx="0" cy="66" r="5.5" data-socket="float"/>
+          </g>
+        </a>
+        <a href="shaders.html" tabindex="-1">
+          <g transform="translate(768 126)" data-socket="shader">
+            <rect class="gnode-body" width="204" height="84" rx="6"/>
+            <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h192a6 6 0 0 1 6 6v22z"/>
+            <text class="gnode-title" x="10" y="19">Shaders</text>
+            <text class="gnode-row" x="191" y="46" text-anchor="end">Materials built from parts</text>
+            <text class="gnode-quiet" x="13" y="70">12 chapters, 25 exercises</text>
+            <circle class="gsock" cx="204" cy="42" r="5.5"/>
+            <circle class="gsock" cx="0" cy="66" r="5.5" data-socket="float"/>
+          </g>
+        </a>
+        <a href="geometry-nodes.html" tabindex="-1">
+          <g transform="translate(252 238)" data-socket="geometry">
+            <rect class="gnode-body" width="204" height="84" rx="6"/>
+            <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h192a6 6 0 0 1 6 6v22z"/>
+            <text class="gnode-title" x="10" y="19">Geometry Nodes</text>
+            <text class="gnode-row" x="191" y="46" text-anchor="end">Trees you can read and build</text>
+            <text class="gnode-quiet" x="13" y="70">9 chapters, 21 exercises</text>
+            <circle class="gsock" cx="204" cy="42" r="5.5"/>
+            <circle class="gsock" cx="0" cy="66" r="5.5" data-socket="float"/>
+          </g>
+        </a>
+        <a href="geometry-nodes-for-art.html" tabindex="-1">
+          <g transform="translate(510 238)" data-socket="vector">
+            <rect class="gnode-body" width="204" height="84" rx="6"/>
+            <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h192a6 6 0 0 1 6 6v22z"/>
+            <text class="gnode-title" x="10" y="19">Geometry Nodes for art</text>
+            <text class="gnode-row" x="191" y="46" text-anchor="end">Procedural pieces</text>
+            <text class="gnode-quiet" x="13" y="70">9 chapters, 13 exercises</text>
+            <circle class="gsock" cx="204" cy="42" r="5.5"/>
+            <circle class="gsock" cx="0" cy="66" r="5.5" data-socket="float"/>
+          </g>
+        </a>
+        <a href="molecular-nodes.html" tabindex="-1">
+          <g transform="translate(510 350)" data-socket="boolean">
+            <rect class="gnode-body" width="204" height="84" rx="6"/>
+            <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h192a6 6 0 0 1 6 6v22z"/>
+            <text class="gnode-title" x="10" y="19">Molecular Nodes</text>
+            <text class="gnode-row" x="191" y="46" text-anchor="end">Selections, as in ChimeraX</text>
+            <text class="gnode-quiet" x="13" y="70">7 chapters, 12 exercises</text>
+            <circle class="gsock" cx="204" cy="42" r="5.5"/>
+            <circle class="gsock" cx="0" cy="66" r="5.5" data-socket="float"/>
+          </g>
+        </a>
+        <a href="objects-and-modeling.html" tabindex="-1">
+          <g transform="translate(252 14)" data-socket="object">
+            <rect class="gnode-body" width="204" height="84" rx="6"/>
+            <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h192a6 6 0 0 1 6 6v22z"/>
+            <text class="gnode-title" x="10" y="19">Objects and modeling</text>
+            <text class="gnode-row" x="191" y="46" text-anchor="end">A staged scene</text>
+            <text class="gnode-quiet" x="13" y="70">10 chapters, 12 exercises</text>
+            <circle class="gsock" cx="204" cy="42" r="5.5"/>
+            <circle class="gsock" cx="0" cy="66" r="5.5" data-socket="float"/>
+          </g>
+        </a>
+        <g transform="translate(1066 148.0)" data-socket="float">
+          <rect class="gnode-body" width="136" height="108" rx="6"/>
+          <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h124a6 6 0 0 1 6 6v22z"/>
+          <text class="gnode-title" x="10" y="19">Group Output</text>
+          <text class="gnode-row" x="13" y="46.0">Light</text>
+          <circle class="gsock" cx="0" cy="42.0" r="5.5"/>
+          <text class="gnode-row" x="13" y="70.0">Surface</text>
+          <circle class="gsock" cx="0" cy="66.0" r="5.5"/>
+          <text class="gnode-row" x="13" y="94.0">Geometry</text>
+          <circle class="gsock" cx="0" cy="90.0" r="5.5"/>
+        </g>
+      </svg>
+      <p class="graph-note">How the parts feed each other. Start at any node whose input you already have.</p>
+    </div>
+
+    <ol class="part-list">
+      <li data-socket="material">
+        <a class="part-card" href="material-recipes.html">
+          <span class="part-card-head">Material recipes for molecular renders</span>
+          <span class="part-card-body">
+            <span>Settings tables for named looks, from slime and frosted glass to matte clay, all on one Principled BSDF.</span>
+            <span class="part-card-meta">9 chapters, 13 exercises</span>
+          </span>
+        </a>
+      </li>
+      <li data-socket="color">
+        <a class="part-card" href="designing-a-look.html">
+          <span class="part-card-head">Designing a look from scratch</span>
+          <span class="part-card-body">
+            <span>Five questions that turn a texture you can picture into settings, asked in the order light meets the surface.</span>
+            <span class="part-card-meta">8 chapters, 12 exercises</span>
+          </span>
+        </a>
+      </li>
+      <li data-socket="string">
+        <a class="part-card" href="lighting.html">
+          <span class="part-card-head">Lighting, from zero to designing your own setups</span>
+          <span class="part-card-body">
+            <span>Direction, softness and contrast first, then the named setups, then inventing a setup of your own.</span>
+            <span class="part-card-meta">9 chapters, 19 exercises</span>
+          </span>
+        </a>
+      </li>
+      <li data-socket="shader">
+        <a class="part-card" href="shaders.html">
+          <span class="part-card-head">Shaders: the whole menu, from zero</span>
+          <span class="part-card-body">
+            <span>Every shader node Blender offers, what feeds one, the render engines, and flat, stylized looks for figures.</span>
+            <span class="part-card-meta">12 chapters, 25 exercises</span>
+          </span>
+        </a>
+      </li>
+      <li data-socket="geometry">
+        <a class="part-card" href="geometry-nodes.html">
+          <span class="part-card-head">Geometry Nodes, from zero</span>
+          <span class="part-card-body">
+            <span>Node trees, attributes and fields, then volumes and SDFs, ending with a sticky-slime map and local-resolution coloring.</span>
+            <span class="part-card-meta">9 chapters, 21 exercises</span>
+          </span>
+        </a>
+      </li>
+      <li data-socket="vector">
+        <a class="part-card" href="geometry-nodes-for-art.html">
+          <span class="part-card-head">Geometry Nodes for art</span>
+          <span class="part-card-body">
+            <span>The same nodes fed by formulas instead of files: instances, variation, curves and motion in three worked pieces.</span>
+            <span class="part-card-meta">9 chapters, 13 exercises</span>
+          </span>
+        </a>
+      </li>
+      <li data-socket="boolean">
+        <a class="part-card" href="molecular-nodes.html">
+          <span class="part-card-head">Molecular Nodes as a second ChimeraX</span>
+          <span class="part-card-body">
+            <span>Selections as boolean fields: each Select node, when to use it, and the plain Geometry Nodes inside it.</span>
+            <span class="part-card-meta">7 chapters, 12 exercises</span>
+          </span>
+        </a>
+      </li>
+      <li data-socket="object">
+        <a class="part-card" href="objects-and-modeling.html">
+          <span class="part-card-head">Handling objects and modeling</span>
+          <span class="part-card-body">
+            <span>Selecting, placing and parenting objects, Edit Mode, modifiers, curves and the camera, with a cartoon house to practice on.</span>
+            <span class="part-card-meta">10 chapters, 12 exercises</span>
+          </span>
+        </a>
+      </li>
+    </ol>
+
+    <div class="home-notes">
+      <section>
+        <h2>How to use it</h2>
+        <p>Keep the page open beside Blender; it stays readable in a narrow window. Each chapter opens with what you will be able to do, explains the idea, then sets exercises that say what you should see when it works.</p>
+        <p>The questions that close a chapter keep their answers folded until you ask. Ticking an exercise as done is remembered in this browser and nowhere else.</p>
+      </section>
+      <section>
+        <h2>Where to start</h2>
+        <ul>
+          <li>You have never moved an object in Blender: <a href="objects-and-modeling.html">Objects and modeling</a>, Chapters 1 to 3.</li>
+          <li>Your structure is on screen and looks like wet plastic: <a href="material-recipes.html">Recipes</a>, which opens with why.</li>
+          <li>You want to change what is drawn, not how it is shaded: <a href="geometry-nodes.html">Geometry Nodes, from zero</a>, then <a href="molecular-nodes.html">Molecular Nodes</a>.</li>
+        </ul>
+      </section>
+      <section>
+        <h2>What you need</h2>
+        <ul>
+          <li><a href="https://www.blender.org/download/" rel="noopener">Blender 5.2 LTS</a>. Menus and node names move between versions; when a step does not match your screen, press Shift + A and type the node's name.</li>
+          <li>The <a href="https://bradyajohnston.github.io/MolecularNodes/" rel="noopener">Molecular Nodes</a> add-on.</li>
+          <li>A model or a map of your own. A PDB entry does as well as unpublished data.</li>
+        </ul>
+      </section>
+      <section>
+        <h2>How it was made</h2>
+        <p>Claude, an AI model made by Anthropic, wrote the text in working sessions with Jiaze Liu, who did the exercises in Blender and reported what broke. Not every chapter has been checked that way yet.</p>
+        <p><a href="about.html">About this guide</a> says what to trust and how to report a mistake.</p>
+      </section>
+    </div>
+  </main>
+</div>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

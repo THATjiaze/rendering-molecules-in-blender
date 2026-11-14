@@ -1,0 +1,787 @@
+<!doctype html>
+<html lang="en" data-socket="boolean">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Molecular Nodes as a second ChimeraX | Rendering Molecules in Blender</title>
+<meta name="description" content="Selections as boolean fields: each Select node, when to use it, and the plain Geometry Nodes inside it.">
+<script>
+  (function () {
+    var root = document.documentElement;
+    root.classList.add('js');
+    try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') root.dataset.theme = t; } catch (e) {}
+  })();
+</script>
+<link rel="preload" href="assets/fonts/literata.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body class="is-part">
+<a class="skip" href="#main">Skip to the text</a>
+<header class="topbar">
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="rail">Contents</button>
+  <a class="topbar-title" href="index.html">Rendering Molecules in Blender</a>
+  <span class="topbar-end">
+    <a class="topbar-about" href="about.html">About</a>
+    <button class="theme-toggle" type="button" hidden>Dark theme</button>
+  </span>
+</header>
+<div class="shell">
+  <nav class="rail" id="rail" aria-label="Contents">
+    <a class="site-name" href="index.html">Rendering Molecules in Blender</a>
+    <div class="search" role="search">
+      <label class="visually-hidden" for="search-input">Search the guide</label>
+      <input id="search-input" type="search" placeholder="Search the guide" autocomplete="off" spellcheck="false">
+      <ol class="search-results" id="search-results" hidden></ol>
+    </div>
+    <ol class="parts">
+      <li data-socket="material">
+        <a class="part-link" href="material-recipes.html"><span class="sock" aria-hidden="true"></span>Recipes</a>
+      </li>
+      <li data-socket="color">
+        <a class="part-link" href="designing-a-look.html"><span class="sock" aria-hidden="true"></span>Designing a look</a>
+      </li>
+      <li data-socket="string">
+        <a class="part-link" href="lighting.html"><span class="sock" aria-hidden="true"></span>Lighting</a>
+      </li>
+      <li data-socket="shader">
+        <a class="part-link" href="shaders.html"><span class="sock" aria-hidden="true"></span>Shaders</a>
+      </li>
+      <li data-socket="geometry">
+        <a class="part-link" href="geometry-nodes.html"><span class="sock" aria-hidden="true"></span>Geometry Nodes</a>
+      </li>
+      <li data-socket="vector">
+        <a class="part-link" href="geometry-nodes-for-art.html"><span class="sock" aria-hidden="true"></span>Geometry Nodes for art</a>
+      </li>
+      <li data-socket="boolean" class="is-current">
+        <a class="part-link" href="molecular-nodes.html" aria-current="page"><span class="sock" aria-hidden="true"></span>Molecular Nodes</a>
+        <ol class="chapters">
+          <li><a href="#chapter-1"><span class="num">1</span><span>What a selection is here</span></a></li>
+          <li><a href="#chapter-2"><span class="num">2</span><span>Selecting by name: chain, residue, atom</span></a></li>
+          <li><a href="#chapter-3"><span class="num">3</span><span>Selecting by structure and property</span></a></li>
+          <li><a href="#chapter-4"><span class="num">4</span><span>Selecting by space</span></a></li>
+          <li><a href="#chapter-5"><span class="num">5</span><span>Combining and applying selections</span></a></li>
+          <li><a href="#chapter-6"><span class="num">6</span><span>The rest of the ChimeraX toolbox</span></a></li>
+          <li><a href="#chapter-7"><span class="num">7</span><span>From ChimeraX to nodes</span></a></li>
+        </ol>
+      </li>
+      <li data-socket="object">
+        <a class="part-link" href="objects-and-modeling.html"><span class="sock" aria-hidden="true"></span>Objects and modeling</a>
+      </li>
+    </ol>
+    <div class="rail-foot">
+      <a href="about.html">About this guide</a>
+      <button class="theme-toggle" type="button" hidden>Dark theme</button>
+    </div>
+  </nav>
+  <main id="main" class="page">
+    <header class="part-head">
+      <h1>Molecular Nodes as a second ChimeraX</h1>
+      <div class="lead">
+<p>In ChimeraX a selection is a line you type: <code>select /A:300-350 &amp; ~backbone</code>. In Molecular Nodes the same selection is a boolean field, True or False for every atom, and each node under Molecular Nodes › Select writes one piece of that line. This part goes through them: what each is for, how to use it, and for every one the plain Geometry Nodes it is built from, so you can read any of them by pressing Tab on it and build your own when none fits. It assumes Chapters <a class="ref" href="geometry-nodes.html#chapter-1">1</a> to <a class="ref" href="geometry-nodes.html#chapter-3">3</a> of the <a href="geometry-nodes.html">Geometry Nodes part</a>: attributes, the Spreadsheet, fields and selections.</p>
+<p><strong>Notation.</strong> As in the other parts: Shift + A › menu is a path, Node › Socket names an output, <span class="arrow">→</span> is a link you draw. &quot;Under the hood&quot; names the plain nodes that do the same job as a Molecular Nodes node. Select any Molecular Nodes node and press Tab to see its real contents, Tab again to come back out, and don't edit inside: the groups are shared by every tree that uses them.</p>
+
+      </div>
+      <p class="progress" hidden><span class="progress-count"></span> of 12 exercises done</p>
+    </header>
+    <article class="chapter" aria-labelledby="chapter-1">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 1</span>          <h2 id="chapter-1">What a selection is here</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>See a selection as a True/False column in the Spreadsheet.</li>
+            <li>Know the four places a selection plugs in.</li>
+            <li>Read the integer codes that stand in for chain, residue and atom names.</li>
+            <li>Recognize the anatomy shared by every Select node.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="a-column-of-true-and-false">
+        <h3>A column of True and False</h3>
+<p>Every node in the Select menu outputs a boolean field: a rule that, evaluated on the atoms, gives each atom True or False. Ctrl + Shift + click a Select node and the Spreadsheet shows that column, while the viewport paints True atoms white and False ones black. ChimeraX's green outline and this column are the same thing.</p>
+<p>A selection carries no atoms of its own. Like every field (<a href="geometry-nodes.html">Geometry Nodes part</a>, Chapter <a class="ref" href="geometry-nodes.html#chapter-3">3</a>), it is evaluated on whatever geometry reaches the node that consumes it. The same Select Res ID node picks residue 50 on the atoms, or on a cartoon mesh that carries <code>res_id</code>.</p>
+
+      </section>
+      <section id="where-a-selection-goes">
+        <h3>Where a selection goes</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Socket</th>
+<th>What happens to unselected atoms</th>
+<th>ChimeraX</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A style node's Selection</td>
+<td>Discarded; the style is built from the rest</td>
+<td><code>hide</code>, <code>show</code>, <code>cartoon</code>, <code>surface</code></td>
+</tr>
+<tr>
+<td>Set Color › Selection</td>
+<td>Keep their color</td>
+<td><code>color</code></td>
+</tr>
+<tr>
+<td>Separate Atoms › Selection</td>
+<td>Go to the Inverted output</td>
+<td>two selections</td>
+</tr>
+<tr>
+<td>Delete Geometry › Selection (plain node)</td>
+<td>Removed</td>
+<td><code>delete</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Any other boolean socket takes a selection too. Style Cartoon's Helix Shape or a Switch node can be driven by one, so one chain gets cylinder helices and another ribbons.</p>
+
+      </section>
+      <section id="names-are-integers">
+        <h3>Names are integers</h3>
+<p>Geometry Nodes cannot store text on atoms, so Molecular Nodes stores every name as an integer. <code>chain_id</code>: chains sorted alphabetically and numbered from 0. <code>entity_id</code>: the same for entities. <code>res_name</code>: a fixed table, with ALA 0, ARG 1, ASN 2, ASP 3, CYS 4, GLU 5, GLN 6, GLY 7, HIS 8, ILE 9, LEU 10, LYS 11, MET 12, PHE 13, PRO 14, SER 15, THR 16, TRP 17, TYR 18, VAL 19, DNA bases 30 to 33, RNA 40 to 43 and unknown −1. <code>atom_name</code>: another table, N 1, CA 2, C 3, O 4, CB 5, CG 6 and on through the side chains, OXT 38, nucleic names from 50. <code>sec_struct</code>: 0 not protein, 1 helix, 2 sheet, 3 loop. <code>res_id</code> and <code>atomic_number</code> are what they say.</p>
+<p>Several booleans are precomputed on import and sit on every atom: <code>is_alpha_carbon</code>, <code>is_backbone</code>, <code>is_side_chain</code>, <code>is_solvent</code>, <code>is_peptide</code>, <code>is_nucleic</code>, <code>is_lipid</code>, <code>is_hetero</code> and <code>is_carb</code>. Read any code off the Spreadsheet. The Select nodes with checkboxes hide the codes behind names, and the generated chain node shows your real chain letters. The full tables are in the Molecular Nodes reference linked in Chapter <a class="ref" href="#chapter-7">7</a>.</p>
+
+      </section>
+      <section id="the-anatomy-of-a-select-node">
+        <h3>The anatomy of a Select node</h3>
+<p>Nearly every node in the Select menu has the same shape: inputs <strong>And</strong> (default True) and <strong>Or</strong> (default False) at the top, outputs <strong>Selection</strong> and <strong>Inverted</strong> at the bottom, and its own criterion between them. And means &quot;only where this other selection is also true&quot;; Or means &quot;or where this other selection is true&quot;. That is how Select nodes chain into one another without a Boolean Math node between them.</p>
+<p>Under the hood: Named Attribute (the attribute in question) <span class="arrow">→</span> Compare, or nothing for a stored boolean <span class="arrow">→</span> Boolean Math (And) with the And input <span class="arrow">→</span> Boolean Math (Or) with the Or input <span class="arrow">→</span> Selection; Boolean Math (Not) on that <span class="arrow">→</span> Inverted. Press Tab on Is Alpha Carbon and that is what you find: one Named Attribute reading <code>is_alpha_carbon</code> and three Boolean Math nodes.</p>
+
+      </section>
+      <section class="exercise" id="exercise-1-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 1.1</span> <span class="exercise-name">Look inside</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="molecular-nodes/exercise-1-1"> Done</label>
+        </div>
+<ol>
+<li>In your model's tree, add Shift + A › Molecular Nodes › Select › Is Alpha Carbon. Select it, press Tab, read the nodes, press Tab again.</li>
+<li>Ctrl + Shift + click the node, open the Spreadsheet's Vertex tab, and filter the Viewer column to True.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> A Named Attribute and three Boolean Math nodes inside; in the Spreadsheet, one True per residue, a few percent of the atoms, and in the viewport one white dot per residue on a black model.</p>
+
+      </section>
+      <section class="exercise" id="exercise-1-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 1.2</span> <span class="exercise-name">The same selection, raw</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="molecular-nodes/exercise-1-2"> Done</label>
+        </div>
+<ol>
+<li>Named Attribute (Integer, <code>res_id</code>) <span class="arrow">→</span> Compare (Integer, Equal, B 50) <span class="arrow">→</span> Style Spheres › Selection, on a branch from Set Color › Atoms, joined to the cartoon with Join Geometry. Set the style's Sphere menu to Mesh, since Point Cloud renders only in Cycles.</li>
+<li>Replace the two plain nodes with Select Res ID (Res ID 50).</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The same handful of spheres both times, one residue's atoms in each chain, sitting on the cartoon. The Molecular Nodes node saved a node and added And, Or and Inverted for free.</p>
+
+      </section>
+      <section class="check" id="chapter-1-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">What does a Select node output?</p><details><summary>Answer</summary><p>A boolean field: True or False per atom, evaluated where it is used.</p></details></li>
+<li><p class="q">What happens to unselected atoms at a style node's Selection socket?</p><details><summary>Answer</summary><p>They are discarded before the style is built.</p></details></li>
+<li><p class="q">Why does <code>res_name</code> read 11 for a lysine?</p><details><summary>Answer</summary><p>Names are stored as integers from a fixed table, and LYS is 11.</p></details></li>
+<li><p class="q">What do the And and Or sockets do?</p><details><summary>Answer</summary><p>Combine this node's selection with another one, without a separate Boolean Math node.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-2">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 2</span>          <h2 id="chapter-2">Selecting by name: chain, residue, atom</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Pick chains, entities, residue ranges, residue types and atom names.</li>
+            <li>Use the precomputed booleans for backbone, side chain, solvent, hydrogens and glycans.</li>
+            <li>Translate the common ChimeraX specifiers.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="chains-and-entities">
+        <h3>Chains and entities</h3>
+<p>Molecular Nodes generates a <strong>Select Chain_</strong> node for each imported structure, named after it, with one checkbox per chain labeled with the real chain letter; find it by typing &quot;Select Chain&quot; into Shift + A's search. <strong>Select Entity_</strong> does the same by entity, which groups identical copies: in a dimer with two receptor chains, one entity ticks both. Under the hood: Index Switch (Boolean) with <code>chain_id</code> as the index and the checkboxes as its items, which is why the boxes come in <code>chain_id</code> order. If the generated node is missing, the raw path is Named Attribute (Integer, <code>chain_id</code>) <span class="arrow">→</span> Compare (Equal), with the code read from the Spreadsheet. ChimeraX: <code>/A</code>.</p>
+
+      </section>
+      <section id="residues-by-number">
+        <h3>Residues by number</h3>
+<p><strong>Select Res ID</strong> takes one number. <strong>Select Res ID Range</strong> takes Min and Max, inclusive. <strong>Select Res ID String</strong> takes text like <code>1-20, 45, 100-120</code>, the way you'd write <code>:1-20,45,100-120</code>. Remember that <code>res_id</code> restarts in each chain, so residue 50 selects residue 50 of every chain; put a chain selection into the And socket to pin it down. Under the hood: Compare (Equal) for one residue; two Compares (Greater Equal and Less Equal) into Boolean Math (And) for a range; String nodes that split the text at commas and dashes for the string version.</p>
+
+      </section>
+      <section id="residues-by-type">
+        <h3>Residues by type</h3>
+<p><strong>Select Res Name</strong> has a checkbox per amino acid, with DNA and RNA bases in their own panels. Under the hood: Index Switch (Boolean) indexed by <code>res_name</code>, like the chain node but with a fixed table. For a residue not in the list (a modified residue, a ligand), use the raw Compare on <code>res_name</code> or <code>is_hetero</code> below. ChimeraX: <code>:LYS,ARG</code>.</p>
+
+      </section>
+      <section id="atoms-by-name-and-element">
+        <h3>Atoms by name and element</h3>
+<p><strong>Menu Atom Name</strong> gives a dropdown of atom names (N, CA, C, O, CB and the rest) and outputs the Selection together with the integer code, so it doubles as a lookup for Chapter <a class="ref" href="#chapter-1">1</a>'s table. <strong>Is Alpha Carbon</strong> is the shortcut for CA. <strong>Is Backbone</strong> and <strong>Is Side Chain</strong> read the precomputed booleans; Is Side Chain's Include CA counts the alpha carbon as side chain, which keeps side-chain sticks attached to the backbone. <strong>Select Atomic Number</strong> takes one element's number, <strong>Select Element</strong> has a checkbox per element, and <strong>Is Hydrogen</strong> is atomic number 1. Under the hood: Menu Switch (Integer) feeding a Compare; Named Attribute (Boolean) for the Is nodes; Index Switch by <code>atomic_number</code> for Select Element. ChimeraX: <code>@CA</code>, <code>backbone</code>, <code>sidechain</code>, <code>C</code>, <code>H</code>.</p>
+
+      </section>
+      <section id="molecule-types-and-the-booleans-with-no-node">
+        <h3>Molecule types and the booleans with no node</h3>
+<p><strong>Is Peptide</strong>, <strong>Is Nucleic</strong>, <strong>Is Lipid</strong> and <strong>Is Solvent</strong> read their booleans. <strong>Select Nucleic Type</strong> outputs is_purine and is_pyrimidine. <strong>Select Attribute</strong> reads any boolean attribute by name, and is the only way to reach two useful ones: <code>is_hetero</code>, everything the file marked HETATM (ligands, ions, waters, glycans), and <code>is_carb</code>, the glycans. Under the hood: Named Attribute (Boolean) with the Name you typed. ChimeraX: <code>protein</code>, <code>nucleic</code>, <code>solvent</code>, <code>ligand</code>, <code>~protein</code>.</p>
+
+      </section>
+      <section class="exercise" id="exercise-2-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 2.1</span> <span class="exercise-name">One chain, one domain</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="molecular-nodes/exercise-2-1"> Done</label>
+        </div>
+<ol>
+<li>Select Chain_, with only the receptor chain ticked <span class="arrow">→</span> Style Cartoon › Selection.</li>
+<li>Select Res ID Range (Min 310, Max 481: domain III of EGFR) with the first node's Selection in its And socket <span class="arrow">→</span> a second Style Cartoon with a different material, joined to the first.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> Only the receptor, then domain III highlighted within it. Untick the chain in the first node and the highlight follows the residue numbers into EGF and the Fab, which is what the And socket prevents.</p>
+
+      </section>
+      <section class="exercise" id="exercise-2-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 2.2</span> <span class="exercise-name">Glycans as sticks</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="molecular-nodes/exercise-2-2"> Done</label>
+        </div>
+<ol>
+<li>Select Attribute (Name <code>is_carb</code>) <span class="arrow">→</span> Style Sticks › Selection, on a branch from Set Color › Atoms. Join Geometry with the cartoon.</li>
+<li>Change the Name to <code>is_hetero</code>.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The N-linked glycans as sticks on the receptor surface; then also any waters and ions, since <code>is_hetero</code> is everything that was HETATM.</p>
+
+      </section>
+      <section class="check" id="chapter-2-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Why does Select Res ID 50 light up more than one residue?</p><details><summary>Answer</summary><p><code>res_id</code> restarts in every chain; add a chain selection in And.</p></details></li>
+<li><p class="q">Where do the chain letters in Select Chain_ come from?</p><details><summary>Answer</summary><p>The import: the node is generated per structure and indexed by <code>chain_id</code>.</p></details></li>
+<li><p class="q">How do you select glycans?</p><details><summary>Answer</summary><p>Select Attribute with <code>is_carb</code>.</p></details></li>
+<li><p class="q">What does Include CA on Is Side Chain do?</p><details><summary>Answer</summary><p>Counts the alpha carbon as part of the side chain, so sticks stay attached.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-3">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 3</span>          <h2 id="chapter-3">Selecting by structure and property</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Select by secondary structure, computing it when the file has none.</li>
+            <li>Select by any number with the plain Compare node.</li>
+            <li>Grow a selection to whole residues or along bonds.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="secondary-structure">
+        <h3>Secondary structure</h3>
+<p><strong>Is Helix</strong>, <strong>Is Sheet</strong> and <strong>Is Loop</strong> read <code>sec_struct</code> (1, 2 and 3). Under the hood: Named Attribute (Integer, <code>sec_struct</code>) <span class="arrow">→</span> Compare (Equal). A PDB or mmCIF from the databank carries secondary structure in its header, but a freshly built cryo-EM model often doesn't; then every atom reads 0 or 3 and the cartoon is all loop. <strong>Topology DSSP</strong> (Shift + A › Molecular Nodes › Topology) computes <code>sec_struct</code> from the backbone geometry and writes it back. Place it right after Group Input and the cartoon, the color nodes and the Is nodes all see it. ChimeraX: <code>helix</code>, <code>strand</code>, <code>coil</code>, <code>dssp</code>.</p>
+
+      </section>
+      <section id="any-number">
+        <h3>Any number</h3>
+<p>There is no Select B-factor node because none is needed. Named Attribute (Float, <code>b_factor</code>) <span class="arrow">→</span> Compare (Float, Greater Than, B 100) is the whole thing, and the same two nodes select by <code>occupancy</code>, <code>charge</code>, <code>mass</code>, or anything you stored yourself (<code>height</code> or <code>locres</code> from the <a href="geometry-nodes.html">Geometry Nodes part</a>). For a range, two Compares into Boolean Math (And); for a tolerance, Compare's Equal mode with its Epsilon. ChimeraX: <code>::bfactor&gt;100</code>.</p>
+
+      </section>
+      <section id="whole-residues">
+        <h3>Whole residues</h3>
+<p>A proximity or B-factor cut usually catches part of a residue. <strong>Select Res Whole</strong> (Expand on) makes a residue all True if any of its atoms is. Under the hood: Boolean Any grouped by <code>ures_id</code>, which is Accumulate Field counting the Trues per group and testing for more than zero; <code>ures_id</code> rather than <code>res_id</code>, because <code>ures_id</code> is unique across chains. ChimeraX: <code>select up</code>, or ending a selection with <code>:</code>.</p>
+
+      </section>
+      <section id="along-bonds">
+        <h3>Along bonds</h3>
+<p><strong>Select Bonded</strong> grows a selection by Depth bonds along the edges. Its Bonded output gives the new atoms without the originals, for coloring neighbors differently. Under the hood, one step is: Edge Vertices reads both ends of every bond, Sample Index tests the selection at each end, Boolean Math (Or) marks the bond touched, and Evaluate on Domain brings &quot;any touched bond&quot; back to the atoms; a Repeat Zone runs that Depth times. <strong>Expand Boolean</strong> (Molecular Nodes › Utilities) is the index-wise cousin: it grows a run of Trues by n points either side along the atom order, which follows the sequence.</p>
+
+      </section>
+      <section class="exercise" id="exercise-3-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 3.1</span> <span class="exercise-name">Color by secondary structure</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="molecular-nodes/exercise-3-1"> Done</label>
+        </div>
+<ol>
+<li>Color Secondary Structure (Molecular Nodes › Color) <span class="arrow">→</span> Set Color › Color, in place of the chain colors. If everything comes out the Loop color, insert Topology DSSP after Group Input.</li>
+<li>Is Sheet <span class="arrow">→</span> Style Spheres (Sphere Mesh, Scale 0.3) › Selection, joined with the cartoon.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> Helices, sheets and loops in three colors, then small spheres on the sheet residues only; domain III of EGFR is mostly sheet and the Fab nearly all of it.</p>
+
+      </section>
+      <section class="exercise" id="exercise-3-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 3.2</span> <span class="exercise-name">Poorly ordered residues</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="molecular-nodes/exercise-3-2"> Done</label>
+        </div>
+<ol>
+<li>Named Attribute (Float, <code>b_factor</code>) <span class="arrow">→</span> Compare (Greater Than, the top quarter of your model's range; read Min and Max off an Attribute Statistic) <span class="arrow">→</span> Select Res Whole (Expand on) <span class="arrow">→</span> Style Sticks › Selection, joined with the cartoon.</li>
+<li>Mute Select Res Whole (M).</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> Whole residues as sticks where the map is weakest, usually at the periphery and in loops; muted, the sticks fray into partial residues.</p>
+
+      </section>
+      <section class="check" id="chapter-3-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Why can Is Helix, Is Sheet and Is Loop all give False everywhere?</p><details><summary>Answer</summary><p><code>sec_struct</code> is missing or 0; run Topology DSSP.</p></details></li>
+<li><p class="q">Which node selects by B-factor?</p><details><summary>Answer</summary><p>The plain Compare on Named Attribute <code>b_factor</code>.</p></details></li>
+<li><p class="q">What is Select Res Whole made of?</p><details><summary>Answer</summary><p>Boolean Any over <code>ures_id</code>: a residue is True if any of its atoms was.</p></details></li>
+<li><p class="q">What is in Select Bonded's Bonded output?</p><details><summary>Answer</summary><p>The grown part only, without the starting atoms.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-4">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 4</span>          <h2 id="chapter-4">Selecting by space</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Select inside a sphere or a box you can grab and move.</li>
+            <li>Select atoms near other atoms, within one object or across two.</li>
+            <li>Turn a spatial selection into a clipping box or an interface.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="a-sphere-or-a-box-you-can-move">
+        <h3>A sphere or a box you can move</h3>
+<p><strong>Select Sphere</strong> selects atoms within an Empty's radius. Adding the node creates an Empty called <code>Empty_Sphere</code>; its Scale is the radius in scene units (0.1 per Å), so grab (G) and scale (S) the Empty in the viewport and the selection follows. Under the hood: Object Info (Location, Scale) <span class="arrow">→</span> Vector Math (Distance) from Position <span class="arrow">→</span> Compare (Less Than) against the scale.</p>
+<p><strong>Select Cube</strong> does the same with a box that can also rotate. Under the hood: Object Info › Transform <span class="arrow">→</span> Invert Matrix <span class="arrow">→</span> Transform Point puts each atom in the box's own frame, and three Compares test that |x|, |y| and |z| are all at most 1. Its Inverted output is a clipping tool: into a style's Selection, everything inside the box disappears, like ChimeraX <code>clip</code> but with six faces you can turn.</p>
+
+      </section>
+      <section id="atoms-near-other-atoms">
+        <h3>Atoms near other atoms</h3>
+<p><strong>Select Proximity</strong> is <code>zone</code>. Target Atoms is the geometry to measure from; Distance (A) is the cutoff in Å, so no world-scale arithmetic; Subset narrows the target to a selection of it; Expand grows the result to whole residues. Under the hood: Separate Geometry keeps the Subset of the target, Geometry Proximity measures each atom's distance to what is left, Compare (Less Equal) tests the cutoff converted to scene units, and Boolean Any by <code>ures_id</code> does Expand. This node has no And or Or sockets; combine its Selection through another node's And socket or a Boolean Math.</p>
+<p>Two patterns. Within one object: Target Atoms <span class="arrow">←</span> Group Input › Atoms and Subset <span class="arrow">←</span> a Select Chain_ ticking the Fab chains gives everything within the cutoff of the Fab, including the Fab itself at distance zero; feed the result into a Select Chain_ (receptor ticked) › And to keep the receptor side. Across objects: Target Atoms <span class="arrow">←</span> Object Info (Relative) of the other model, which is how a ligand from one file selects its pocket in another. ChimeraX: <code>select /A &amp; /H,L @&lt;5</code>, <code>select zone</code>.</p>
+
+      </section>
+      <section class="exercise" id="exercise-4-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 4.1</span> <span class="exercise-name">The epitope</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="molecular-nodes/exercise-4-1"> Done</label>
+        </div>
+<ol>
+<li>Select Proximity: Target Atoms <span class="arrow">←</span> Group Input › Atoms, Subset <span class="arrow">←</span> Select Chain_ with the Fab heavy and light chains ticked, Distance 4.5, Expand on.</li>
+<li>Its Selection <span class="arrow">→</span> a second Select Chain_ (receptor ticked) › And. That node's Selection <span class="arrow">→</span> Style Sticks on a branch, joined with the cartoon, and <span class="arrow">→</span> Set Color › Selection with one bright color, placed before the styles.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The receptor residues in contact with Fab108 as whole-residue sticks, recolored, on the cartoon. Lower Distance to 3.5 and only the tightest contacts remain; turn Expand off and the sticks break into partial residues.</p>
+
+      </section>
+      <section class="exercise" id="exercise-4-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 4.2</span> <span class="exercise-name">A box as a clipping plane</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="molecular-nodes/exercise-4-2"> Done</label>
+        </div>
+<ol>
+<li>Select Cube <span class="arrow">→</span> Inverted <span class="arrow">→</span> Style Cartoon › Selection. Move (G) and scale (S) <code>Empty_Cube</code> until it covers half the model.</li>
+<li>Rotate the Empty (R) by 30 degrees.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The cartoon cut away wherever the box sits, with a clean edge that follows the box's rotation.</p>
+
+      </section>
+      <section class="check" id="chapter-4-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">What sets Select Sphere's radius?</p><details><summary>Answer</summary><p>The Empty's Scale, in scene units.</p></details></li>
+<li><p class="q">Why does a within-object Select Proximity include the target itself?</p><details><summary>Answer</summary><p>Target atoms are at distance zero from themselves; an And with the other side excludes them.</p></details></li>
+<li><p class="q">Which node is ChimeraX <code>zone</code>?</p><details><summary>Answer</summary><p>Select Proximity.</p></details></li>
+<li><p class="q">How does Select Cube handle a rotated box?</p><details><summary>Answer</summary><p>It transforms each atom into the box's frame with the inverted matrix before comparing.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-5">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 5</span>          <h2 id="chapter-5">Combining and applying selections</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Combine selections with Boolean Math and the And/Or sockets.</li>
+            <li>Apply them to styles, colors and separations, and join the results.</li>
+            <li>Expose a selection as a checkbox on the modifier panel.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="boolean-algebra">
+        <h3>Boolean algebra</h3>
+<p><strong>Boolean Math</strong> (Shift + A › Utilities › Math) is the full algebra: And, Or, Not, Not And, Nor, Xor, and Subtract, which is A and not B. In ChimeraX terms, <code>&amp;</code>, <code>|</code>, <code>~</code> and <code>&amp; ~</code>. The And and Or sockets on Select nodes cover the common two-term cases without it. Read a chain of Select nodes from the top: each node's output is (its own criterion And its And socket) Or its Or socket. For anything with parentheses, draw Boolean Math nodes so the tree looks like the expression; it is easier to check by eye than a chain of sockets.</p>
+
+      </section>
+      <section id="applying">
+        <h3>Applying</h3>
+<p>Three habits. One: a style's Selection discards, so &quot;these as sticks and everything as cartoon&quot; is two style nodes on two branches from the same atoms, joined with Join Geometry. Two: Set Color's Selection does not discard, so coloring happens before styling, on the atoms, and every style downstream inherits the <code>Color</code>. Three: <strong>Separate Atoms</strong> splits the atoms into Atoms and Inverted geometries and also outputs Index, each atom's index before the split, for when a later node must refer back to the whole structure. <strong>Separate Polymers</strong> is the same split run on <code>is_peptide</code>, then <code>is_nucleic</code>, with the rest as Other. Under the hood: Separate Geometry, with a Capture Attribute of Index just before it.</p>
+
+      </section>
+      <section id="checkboxes-on-the-modifier">
+        <h3>Checkboxes on the modifier</h3>
+<p>Drag any Select node's And input to Group Input's empty socket and it becomes a checkbox on the modifier panel; drag a Distance or a Res ID and it becomes a slider. A Switch node (Boolean) choosing between two selections, driven by such a checkbox, flips a whole figure between two states without opening the tree.</p>
+
+      </section>
+      <section class="exercise" id="exercise-5-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 5.1</span> <span class="exercise-name">A selection with parentheses</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="molecular-nodes/exercise-5-1"> Done</label>
+        </div>
+<ol>
+<li>Build &quot;chain A and (LYS or ARG) and not backbone&quot;: Select Chain_ (one chain ticked) › Selection <span class="arrow">→</span> Select Res Name (LYS and ARG ticked) › And. Its Selection <span class="arrow">→</span> Boolean Math (Subtract) › A; Is Backbone › Selection <span class="arrow">→</span> B.</li>
+<li>The result <span class="arrow">→</span> Style Sticks › Selection, on a branch joined with the cartoon.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The basic side chains of one chain as sticks, their backbone atoms excluded; tick GLU and ASP too and the salt-bridge partners join them.</p>
+
+      </section>
+      <section class="exercise" id="exercise-5-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 5.2</span> <span class="exercise-name">The figure</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="molecular-nodes/exercise-5-2"> Done</label>
+        </div>
+<ol>
+<li>Color: Set Color with Random Color for everything, then a second Set Color with Select Chain_ (receptor ticked) in Selection and a flat gray, so only the receptor goes gray.</li>
+<li>Styles: Style Cartoon for all; Style Surface with Select Chain_ (Fab chains) in Selection and a material at Alpha 0.3; Style Sticks for <a class="ref" href="#exercise-4-1">Exercise 4.1</a>'s epitope; Style Sticks for <code>is_carb</code>. Four branches, one Join Geometry.</li>
+<li>Expose the epitope's Distance and the surface's chain checkboxes to the modifier panel.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> A gray receptor with colored EGF, a translucent antibody surface, contact residues and glycans as sticks, and two controls on the modifier panel that tune it without the node editor.</p>
+
+      </section>
+      <section class="check" id="chapter-5-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">How do you write A and not B?</p><details><summary>Answer</summary><p>Boolean Math set to Subtract, or an And socket fed B's Inverted.</p></details></li>
+<li><p class="q">Why color before styling?</p><details><summary>Answer</summary><p>Set Color keeps unselected atoms; every style downstream inherits <code>Color</code>.</p></details></li>
+<li><p class="q">What is Separate Atoms' Index output for?</p><details><summary>Answer</summary><p>Referring back to an atom's index in the whole structure after the split.</p></details></li>
+<li><p class="q">How does a selection become a checkbox?</p><details><summary>Answer</summary><p>Connect its And input to Group Input.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-6">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 6</span>          <h2 id="chapter-6">The rest of the ChimeraX toolbox</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Color by chain, entity, rainbow, secondary structure and any attribute.</li>
+            <li>Compute what the file lacks: secondary structure, bonds.</li>
+            <li>Know the six style nodes and the sockets that matter.</li>
+            <li>Measure, center, explode and morph with the utility nodes.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="coloring">
+        <h3>Coloring</h3>
+<p>All color nodes output a Color field for <strong>Set Color</strong>, which under the hood is Store Named Attribute writing <code>Color</code> on the Point domain with a Selection. <strong>Color Chain_</strong> and <strong>Color Entity_</strong> are generated per structure with one swatch per chain or entity (Index Switch of colors by <code>chain_id</code>). <strong>Random Color</strong>, the node in your default tree, seeds Random Value with an ID and builds an HSL color. <strong>Color Rainbow</strong> runs a hue along each chain or the whole structure (the Factor menu), from each atom's relative position in its group: ChimeraX <code>rainbow</code>. <strong>Color Secondary Structure</strong> is three swatches by <code>sec_struct</code>. <strong>Color Attribute Map</strong> is <code>color byattribute</code>: Name, Min, Max and two or three colors; under the hood it is Named Attribute <span class="arrow">→</span> Map Range <span class="arrow">→</span> Mix Color, the chain you built by hand for <code>height</code>, in one node. <strong>Color pLDDT</strong> is that node preset for AlphaFold models. <strong>Color Res Name</strong>, <strong>Color Common</strong> and <strong>Color Element</strong> map <code>res_name</code> or <code>atomic_number</code> to swatches, and <strong>Color Goodsell</strong> darkens the non-carbon atoms for the Goodsell look.</p>
+
+      </section>
+      <section id="reading-attributes">
+        <h3>Reading attributes</h3>
+<p>Molecular Nodes › Attributes holds a reader per attribute: Chain ID, Residue ID, Residue Name, Atom Name, B Factor, URes ID, Secondary Structure, Entity ID, VDW Radii. Each is a Named Attribute with the name typed and the type set, plus an Index input for reading another atom's value. Use them for the same reason as the Select nodes: no typos, no wrong data type.</p>
+
+      </section>
+      <section id="computing-what-the-file-lacks">
+        <h3>Computing what the file lacks</h3>
+<p><strong>Topology DSSP</strong> computes <code>sec_struct</code> (<code>dssp</code>). <strong>Find Bonds</strong> adds edges by distance for files without bonds, and <strong>Break Bonds</strong> removes them by a cutoff or a selection (<code>bond</code>, <code>~bond</code>). <strong>Set URes ID</strong> recomputes <code>ures_id</code> after you delete atoms. <strong>Backbone Positions</strong> gives every residue's N, CA, C and O positions as fields, for drawing your own geometry along the backbone.</p>
+
+      </section>
+      <section id="the-six-styles">
+        <h3>The six styles</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Style</th>
+<th>ChimeraX</th>
+<th>Sockets that matter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Style Spheres</td>
+<td><code>show atoms</code>, <code>style sphere</code></td>
+<td>Sphere: Point Cloud is free but renders only in Cycles; Instances or Mesh for EEVEE. Scale multiplies <code>vdw_radii</code></td>
+</tr>
+<tr>
+<td>Style Ball and Stick</td>
+<td><code>style ball</code></td>
+<td>Bond Find for files without bonds; Bond Split for double bonds; Bond Scale in Å</td>
+</tr>
+<tr>
+<td>Style Sticks</td>
+<td><code>style stick</code></td>
+<td>Scale is the stick radius in Å</td>
+</tr>
+<tr>
+<td>Style Ribbon</td>
+<td><code>cartoon style tube</code></td>
+<td>Peptide Radius; Backbone Smoothing</td>
+</tr>
+<tr>
+<td>Style Cartoon</td>
+<td><code>cartoon</code></td>
+<td>Peptide Shape; Helix Shape, for cylinder helices; Sheet Arrows; Loop Radius; Color Blur</td>
+</tr>
+<tr>
+<td>Style Surface</td>
+<td><code>surface</code></td>
+<td>Quality; Scale and Offset grow the surface; Separate By and Group ID make one surface per chain, like <code>surface /A</code>; Color Source picks the alpha carbon or the nearest atom</td>
+</tr>
+</tbody>
+</table></div>
+<p>Every style's Selection discards, and every style's Material socket is where the <a href="material-recipes.html">Recipes part</a>'s materials go.</p>
+
+      </section>
+      <section id="measuring-centering-exploding-morphing">
+        <h3>Measuring, centering, exploding, morphing</h3>
+<p><strong>Centre on Selection</strong> moves the atoms so a selection's centroid sits at the origin (<code>cofr</code>, <code>view</code>); a Group ID centers each chain separately. <strong>Split to Centred Instances</strong> turns each Group ID (a chain, with <code>chain_id</code>) into an instance at its own centroid, so a Scale on the instances explodes the complex apart (<code>tile</code>). <strong>Field Remap</strong> and <strong>Normalize Field</strong> rescale a field between a min and a max, grouped if you like: the Attribute Statistic and Map Range chain of the <a href="geometry-nodes.html">Geometry Nodes part</a> in one node. <strong>Group Info</strong> and <strong>Group Parameter</strong> give each atom its residue's size, first and last index, and relative position, with <code>ures_id</code> as Group ID. <strong>Offset Float</strong> and its siblings read a value at Index plus an offset: the next residue's value, for differences along the chain. <strong>Sample Mix Vector</strong> mixes positions between two geometries by a Factor, which is a morph between two conformations (<code>morph</code>) once the two models have matching atoms. For a distance, Geometry Proximity from one selection to another with a Viewer on its Distance output is <code>distance</code>, read off the Spreadsheet.</p>
+
+      </section>
+      <section class="exercise" id="exercise-6-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 6.1</span> <span class="exercise-name">Color by B-factor in one node</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="molecular-nodes/exercise-6-1"> Done</label>
+        </div>
+<ol>
+<li>Color Attribute Map (Name <code>b_factor</code>, Min and Max from your model, A blue, B red, Intermediate on and white) <span class="arrow">→</span> Set Color › Color.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The B-factor coloring of the <a href="geometry-nodes.html">Geometry Nodes part</a>, with two numbers on one node instead of three nodes, and the same blue-to-red convention as <code>spectrum b</code>.</p>
+
+      </section>
+      <section class="exercise" id="exercise-6-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 6.2</span> <span class="exercise-name">One surface per chain</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="molecular-nodes/exercise-6-2"> Done</label>
+        </div>
+<ol>
+<li>Style Surface with Separate By set to chains, or Group ID <span class="arrow">←</span> Chain ID (Attributes), Quality 6, and a material at Alpha 0.4.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> A surface that stops at each chain boundary instead of one skin over the complex, so the Fab and the receptor read as separate bodies pressed together.</p>
+
+      </section>
+      <section class="check" id="chapter-6-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Which node is <code>color byattribute bfactor</code>?</p><details><summary>Answer</summary><p>Color Attribute Map.</p></details></li>
+<li><p class="q">Which sphere mode shows in EEVEE?</p><details><summary>Answer</summary><p>Instances or Mesh; Point Cloud is Cycles only.</p></details></li>
+<li><p class="q">How do you get one surface per chain?</p><details><summary>Answer</summary><p>Style Surface with Separate By, or Group ID from <code>chain_id</code>.</p></details></li>
+<li><p class="q">What does Field Remap replace?</p><details><summary>Answer</summary><p>Attribute Statistic plus Map Range.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-7">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 7</span>          <h2 id="chapter-7">From ChimeraX to nodes</h2>
+        </div>
+      </header>
+
+      <section id="the-translation-table">
+        <h3>The translation table</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ChimeraX</th>
+<th>Molecular Nodes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>select /A</code></td>
+<td>Select Chain_ with A ticked</td>
+</tr>
+<tr>
+<td><code>select :100-200</code></td>
+<td>Select Res ID Range</td>
+</tr>
+<tr>
+<td><code>select :100,105,110-120</code></td>
+<td>Select Res ID String</td>
+</tr>
+<tr>
+<td><code>select :LYS,ARG</code></td>
+<td>Select Res Name</td>
+</tr>
+<tr>
+<td><code>select @CA</code></td>
+<td>Is Alpha Carbon, or Menu Atom Name</td>
+</tr>
+<tr>
+<td><code>select backbone</code>, <code>sidechain</code></td>
+<td>Is Backbone, Is Side Chain</td>
+</tr>
+<tr>
+<td><code>select protein</code>, <code>nucleic</code>, <code>solvent</code></td>
+<td>Is Peptide, Is Nucleic, Is Solvent</td>
+</tr>
+<tr>
+<td><code>select ligand</code></td>
+<td>Select Attribute <code>is_hetero</code>, with Is Solvent's Inverted in And</td>
+</tr>
+<tr>
+<td>glycans</td>
+<td>Select Attribute <code>is_carb</code></td>
+</tr>
+<tr>
+<td><code>select H</code></td>
+<td>Is Hydrogen</td>
+</tr>
+<tr>
+<td><code>select helix</code>, <code>strand</code>, <code>coil</code></td>
+<td>Is Helix, Is Sheet, Is Loop</td>
+</tr>
+<tr>
+<td><code>select ::bfactor&gt;80</code></td>
+<td>Named Attribute <code>b_factor</code> <span class="arrow">→</span> Compare</td>
+</tr>
+<tr>
+<td><code>select /A &amp; /H,L @&lt;5</code></td>
+<td>Select Proximity (Target Group Input, Subset chains H and L) <span class="arrow">→</span> Select Chain_ A › And</td>
+</tr>
+<tr>
+<td><code>select up</code></td>
+<td>Select Res Whole, Select Bonded</td>
+</tr>
+<tr>
+<td><code>~select</code>, <code>select ~sel</code></td>
+<td>Inverted output, or Boolean Math Not</td>
+</tr>
+<tr>
+<td><code>A &amp; B</code>, <code>A | B</code>, <code>A &amp; ~B</code></td>
+<td>And socket, Or socket, Boolean Math Subtract</td>
+</tr>
+<tr>
+<td><code>hide X</code>, <code>show X</code></td>
+<td>Inverted, or the selection, into a style's Selection</td>
+</tr>
+<tr>
+<td><code>color /A red</code></td>
+<td>Set Color with Select Chain_ in Selection</td>
+</tr>
+<tr>
+<td><code>rainbow</code></td>
+<td>Color Rainbow</td>
+</tr>
+<tr>
+<td><code>color byattribute bfactor</code></td>
+<td>Color Attribute Map</td>
+</tr>
+<tr>
+<td><code>color bychain</code>, <code>color byhetero</code></td>
+<td>Color Chain_; Color Element after a chain color</td>
+</tr>
+<tr>
+<td><code>dssp</code></td>
+<td>Topology DSSP</td>
+</tr>
+<tr>
+<td><code>surface /A</code></td>
+<td>Style Surface with Separate By, or Group ID from <code>chain_id</code></td>
+</tr>
+<tr>
+<td><code>transparency 60</code></td>
+<td>the material's Alpha</td>
+</tr>
+<tr>
+<td><code>clip</code></td>
+<td>Select Cube › Inverted into a style's Selection</td>
+</tr>
+<tr>
+<td><code>cofr sel</code>, <code>view sel</code></td>
+<td>Centre on Selection</td>
+</tr>
+<tr>
+<td><code>tile</code></td>
+<td>Split to Centred Instances, then Scale the instances</td>
+</tr>
+<tr>
+<td><code>morph</code></td>
+<td>Sample Mix Vector between two models</td>
+</tr>
+<tr>
+<td><code>distance</code></td>
+<td>Geometry Proximity › Distance, read in the Spreadsheet</td>
+</tr>
+<tr>
+<td><code>bond</code>, <code>~bond</code></td>
+<td>Find Bonds, Break Bonds</td>
+</tr>
+</tbody>
+</table></div>
+
+      </section>
+      <section id="glossary">
+        <h3>Glossary</h3>
+<ul>
+<li><strong>Selection</strong>: a boolean field on atoms, True or False each, evaluated where it is consumed.</li>
+<li><strong>And, Or sockets</strong>: inputs on most Select nodes that combine another selection with this node's, without Boolean Math.</li>
+<li><strong>Inverted</strong>: the output that is the Not of Selection.</li>
+<li><strong>Code</strong>: the integer standing in for a name; <code>chain_id</code> from 0 alphabetically, <code>res_name</code> and <code>atom_name</code> from fixed tables.</li>
+<li><strong>Generated node</strong>: a node built per imported structure and named after it: Select Chain_, Select Entity_, Color Chain_, Color Entity_.</li>
+<li><strong><code>ures_id</code></strong>: residue number unique across the whole structure; <code>res_id</code> restarts in each chain.</li>
+<li><strong><code>is_hetero</code>, <code>is_carb</code></strong>: precomputed booleans for HETATM records and for carbohydrates, reached with Select Attribute.</li>
+<li><strong>Expand</strong>: grow an atom-level selection to whole residues, in Select Res Whole and Select Proximity.</li>
+<li><strong>Target Atoms, Subset</strong>: in Select Proximity, the geometry measured from and the part of it that counts.</li>
+<li><strong>Under the hood</strong>: the plain Geometry Nodes doing the same job as a Molecular Nodes group; Tab on the node shows the real ones.</li>
+</ul>
+
+      </section>
+      <section id="sources">
+        <h3>Sources</h3>
+<ul>
+<li><a href="https://bradyajohnston.github.io/MolecularNodes/nodes/select.html" rel="noopener">Select nodes</a>, the Molecular Nodes reference for every node in Chapters <a class="ref" href="#chapter-1">1</a> to <a class="ref" href="#chapter-5">5</a>.</li>
+<li><a href="https://bradyajohnston.github.io/MolecularNodes/tutorials/selections.html" rel="noopener">Selections tutorial</a>, the PyMOL comparison and Boolean Math examples.</li>
+<li><a href="https://bradyajohnston.github.io/MolecularNodes/attributes.html" rel="noopener">Attributes</a> and <a href="https://bradyajohnston.github.io/MolecularNodes/data_table.html" rel="noopener">data tables</a>, every attribute and the integer codes for residue and atom names.</li>
+<li><a href="https://bradyajohnston.github.io/MolecularNodes/nodes/color.html" rel="noopener">Color nodes</a>, <a href="https://bradyajohnston.github.io/MolecularNodes/nodes/style.html" rel="noopener">Style nodes</a>, <a href="https://bradyajohnston.github.io/MolecularNodes/nodes/topology.html" rel="noopener">Topology nodes</a>, <a href="https://bradyajohnston.github.io/MolecularNodes/nodes/geometry.html" rel="noopener">Geometry nodes</a> and <a href="https://bradyajohnston.github.io/MolecularNodes/nodes/utilities_fields.html" rel="noopener">Utilities / Fields</a>, for Chapter <a class="ref" href="#chapter-6">6</a>.</li>
+<li><a href="https://bradyajohnston.github.io/MolecularNodes/nodes/generated_nodes.html" rel="noopener">Generated node groups</a>, the per-structure Select Chain_ and Color Chain_ nodes.</li>
+<li>In Blender, Tab on any Molecular Nodes node opens the group itself; the Molecular Nodes documentation describes the sockets, and the group shows the construction.</li>
+</ul>
+
+      </section>
+    </article>
+    <nav class="pager" aria-label="Parts">
+<a class="pager-prev" href="geometry-nodes-for-art.html" data-socket="vector"><span class="pager-label">Previous part</span><span class="pager-title"><span class="sock" aria-hidden="true"></span>Geometry Nodes for art</span></a><a class="pager-next" href="objects-and-modeling.html" data-socket="object"><span class="pager-label">Next part</span><span class="pager-title"><span class="sock" aria-hidden="true"></span>Handling objects and modeling</span></a>    </nav>
+  </main>
+</div>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en"{% if current %} data-socket="{{ current.socket }}"{% endif %}>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ site.title }}{% endblock %}</title>
+<meta name="description" content="{% block description %}{{ site.tagline }}{% endblock %}">
+<script>
+  (function () {
+    var root = document.documentElement;
+    root.classList.add('js');
+    try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') root.dataset.theme = t; } catch (e) {}
+  })();
+</script>
+<link rel="preload" href="assets/fonts/literata.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+<a class="skip" href="#main">Skip to the text</a>
+<header class="topbar">
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="rail">Contents</button>
+  <a class="topbar-title" href="index.html">{{ site.title }}</a>
+  <span class="topbar-end">
+    <a class="topbar-about" href="about.html">About</a>
+    <button class="theme-toggle" type="button" hidden>Dark theme</button>
+  </span>
+</header>
+<div class="shell">
+  <nav class="rail" id="rail" aria-label="Contents">
+    <a class="site-name" href="index.html">{{ site.title }}</a>
+    <div class="search" role="search">
+      <label class="visually-hidden" for="search-input">Search the guide</label>
+      <input id="search-input" type="search" placeholder="Search the guide" autocomplete="off" spellcheck="false">
+      <ol class="search-results" id="search-results" hidden></ol>
+    </div>
+    <ol class="parts">
+      {% for p in parts %}
+      <li data-socket="{{ p.socket }}"{% if current and p.slug == current.slug %} class="is-current"{% endif %}>
+        <a class="part-link" href="{{ p.slug }}.html"{% if current and p.slug == current.slug %} aria-current="page"{% endif %}><span class="sock" aria-hidden="true"></span>{{ p.short }}</a>
+        {% if current and p.slug == current.slug %}
+        <ol class="chapters">
+          {% for c in p.chapters %}
+          <li><a href="#{{ c.id }}">{% if c.num %}<span class="num">{{ c.num }}</span>{% endif %}<span>{{ c.title }}</span></a></li>
+          {% endfor %}
+        </ol>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+    <div class="rail-foot">
+      <a href="about.html">About this guide</a>
+      <button class="theme-toggle" type="button" hidden>Dark theme</button>
+    </div>
+  </nav>
+  <main id="main" class="page">
+{% block main %}{% endblock %}
+  </main>
+</div>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif" viewBox="0 0 760 476" role="img" aria-label="Five questions turn a texture in your head into settings" font-size="13">
+<defs>
+<marker id="look-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M0 0L10 5L0 10z" fill="var(--fig-line, #6b7280)"/>
+</marker>
+</defs>
+<text x="24" y="34" font-size="15" font-weight="600" fill="var(--fig-ink, #1a1c20)">Five questions turn a texture in your head into settings</text>
+<text x="24" y="62" font-size="11.5" fill="var(--fig-muted, #5b616b)">Ask about the texture</text>
+<text x="420" y="62" font-size="11.5" fill="var(--fig-muted, #5b616b)">Then set</text>
+<g>
+<path d="M380 104H420" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25" marker-end="url(#look-arrow)"/>
+<path d="M380 176H420" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25" marker-end="url(#look-arrow)"/>
+<path d="M380 248H420" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25" marker-end="url(#look-arrow)"/>
+<path d="M380 320H420" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25" marker-end="url(#look-arrow)"/>
+<path d="M380 392H420" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25" marker-end="url(#look-arrow)"/>
+</g>
+<g>
+<rect x="24" y="76" width="356" height="56" rx="8" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<text x="36" y="100" font-weight="600" fill="var(--fig-ink, #1a1c20)">1. How does light bounce off it?</text>
+<text x="36" y="116" font-size="11.5" fill="var(--fig-muted, #5b616b)">Sharp glints, a soft sheen, or no highlight at all</text>
+</g>
+<g>
+<rect x="420" y="76" width="316" height="56" rx="8" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<text x="432" y="100" font-weight="600" fill="var(--fig-ink, #1a1c20)">Roughness, IOR Level</text>
+<text x="432" y="116" font-size="11.5" fill="var(--fig-muted, #5b616b)">0 is a mirror; 1 hides every highlight</text>
+</g>
+<g>
+<rect x="24" y="148" width="356" height="56" rx="8" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<text x="36" y="172" font-weight="600" fill="var(--fig-ink, #1a1c20)">2. Does light go into or through it?</text>
+<text x="36" y="188" font-size="11.5" fill="var(--fig-muted, #5b616b)">Solid, see-through, bending, or glowing from inside</text>
+</g>
+<g>
+<rect x="420" y="148" width="316" height="56" rx="8" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<text x="432" y="172" font-weight="600" fill="var(--fig-ink, #1a1c20)">Alpha, Transmission, Subsurface</text>
+<text x="432" y="188" font-size="11.5" fill="var(--fig-muted, #5b616b)">Pick one; mixing them is rare</text>
+</g>
+<g>
+<rect x="24" y="220" width="356" height="56" rx="8" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<text x="36" y="244" font-weight="600" fill="var(--fig-ink, #1a1c20)">3. Is there a layer on top?</text>
+<text x="36" y="260" font-size="11.5" fill="var(--fig-muted, #5b616b)">Varnish, a wet film, fuzz or dust, an oil slick</text>
+</g>
+<g>
+<rect x="420" y="220" width="316" height="56" rx="8" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<text x="432" y="244" font-weight="600" fill="var(--fig-ink, #1a1c20)">Coat, Sheen, Thin Film</text>
+<text x="432" y="260" font-size="11.5" fill="var(--fig-muted, #5b616b)">Added on top of whatever is below</text>
+</g>
+<g>
+<rect x="24" y="292" width="356" height="56" rx="8" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<text x="36" y="316" font-weight="600" fill="var(--fig-ink, #1a1c20)">4. Does it have fine relief?</text>
+<text x="36" y="332" font-size="11.5" fill="var(--fig-muted, #5b616b)">Grain, pores or ripples too small to model</text>
+</g>
+<g>
+<rect x="420" y="292" width="316" height="56" rx="8" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<text x="432" y="316" font-weight="600" fill="var(--fig-ink, #1a1c20)">Bump from a Noise texture</text>
+<text x="432" y="332" font-size="11.5" fill="var(--fig-muted, #5b616b)">Object coordinates, so no UVs needed</text>
+</g>
+<g>
+<rect x="24" y="364" width="356" height="56" rx="8" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<text x="36" y="388" font-weight="600" fill="var(--fig-ink, #1a1c20)">5. Does the color change across it?</text>
+<text x="36" y="404" font-size="11.5" fill="var(--fig-muted, #5b616b)">By viewing angle, thickness, grain or data</text>
+</g>
+<g>
+<rect x="420" y="364" width="316" height="56" rx="8" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<text x="432" y="388" font-weight="600" fill="var(--fig-ink, #1a1c20)">Layer Weight, Absorption, Attribute</text>
+<text x="432" y="404" font-size="11.5" fill="var(--fig-muted, #5b616b)">Feed Base Color, Alpha or Emission</text>
+</g>
+<text x="24" y="452" font-size="11.5" fill="var(--fig-muted, #5b616b)">Work top to bottom, one question at a time, checking the render after each.</text>
+</svg>

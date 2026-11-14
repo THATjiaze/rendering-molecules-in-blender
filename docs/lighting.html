@@ -1,0 +1,1205 @@
+<!doctype html>
+<html lang="en" data-socket="string">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lighting, from zero to designing your own setups | Rendering Molecules in Blender</title>
+<meta name="description" content="Direction, softness and contrast first, then the named setups, then inventing a setup of your own.">
+<script>
+  (function () {
+    var root = document.documentElement;
+    root.classList.add('js');
+    try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') root.dataset.theme = t; } catch (e) {}
+  })();
+</script>
+<link rel="preload" href="assets/fonts/literata.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body class="is-part">
+<a class="skip" href="#main">Skip to the text</a>
+<header class="topbar">
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="rail">Contents</button>
+  <a class="topbar-title" href="index.html">Rendering Molecules in Blender</a>
+  <span class="topbar-end">
+    <a class="topbar-about" href="about.html">About</a>
+    <button class="theme-toggle" type="button" hidden>Dark theme</button>
+  </span>
+</header>
+<div class="shell">
+  <nav class="rail" id="rail" aria-label="Contents">
+    <a class="site-name" href="index.html">Rendering Molecules in Blender</a>
+    <div class="search" role="search">
+      <label class="visually-hidden" for="search-input">Search the guide</label>
+      <input id="search-input" type="search" placeholder="Search the guide" autocomplete="off" spellcheck="false">
+      <ol class="search-results" id="search-results" hidden></ol>
+    </div>
+    <ol class="parts">
+      <li data-socket="material">
+        <a class="part-link" href="material-recipes.html"><span class="sock" aria-hidden="true"></span>Recipes</a>
+      </li>
+      <li data-socket="color">
+        <a class="part-link" href="designing-a-look.html"><span class="sock" aria-hidden="true"></span>Designing a look</a>
+      </li>
+      <li data-socket="string" class="is-current">
+        <a class="part-link" href="lighting.html" aria-current="page"><span class="sock" aria-hidden="true"></span>Lighting</a>
+        <ol class="chapters">
+          <li><a href="#chapter-1"><span class="num">1</span><span>How light behaves in a render</span></a></li>
+          <li><a href="#chapter-2"><span class="num">2</span><span>Blender's light sources</span></a></li>
+          <li><a href="#chapter-3"><span class="num">3</span><span>The three decisions behind every setup</span></a></li>
+          <li><a href="#chapter-4"><span class="num">4</span><span>The named setups</span></a></li>
+          <li><a href="#chapter-5"><span class="num">5</span><span>Inventing a setup</span></a></li>
+          <li><a href="#chapter-6"><span class="num">6</span><span>Lighting for scientific figures</span></a></li>
+          <li><a href="#chapter-7"><span class="num">7</span><span>A build procedure</span></a></li>
+          <li><a href="#chapter-8"><span class="num">8</span><span>Units, exposure and color</span></a></li>
+          <li><a href="#chapter-9"><span class="num">9</span><span>Troubleshooting</span></a></li>
+        </ol>
+      </li>
+      <li data-socket="shader">
+        <a class="part-link" href="shaders.html"><span class="sock" aria-hidden="true"></span>Shaders</a>
+      </li>
+      <li data-socket="geometry">
+        <a class="part-link" href="geometry-nodes.html"><span class="sock" aria-hidden="true"></span>Geometry Nodes</a>
+      </li>
+      <li data-socket="vector">
+        <a class="part-link" href="geometry-nodes-for-art.html"><span class="sock" aria-hidden="true"></span>Geometry Nodes for art</a>
+      </li>
+      <li data-socket="boolean">
+        <a class="part-link" href="molecular-nodes.html"><span class="sock" aria-hidden="true"></span>Molecular Nodes</a>
+      </li>
+      <li data-socket="object">
+        <a class="part-link" href="objects-and-modeling.html"><span class="sock" aria-hidden="true"></span>Objects and modeling</a>
+      </li>
+    </ol>
+    <div class="rail-foot">
+      <a href="about.html">About this guide</a>
+      <button class="theme-toggle" type="button" hidden>Dark theme</button>
+    </div>
+  </nav>
+  <main id="main" class="page">
+    <header class="part-head">
+      <h1>Lighting, from zero to designing your own setups</h1>
+      <div class="lead">
+<p>Named setups like three-point and clamshell are answers to a few underlying questions about direction, softness and contrast. This part teaches the questions first, then the named answers, then how to invent an answer of your own, such as a glowing ribbon wrapped around the subject.</p>
+
+      </div>
+      <p class="progress" hidden><span class="progress-count"></span> of 19 exercises done</p>
+    </header>
+    <article class="chapter" aria-labelledby="chapter-1">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 1</span>          <h2 id="chapter-1">How light behaves in a render</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>List the five properties of any light and say what each one changes in the image.</li>
+            <li>Explain why the same lamp can be a hard light or a soft light.</li>
+            <li>Tell shading from reflection on a surface, and know which properties each one shows.</li>
+          </ul>
+        </div>
+      </header>
+
+<p>Every light, whatever its name, is five properties, and every surface shows those properties in two ways. Once you can see a photo in these terms, you can rebuild its lighting.</p>
+
+      <section id="the-five-properties-of-any-light">
+        <h3>The five properties of any light</h3>
+<ol>
+<li><strong>Direction.</strong> Where the light sits relative to the camera and the subject, measured as an angle around the subject (front, side, back) and an angle above it. Direction decides where shadows fall and which planes are bright, which is how the eye reads shape. A surface facing the light is bright; one turned 60° from it receives half as much; one turned 90° receives none. That falloff across a curved surface is the shading gradient.</li>
+<li><strong>Size, relative to distance.</strong> A light that looks large from the subject's position wraps around it: shadows have soft edges and highlights are broad. A light that looks small gives crisp shadows and small, sharp highlights. The same lamp is soft up close and hard far away, because what matters is the angle it covers as seen from the subject. A 1 m panel at 1 m covers about 53°; at 10 m it covers about 6°. The sun is enormous but far, so it covers half a degree and is a hard light; an overcast sky covers the whole dome and is the softest light there is.</li>
+<li><strong>Intensity.</strong> How bright it is at the subject. For a point, spot or area light this falls with the square of distance: twice as far, a quarter of the light. That is why 500 W at 50 m rendered black in your scene. Intensity on its own changes only brightness; everything else about the image stays the same, which is why exposure can be set last.</li>
+<li><strong>Color.</strong> Warm or cool, and how saturated. Two lights of different colors on the same object split it into a warm side and a cool side, which is a cheap way to add depth. For figures, color in the lights competes with color in the data, so lights stay white.</li>
+<li><strong>Shape.</strong> A disk, a long strip, a ring, a window. The shape is invisible in diffuse shading, but it is exactly what glossy surfaces reflect, and it decides what highlights look like.</li>
+</ol>
+
+      </section>
+      <section id="the-two-ways-a-surface-shows-light">
+        <h3>The two ways a surface shows light</h3>
+<ul>
+<li><strong>Shading.</strong> Matte surfaces scatter light in every direction, so each part of the surface is bright in proportion to how squarely it faces the light. Shading carries the form: the gradient from lit side to shadow side is what tells the eye a sphere is round. Shading sees direction, size and intensity, but not shape, because every direction from the light arrives mixed together.</li>
+<li><strong>Reflection.</strong> Glossy surfaces return a picture of the light. The highlight on a wet pebble is a small image of the lamp, and the long streak along a glass bottle is the image of a strip light. Reflection sees shape and size above all. A glossy object in a scene with a single tiny light and nothing else shows a single pinpoint and looks dead, however bright the light is, because there is nothing else for it to reflect.</li>
+</ul>
+<p>The practical rule that follows: light matte things by thinking about shadows, and light glossy things by thinking about what the surface will reflect. Most subjects are both, so a good setup does both. A density map with a satin material needs a soft key for its form and a large, well-placed bright shape for its sheen.</p>
+
+      </section>
+      <section id="adding-and-moving-things-while-you-learn">
+        <h3>Adding and moving things, while you learn</h3>
+<p>Every exercise in this part places objects and lights. Each move below is a key pressed with the mouse over the viewport; then move the mouse, or type a number for an exact amount.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>To do this</th>
+<th>Press</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Add an object or light</td>
+<td>Shift + A</td>
+<td>It appears at the 3D cursor. The Adjust Last Operation panel, bottom left, sets its size and place right after</td>
+</tr>
+<tr>
+<td>Put the 3D cursor back at the center</td>
+<td>Shift + S › Cursor to World Origin</td>
+<td>Shift + right-click places it anywhere</td>
+</tr>
+<tr>
+<td>Move, rotate, scale</td>
+<td>G, R, S</td>
+<td>Click or Enter keeps the change; right-click or Esc cancels it</td>
+</tr>
+<tr>
+<td>Lock to one axis</td>
+<td>G, R or S, then X, Y or Z</td>
+<td>G Z moves only up and down; G Shift + Z moves in X and Y but never in Z</td>
+</tr>
+<tr>
+<td>An exact amount</td>
+<td>type a number, then Enter</td>
+<td>G Z 2 Enter is 2 m up; R X 90 Enter is 90° about X; a minus sign reverses</td>
+</tr>
+<tr>
+<td>Fine control, snapping</td>
+<td>hold Shift, or Ctrl, while moving</td>
+<td>Shift slows the mouse; Ctrl snaps to grid steps</td>
+</tr>
+<tr>
+<td>Type the values</td>
+<td>N › Item</td>
+<td>Location, Rotation and Scale fields for the selected object</td>
+</tr>
+<tr>
+<td>Reset</td>
+<td>Option + G, Option + R, Option + S</td>
+<td>Clears location, rotation or scale</td>
+</tr>
+<tr>
+<td>Duplicate</td>
+<td>Shift + D</td>
+<td>Then move it; right-click leaves the copy in place</td>
+</tr>
+<tr>
+<td>Select</td>
+<td>click; Shift + click; A; Option + A</td>
+<td>One; add or remove one; all; none</td>
+</tr>
+<tr>
+<td>Frame the selection</td>
+<td>numpad period, or View › Frame Selected</td>
+<td>Home frames everything</td>
+</tr>
+<tr>
+<td>Front, side, top, camera</td>
+<td>numpad 1, 3, 7, 0</td>
+<td>No numpad: the ` key left of 1 opens a view menu, or click the X, Y, Z balls of the gizmo</td>
+</tr>
+<tr>
+<td>Isolate</td>
+<td>numpad slash, or View › Local View</td>
+<td>Shows only the selection until you press it again</td>
+</tr>
+<tr>
+<td>Undo, redo</td>
+<td>Cmd + Z, Shift + Cmd + Z</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>On a MacBook trackpad, two fingers orbit, Shift and two fingers pan, and a pinch zooms. Preferences › Input › Emulate Numpad makes the number row act as the numpad keys above.</p>
+
+      </section>
+      <section class="exercise" id="exercise-1-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 1.1</span> <span class="exercise-name">The softness test</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="lighting/exercise-1-1"> Done</label>
+        </div>
+<ol>
+<li>In the lab bench, keep one area light (Disk) 2 m from the sphere and set Size to 0.1 m. Look at the edge of the sphere's shadow on the plane. To build it from an empty scene, first Shift + S › Cursor to World Origin. Then Shift + A › Mesh › Plane and S 10 Enter; Shift + A › Mesh › UV Sphere, G Z 1 Enter, and right-click › Shade Smooth; Shift + A › Light › Area, Shape set to Disk in the Light properties, then G X 1.2 Enter and G Z 2.6 Enter. That puts the light 2 m from the sphere's center, off to one side, so its shadow falls beside the sphere where you can see it.</li>
+<li>Set Size to 1 m, then 3 m, watching the shadow edge and the highlight each time.</li>
+<li>Put Size back to 1 m and move the light to 6 m away, raising Power until the sphere is as bright as before. To move it along the same line, open the sidebar (N) › Item and type Location X 3.6 and Z 5.8: that is 6 m from the sphere's center in the same direction. Expect about 9 times the Power, since light falls off with the square of distance (Chapter <a class="ref" href="#chapter-8">8</a>).</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> At 0.1 m the shadow edge is a sharp line and the highlight is a dot. At 3 m the shadow fades over a wide band and the highlight is a broad patch. At 6 m away with Size 1 m the shadow is nearly as sharp as with the 0.1 m light up close: softness is size divided by distance.</p>
+
+      </section>
+      <section class="exercise" id="exercise-1-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 1.2</span> <span class="exercise-name">Shading against reflection</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="lighting/exercise-1-2"> Done</label>
+        </div>
+<ol>
+<li>Two spheres: one with Roughness 1, one with Roughness 0.05. One area light.</li>
+<li>Change the light's Shape from Disk to Rectangle 2 m by 0.1 m, then back.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The matte sphere does not change. The glossy one shows a disk, then a long bar, in its surface. The matte sphere reads direction and size; the glossy one reads shape.</p>
+
+      </section>
+      <section class="check" id="chapter-1-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Which property of a light does a matte surface never reveal?</p><details><summary>Answer</summary><p>Shape.</p></details></li>
+<li><p class="q">A light is moved from 2 m to 4 m from the subject. What happens to its brightness at the subject, and to its softness?</p><details><summary>Answer</summary><p>Brightness drops to a quarter; the light becomes harder, because it covers a smaller angle.</p></details></li>
+<li><p class="q">Why does a glossy sphere lit by one tiny bright light look dead?</p><details><summary>Answer</summary><p>It shows one pinpoint and nothing else, because there is nothing else bright to reflect.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-2">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 2</span>          <h2 id="chapter-2">Blender's light sources</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Choose the right light object for a job and set its three or four important parameters.</li>
+            <li>Turn any mesh into a light and hide it from the camera.</li>
+            <li>Restrict a light to specific objects with light linking.</li>
+          </ul>
+        </div>
+      </header>
+
+<p>Blender has four light objects, a world background, and any mesh with an Emission shader. Each is a different trade of control against realism (<a href="https://docs.blender.org/manual/en/latest/render/lights/light_object.html" rel="noopener">Light Objects</a>). Add a light with Shift + A › Light; its settings live in the Object Data Properties tab, the green bulb icon.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Source</th>
+<th>What it models</th>
+<th>Key settings</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Point</td>
+<td>A bulb radiating in all directions</td>
+<td>Power (W), Radius (bigger is softer), Soft Falloff</td>
+<td>Bare bulbs, candles, quick fills; rarely a key light</td>
+</tr>
+<tr>
+<td>Sun</td>
+<td>Parallel light from infinitely far; position does not matter, only rotation</td>
+<td>Strength (W/m², 1000 for clear sky), Angle (0.5° is the real sun; larger is softer)</td>
+<td>Even light over a whole scene, orthographic figures, a cheap hard key</td>
+</tr>
+<tr>
+<td>Spot</td>
+<td>A point light with a cone</td>
+<td>Power, Radius, Spot Size (cone angle), Blend (edge softness), Show Cone</td>
+<td>Pools of light, gobos, picking out one domain</td>
+</tr>
+<tr>
+<td>Area</td>
+<td>A glowing panel: the softbox of 3D</td>
+<td>Power, Shape (Rectangle, Square, Disk, Ellipse), Size, Spread (narrower is more directional)</td>
+<td>Nearly all key, fill and rim lights for still images</td>
+</tr>
+<tr>
+<td>World</td>
+<td>Light from every direction: a color or an HDRI photo of a real environment</td>
+<td>Color, Strength; an Environment Texture for HDRIs</td>
+<td>Ambient fill, realistic reflections on glossy surfaces</td>
+</tr>
+<tr>
+<td>Emissive mesh</td>
+<td>Any object with an Emission shader</td>
+<td>Emission Strength and Color in its material; any shape you can model</td>
+<td>Shaped highlights: strips, rings, ribbons, logos reflected in the subject</td>
+</tr>
+</tbody>
+</table></div>
+
+      <section id="settings-shared-by-all-light-objects">
+        <h3>Settings shared by all light objects</h3>
+<ul>
+<li><strong>Power is radiant power, not bulb wattage.</strong> The manual's reference points: an 800-lumen LED bulb is about 2 W, a fluorescent tube 4.5 W as a rectangle area light. Studio renders use far higher values than these because the lights sit far from the subject. Chapter <a class="ref" href="#chapter-8">8</a> gives the arithmetic.</li>
+<li><strong>Exposure</strong> on each light multiplies its power by 2 to that value, so +1 doubles it, +3 is eight times, and −2 quarters it. It is a convenient coarse dial when Power would need large numbers.</li>
+<li><strong>Temperature</strong> sets a natural color by blackbody temperature in kelvin: 3200 K is warm tungsten, 5600 K is daylight, 7000 K is bluish shade. Color multiplies on top for tints that are not natural light.</li>
+<li><strong>Normalize</strong> keeps total power constant when you resize a light, so a bigger light becomes softer but not brighter. Turn it off if you want a bigger light to also be brighter, the way a real softbox is.</li>
+<li><strong>Radius or Size</strong> is softness. Size is relative to distance: an area light 1 m wide at 1 m from the subject is soft; the same light at 10 m is hard.</li>
+<li><strong>Cast Shadow</strong> and the Cycles-only <strong>Multiple Importance</strong> and <strong>Cast Shadow</strong> options are left on; turning shadows off makes a light pass through objects, which is occasionally useful for a fill that must not add a second shadow.</li>
+</ul>
+
+      </section>
+      <section id="the-area-light-in-detail">
+        <h3>The area light in detail</h3>
+<p>The area light is the one you will use for nearly everything, so its extra settings deserve a closer look. Shape sets what glossy surfaces will see: Disk and Square reflect as a soft blob, Rectangle and Ellipse as a bar whose aspect you choose. Size, or Size X and Y, sets both softness and the shape of the reflection. Spread, from 180° down to 1°, narrows the cone the light emits into: at 180° it is a bare panel, at 30° it behaves like a softbox with a grid, lighting the subject without spilling onto the backdrop. The viewport shows the panel as an outline with a line indicating its direction; the yellow dot at the end of that line can be dragged to aim it.</p>
+
+      </section>
+      <section id="emissive-meshes">
+        <h3>Emissive meshes</h3>
+<p>An Emission shader on any mesh turns it into a light. This is how shaped highlights are made: a long thin plane becomes a strip, a torus becomes a ring, a bent curve with Bevel Depth becomes a glowing ribbon. Three things to know. Cycles samples them as real lights, with soft shadows and reflections, and treats their Strength exactly like Power on a light object spread over the mesh's area. EEVEE shows them as glowing surfaces and reflects them in glossy materials, but does not use them to cast shadows or light diffuse surfaces unless an Irradiance Volume light probe is baked, so for EEVEE pair each emissive mesh with a real light. And they appear in the render unless you hide them from the camera: Object Properties › Visibility › Ray Visibility, untick Camera, leaving Glossy on so the reflection survives (Cycles).</p>
+
+      </section>
+      <section id="light-linking">
+        <h3>Light linking</h3>
+<p>In Cycles and EEVEE, a light can be told to affect only certain objects, and shadow linking which objects block it (<a href="https://docs.blender.org/manual/en/latest/render/lights/light_linking.html" rel="noopener">Light Linking</a>). Select the light, open the Shading panel in its Object Properties, create a light linking collection, and drag objects into it from the Outliner. Included objects are the only ones the light touches; excluded objects are the only ones it skips. A rim light that touches only the map, not the model, is one click away; emissive meshes support this in Cycles only. It breaks physics on purpose, which is why it is powerful: a fill for the model that does not flatten the map, a rim for the map that does not flare on the model.</p>
+
+      </section>
+      <section class="exercise" id="exercise-2-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 2.1</span> <span class="exercise-name">The same light four ways</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="lighting/exercise-2-1"> Done</label>
+        </div>
+<ol>
+<li>Light the sphere with one Point light at 2 m, Radius 0, Power 100 W.</li>
+<li>Change its type to Spot and set Spot Size 30°, Blend 0.2. Then to Sun, Strength 3, Angle 0.5°. Then to Area, Disk, Size 1 m, Power 100 W.</li>
+<li>Render each.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The point gives a hard shadow and a dot highlight; the spot gives the same with a pool of light on the plane; the sun gives parallel shadows that do not change if you move the light; the area gives a soft shadow and a broad highlight. Those four images are the four light objects.</p>
+
+      </section>
+      <section class="exercise" id="exercise-2-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 2.2</span> <span class="exercise-name">An emissive strip</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="lighting/exercise-2-2"> Done</label>
+        </div>
+<ol>
+<li>Add a Plane, scale it to 3 m by 0.2 m, and give it an Emission material with Strength 20.</li>
+<li>Stand it beside the glossy sphere, untick Camera under Ray Visibility, and render in Cycles.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> A long bright bar reflected in the sphere, with the plane itself absent from the image. Rotate the plane and the bar moves. This is the basis of Chapter <a class="ref" href="#chapter-5">5</a>.</p>
+
+      </section>
+      <section class="check" id="chapter-2-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Which light object's position does not matter?</p><details><summary>Answer</summary><p>Sun; only its rotation counts.</p></details></li>
+<li><p class="q">What does Spread do on an area light?</p><details><summary>Answer</summary><p>Narrows the cone it emits into, like a grid on a softbox, so light reaches the subject without spilling.</p></details></li>
+<li><p class="q">Why pair an emissive mesh with a real light in EEVEE?</p><details><summary>Answer</summary><p>EEVEE reflects emissive meshes but does not use them to cast shadows or light diffuse surfaces.</p></details></li>
+<li><p class="q">A rim light is flaring on the model but is wanted on the map. What feature solves it without moving the light?</p><details><summary>Answer</summary><p>Light linking: include only the map.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-3">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 3</span>          <h2 id="chapter-3">The three decisions behind every setup</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Place a key light by what it should reveal, not by habit.</li>
+            <li>Set softness and contrast on purpose, and name the mood each choice gives.</li>
+            <li>Check separation and reflections before calling a setup finished.</li>
+          </ul>
+        </div>
+      </header>
+
+<p>Strip any named setup down and it is three choices about the main light, plus two about everything else. Make these deliberately and the names take care of themselves.</p>
+
+      <section id="decision-1-where-the-key-light-comes-from">
+        <h3>Decision 1: where the key light comes from</h3>
+<p>The key is the one light that defines the form. Its direction is the single most important choice in the image, because it decides which planes are bright and where the shadows fall, and those two things are what the eye uses to reconstruct shape.</p>
+<ul>
+<li><strong>Front</strong> (near the camera): flat, few shadows, shows color and detail but hides form. Fine for a documentation figure, dull for anything else. Camera flash is front light.</li>
+<li><strong>45° to the side and 45° above</strong>: the classic portrait angle, because it puts a shadow on every plane that turns away and leaves the rest lit. Shape reads immediately. This is the default for a reason, and the starting point for nearly every setup in Chapter <a class="ref" href="#chapter-4">4</a>.</li>
+<li><strong>90° to the side</strong>: half lit, half dark. Dramatic and very revealing of surface texture; every bump casts a shadow, so it is also how photographers check a surface for flaws.</li>
+<li><strong>Behind</strong> (back light or rim): the subject goes dark with a bright edge. Shows outline and separation, not form. Used as a second light, rarely alone.</li>
+<li><strong>Above or below</strong>: top light reads as natural sun or an overhead lamp and makes deep eye-socket shadows on faces; light from below reads as unnatural, because nothing in nature lights from below, which is why horror films use it.</li>
+</ul>
+<p>In Blender, set this by placing the key and giving it a Track To constraint aimed at the subject, then move it until the shadows fall where you want them. The angle above matters as much as the angle around: a key at 45° around but level with the subject gives long horizontal shadows that confuse the shape.</p>
+
+      </section>
+      <section id="decision-2-how-soft">
+        <h3>Decision 2: how soft</h3>
+<p>Softness is size relative to distance, and it sets the mood more than any other choice.</p>
+<ul>
+<li><strong>Hard</strong> (small or distant light): crisp shadow edges, small bright highlights, a sunny or theatrical feel, and every surface flaw on display. Hard light is honest and unflattering.</li>
+<li><strong>Soft</strong> (large or close light): shadow edges fade over a wide band, highlights are broad and gentle, the look is calm and flattering. Most product and portrait photography is soft, which is why softboxes exist.</li>
+</ul>
+<p>To change softness without changing brightness, resize the area light with Normalize on. To judge it, look at the edge of the subject's shadow on a backdrop, or at the edge of the terminator, the line where a sphere turns from lit to shadow. A soft light also fills its own shadows a little, because light from the far edge of a large panel reaches around the subject.</p>
+
+      </section>
+      <section id="decision-3-how-much-contrast">
+        <h3>Decision 3: how much contrast</h3>
+<p>Contrast is the ratio between the lit side and the shadow side, and it is controlled by how much fill light reaches the shadows.</p>
+<ul>
+<li><strong>Low contrast</strong> (shadows nearly as bright as the lit side, a ratio near 2:1): open, clean, informational. High-key images live here.</li>
+<li><strong>Medium</strong> (shadows about a third of the lit side, near 3:1, the usual starting point): natural, dimensional.</li>
+<li><strong>High contrast</strong> (shadows nearly black, 8:1 and beyond): moody, dramatic, low-key.</li>
+</ul>
+<p>Fill comes from a second, larger, dimmer light on the opposite side, from the world background, or from a bright surface that bounces the key light back. Fill should never cast a visible second shadow; if it does, it is too small or too strong. The cleanest fill is the largest: the world light, or an area light several times the key's size at a fraction of its power.</p>
+
+      </section>
+      <section id="two-more-separation-and-reflections">
+        <h3>Two more: separation and reflections</h3>
+<ul>
+<li><strong>Separation.</strong> A subject the same brightness as its background disappears into it. Either light the subject brighter than the background, or add a rim light from behind to draw a bright edge. With a transparent background, separation is still a question of whether the far edges of the subject are visible against whatever it will sit on; a dark rim edge on a white poster reads as a line, a bright rim on a dark slide reads as a glow.</li>
+<li><strong>Reflections.</strong> Decide what the glossy parts will reflect: a big soft panel gives one broad sheen, a strip gives a line that traces the contour, a dark world gives nothing. Chapter <a class="ref" href="#chapter-5">5</a> builds on this.</li>
+</ul>
+
+      </section>
+      <section class="exercise" id="exercise-3-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 3.1</span> <span class="exercise-name">The key around the clock</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="lighting/exercise-3-1"> Done</label>
+        </div>
+<ol>
+<li>One area light on the monkey head, Track To constraint on, at 45° above.</li>
+<li>Render with the light at 0°, 45°, 90°, 135° and 180° around the head, measured from the camera.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> At 0° a flat, detailed face; at 45° a clearly shaped one; at 90° a half-moon; at 135° a dark face with one lit cheek; at 180° a silhouette with a bright outline. Label the five renders and keep them.</p>
+
+      </section>
+      <section class="exercise" id="exercise-3-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 3.2</span> <span class="exercise-name">Contrast ladder</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="lighting/exercise-3-2"> Done</label>
+        </div>
+<ol>
+<li>Key at 45°/45°, Power fixed. Add a fill at twice the key's size on the opposite side.</li>
+<li>Render with the fill at 0, a quarter, a half and equal to the key's power.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The shadow side rises from black to nearly as bright as the lit side, and the image moves from dramatic to flat. Somewhere between a quarter and a half is where a figure usually wants to sit.</p>
+
+      </section>
+      <section class="check" id="chapter-3-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Which direction of key light reveals surface texture most?</p><details><summary>Answer</summary><p>90° to the side.</p></details></li>
+<li><p class="q">Why does the angle above the subject matter as much as the angle around it?</p><details><summary>Answer</summary><p>It sets whether shadows fall down and across or straight sideways; level light confuses shape.</p></details></li>
+<li><p class="q">A fill light casts a second shadow. What are the two fixes?</p><details><summary>Answer</summary><p>Make it larger, or make it dimmer; both make its shadow disappear.</p></details></li>
+<li><p class="q">What is the cheapest fill in Blender?</p><details><summary>Answer</summary><p>The world light: large, even and free.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-4">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 4</span>          <h2 id="chapter-4">The named setups</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Build three-point, clamshell and studio product lighting from the description alone.</li>
+            <li>Say what each named setup does to the image and pick one for a given job.</li>
+            <li>Recognize the setups in photographs and in other people's renders.</li>
+          </ul>
+        </div>
+      </header>
+
+<p>Each name is a fixed answer to the three decisions of Chapter <a class="ref" href="#chapter-3">3</a>. The table gives the geometry, what it does to the image, and when to reach for it. Angles are measured from the camera's line of sight; &quot;above&quot; means the light sits higher than the subject.</p>
+<figure class="figure"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 480" role="img" aria-label="Three-point lighting: key for form, fill for contrast, rim for separation" font-size="13">
+<defs>
+<marker id="light-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M0 0L10 5L0 10z" fill="var(--fig-line, #6b7280)"/>
+</marker>
+</defs>
+<text x="24" y="34" font-size="15" font-weight="600" fill="var(--fig-ink, #1a1c20)">Three-point lighting: key for form, fill for contrast, rim for separation</text>
+<g fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25">
+<path d="M256 354L350 260" stroke-dasharray="4 4" marker-end="url(#light-arrow)"/>
+<path d="M504 354L410 260" stroke-dasharray="4 4" marker-end="url(#light-arrow)"/>
+<path d="M504 106L410 200" stroke-dasharray="4 4" marker-end="url(#light-arrow)"/>
+<path d="M380 400V272" stroke="var(--fig-grid, #c9cdd3)"/>
+</g>
+<g>
+<circle cx="380" cy="230" r="32" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<text x="380" y="234" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Subject</text>
+</g>
+<g>
+<rect x="362" y="410" width="36" height="26" rx="4" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<polygon points="372,410 388,410 380,400" fill="var(--fig-line, #6b7280)"/>
+<text x="380" y="456" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">Camera</text>
+</g>
+<g>
+<line x1="218" y1="350" x2="260" y2="392" stroke="var(--fig-accent, #0f9d7a)" stroke-width="5"/>
+<text x="24" y="356" font-weight="600" fill="var(--fig-ink, #1a1c20)">Key</text>
+<text x="24" y="374" font-size="11.5" fill="var(--fig-muted, #5b616b)">Soft, 45° off the axis,</text>
+<text x="24" y="390" font-size="11.5" fill="var(--fig-muted, #5b616b)">the brightest light</text>
+</g>
+<g>
+<line x1="489" y1="403" x2="553" y2="339" stroke="var(--fig-line, #6b7280)" stroke-width="5"/>
+<text x="600" y="356" font-weight="600" fill="var(--fig-ink, #1a1c20)">Fill</text>
+<text x="600" y="374" font-size="11.5" fill="var(--fig-muted, #5b616b)">Larger, a third as</text>
+<text x="600" y="390" font-size="11.5" fill="var(--fig-muted, #5b616b)">bright, opposite side</text>
+</g>
+<g>
+<line x1="507" y1="75" x2="535" y2="103" stroke="var(--fig-line, #6b7280)" stroke-width="4"/>
+<text x="600" y="80" font-weight="600" fill="var(--fig-ink, #1a1c20)">Rim</text>
+<text x="600" y="98" font-size="11.5" fill="var(--fig-muted, #5b616b)">Behind, opposite the</text>
+<text x="600" y="114" font-size="11.5" fill="var(--fig-muted, #5b616b)">key; draws the edge</text>
+</g>
+<text x="24" y="456" font-size="11.5" fill="var(--fig-muted, #5b616b)">Plan view from above</text>
+</svg><figcaption>Three-point setup, seen from above</figcaption></figure>
+<p>The key is the only light that decides the form. Everything else in the plan modifies its result: the fill lifts the shadows it makes, and the rim adds the edge it cannot reach.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Setup</th>
+<th>Geometry</th>
+<th>Effect</th>
+<th>Use when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single key, 45/45 (Rembrandt in portraits)</td>
+<td>One soft area light 45° to the side, 45° above, a little world light</td>
+<td>Strong form, one clean shadow side, a classic look</td>
+<td>You want shape to read and have one subject</td>
+</tr>
+<tr>
+<td>Split</td>
+<td>One key at 90° to the side</td>
+<td>Half lit, half dark; texture jumps out</td>
+<td>Showing surface detail; dramatic cover-style images</td>
+</tr>
+<tr>
+<td>Butterfly (Paramount)</td>
+<td>Key directly in front, high, pointing down</td>
+<td>Symmetric, a shadow directly below features; flattering, glamorous</td>
+<td>Symmetric subjects seen from the front</td>
+</tr>
+<tr>
+<td>Three-point</td>
+<td>Key at 45/45; fill opposite, larger, a third as bright; rim behind, opposite the key, aimed at the edge</td>
+<td>Form from the key, open shadows from the fill, a bright outline from the rim</td>
+<td>The default for anything that must look finished; the setup from the <a href="material-recipes.html">Recipes part</a></td>
+</tr>
+<tr>
+<td>Clamshell</td>
+<td>Two soft lights stacked on the camera axis, one above pointing down, one below pointing up, the lower one weaker</td>
+<td>Nearly shadowless, even, glowing; highlights top and bottom</td>
+<td>Beauty and product shots; smooth, glossy subjects; when you want no mood, only polish</td>
+</tr>
+<tr>
+<td>High key</td>
+<td>Soft key, strong fill, bright background, low contrast everywhere</td>
+<td>Clean, open, bright; nothing hidden</td>
+<td>Documentation figures, white-background posters</td>
+</tr>
+<tr>
+<td>Low key</td>
+<td>Hard or narrow key, little or no fill, dark background</td>
+<td>Mostly shadow, a few lit planes; dramatic</td>
+<td>Hero images, title slides, cover art</td>
+</tr>
+<tr>
+<td>Studio product</td>
+<td>Two or three large area lights (a big top softbox plus side strips) around a gradient backdrop; the lights are placed for reflections more than for shading</td>
+<td>Long clean highlights tracing the edges, controlled reflections</td>
+<td>Glossy or glassy subjects; the &quot;advertising&quot; look</td>
+</tr>
+<tr>
+<td>Rim or kicker only</td>
+<td>One or two lights behind and to the sides, nothing in front</td>
+<td>A glowing outline on a dark body</td>
+<td>Silhouettes, showing the overall shape of a complex, a dramatic second panel</td>
+</tr>
+<tr>
+<td>HDRI</td>
+<td>No lights; an environment photo in the World</td>
+<td>Real-world reflections and soft ambient light; the sun in the photo acts as a key</td>
+<td>Fast realistic reflections on metal and glass; a natural base to add one light to</td>
+</tr>
+<tr>
+<td>Sun and sky</td>
+<td>A Sun light plus a Sky Texture in the World</td>
+<td>Hard shadows, blue fill from the sky, outdoor look</td>
+<td>Scenes meant to feel outdoors; rarely for molecules</td>
+</tr>
+</tbody>
+</table></div>
+
+      <section id="reading-the-table">
+        <h3>Reading the table</h3>
+<ul>
+<li>The names come from portrait and film work, where the subject is a face. For a molecule, read &quot;subject&quot; as the part of the structure you want the viewer to look at first, and aim the key there.</li>
+<li>Fill ratios are a starting point. A fill at a third of the key's power is &quot;medium contrast&quot; in Chapter <a class="ref" href="#chapter-3">3</a>; halve it for drama, double it for a documentation figure.</li>
+<li>Studio product lighting is the one that most people mean by &quot;looks professional&quot;: large lights, placed where their reflections land on the subject's edges, and a backdrop that fades from light to dark so the subject separates on both sides.</li>
+</ul>
+
+      </section>
+      <section id="three-setups-built-step-by-step">
+        <h3>Three setups built step by step</h3>
+<p><strong>Three-point.</strong> Key: Area Disk, Size equal to the subject's width, 45° left of the camera and 45° above, Track To the subject, Power until the lit side is just under white. Fill: Area Disk, twice the size, 45° right, slightly below the camera height, a third of the key's power. Rim: Area Rectangle, narrow and tall, behind the subject and to the right, aimed at the subject's edge, roughly the key's power. World gray at 0.2.</p>
+<p><strong>Clamshell.</strong> Remove the fill and rim. Move the key to directly in front, 30° above the camera, pointing down. Add a second Area Disk directly in front, 30° below the camera, pointing up, at half the key's power. Both large, both close. The subject glows with almost no shadow; highlights appear above and below every rounded form.</p>
+<p><strong>Studio product.</strong> Three Area lights: a large Rectangle above the subject pointing down (the top softbox), and two tall narrow Rectangles to the left and right, slightly behind the subject, pointing inward (the edge strips). Set Spread to 60° on each so they do not spill onto the backdrop. A large plane behind the subject with a Gradient Texture into its Emission, bright at the bottom and dark at the top, as the backdrop. Then move the strips while watching the glossy parts until each edge shows one clean line of reflection.</p>
+
+      </section>
+      <section class="exercise" id="exercise-4-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 4.1</span> <span class="exercise-name">Build all three</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="lighting/exercise-4-1"> Done</label>
+        </div>
+<ol>
+<li>On the glossy candy sphere and the map, build three-point, then clamshell, then studio product, saving each as a collection (<code>Rig_ThreePoint</code>, <code>Rig_Clamshell</code>, <code>Rig_Studio</code>). A collection is a folder of objects in the Outliner: select a rig's lights and their aim Empty, press M › New Collection, and type the name. The checkbox beside the collection then switches the whole rig on or off, and once the file is saved, File › Append › that file › Collection brings the rig into any other file.</li>
+<li>Render each. Switch between them by hiding and showing the collections.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> Three-point gives a shaped subject with an edge; clamshell gives a soft, glowing, nearly shadowless subject; studio gives long clean highlights along the edges of the glossy parts and a graded background. You now own three rigs you can append into any file.</p>
+
+      </section>
+      <section class="exercise" id="exercise-4-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 4.2</span> <span class="exercise-name">Identify setups</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="lighting/exercise-4-2"> Done</label>
+        </div>
+<ol>
+<li>Find five product photos and five portraits online.</li>
+<li>For each, name the setup from the position of the highlights in the eyes or on the product, and the shape of the shadows.</li>
+</ol>
+<p class="result"><span class="result-label">What you should find</span> Catchlights in the eyes show the number and shape of the lights directly, one above and one below for clamshell, one at 45° for the classic single key. Product highlights show the strips and softboxes as bars and blobs. You are reading the lighting plan off the image.</p>
+
+      </section>
+      <section class="check" id="chapter-4-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Which setup is nearly shadowless, and what geometry gives it that?</p><details><summary>Answer</summary><p>Clamshell: two soft lights stacked on the camera axis, so every shadow is filled by the other light.</p></details></li>
+<li><p class="q">In studio product lighting, what are the lights placed for?</p><details><summary>Answer</summary><p>Their reflections on the subject's edges, more than for shading.</p></details></li>
+<li><p class="q">How do catchlights tell you a setup?</p><details><summary>Answer</summary><p>Each light appears as a reflection in the eye at the position it occupies.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-5">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 5</span>          <h2 id="chapter-5">Inventing a setup</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Design lighting by deciding what each glossy surface will reflect.</li>
+            <li>Build a glowing ribbon and other shaped lights, and hide them from the camera.</li>
+            <li>Use black cards and flags to take light away.</li>
+            <li>Start a reference habit that turns admired images into reusable setups.</li>
+          </ul>
+        </div>
+      </header>
+
+<p>People who make striking product renders are not choosing from a list of named setups. They are placing reflections. Once you see lighting that way, the glowing ribbon stops being a trick and becomes an obvious move.</p>
+
+      <section id="think-in-reflections-not-lamps">
+        <h3>Think in reflections, not lamps</h3>
+<p>A glossy surface is a curved mirror. Every bright shape in the scene appears on it, stretched by the curvature, and every dark region appears as a dark patch. So the question a product photographer asks is not &quot;where should the lamp go?&quot; but &quot;what do I want to see reflected in each part of the object, and where must a bright shape sit so that it lands there?&quot;</p>
+<p>The geometry is the law of reflection: a highlight appears where the surface normal points halfway between the camera and the light. On a sphere that puts the reflection of a light at a fixed spot for each light position, which is why moving a light slides the highlight across the sphere. On a long cylinder, a strip light parallel to the axis reflects as a line down its whole length, because every point along that line has the same halfway normal.</p>
+<ul>
+<li>A long strip light beside a bottle reflects as a thin bright line that runs the full height of the bottle, which is why bottles in advertisements have those clean vertical highlights.</li>
+<li>A large softbox above a car reflects as a broad bright band across the roof and hood, which is what makes the paint read as glossy.</li>
+<li>A dark card held near a chrome object reflects as a dark patch that gives the chrome contrast, and a chrome object in a uniformly bright room looks white, not metallic.</li>
+</ul>
+<p>The working method is to put the camera in place, switch the viewport to Rendered, put a glossy test material on the subject, then move lights while watching the reflections, not the shading. A light that is right for the reflection is often a bad angle for shading, which is why product setups use several lights and why light linking exists.</p>
+
+      </section>
+      <section id="the-glowing-ribbon">
+        <h3>The glowing ribbon</h3>
+<p>The ribbon wrapped around a product is a shaped light: an emissive mesh whose reflection traces the product's contour, often animated so the highlight sweeps along the surface. To build one:</p>
+<ol>
+<li>Shift + A › Curve › Bézier. Tab into Edit Mode and shape the curve around the subject at the height where you want the highlight; select an end point and press E to extrude more points. Keep the curve a little larger than the subject so it does not intersect it.</li>
+<li>In the curve's Object Data Properties › Geometry › Bevel, set Depth to a few centimeters so the curve becomes a tube. Resolution 8 keeps it round. A flat ribbon instead of a tube: add a Plane, scale it long and thin, and give it a Curve modifier pointing at the Bézier.</li>
+<li>Give it a material: Surface › Emission, with a color and a Strength of 10 to 50. Emission alone, not Principled, so it does not catch light from elsewhere and so it has no shading of its own.</li>
+<li>Object Properties › Visibility › Ray Visibility: untick Camera if the ribbon itself should not appear, and leave Glossy on so its reflection does. In EEVEE, add a thin area light alongside it, because EEVEE does not treat emissive meshes as real lights.</li>
+<li>Dial Strength until the reflection is clearly brighter than the surroundings without blowing out to white; check in Rendered view with Film › Transparent off so you can see what the object reflects.</li>
+<li>To animate, keyframe the curve's rotation (hover over the Rotation field and press I) at frame 1 and again, rotated 360°, at frame 120. Or move an Empty along the curve with a Follow Path constraint and parent a short emissive segment to it, so a single bright spot travels the ribbon.</li>
+</ol>
+<p>The same idea in other shapes: a ring light reflects as a circular halo in anything spherical; two strips on opposite sides give a symmetric pair of edge lines; a gradient panel (an emissive plane with a Gradient Texture into Emission Color) reflects as a soft fade across a flat surface, which is how car paint is made to look deep.</p>
+
+      </section>
+      <section id="negative-fill-flags-and-gobos">
+        <h3>Negative fill, flags and gobos</h3>
+<p>Lighting is also about taking light away. A black plane placed beside the subject (any mesh with a black diffuse material) reflects darkness into glossy parts and blocks fill from reaching matte parts, which restores contrast under a soft setup. Photographers call it negative fill. A flag is the same plane placed between a light and the part of the subject it should not reach, which is how a key is kept off the background. A gobo is a plane with holes, or a spot light with a Blend of 0 shining through a cutout, that projects patterns of light and shadow. Both are ordinary meshes in Blender; there is nothing to enable, and they can be hidden from the camera with Ray Visibility like the ribbon.</p>
+
+      </section>
+      <section id="where-ideas-come-from">
+        <h3>Where ideas come from</h3>
+<p>The designs you see on YouTube come from product photography, where strip lights, ring lights and gradient backdrops have been standard for decades. Looking at advertisements for watches, bottles and cars, and tracing where each highlight must come from, teaches more than any list of setups. Three habits make this work:</p>
+<ul>
+<li>Collect reference renders and photos you like, and for each one name the key direction, softness and what the glossy parts reflect, using Chapters <a class="ref" href="#chapter-1">1</a> and <a class="ref" href="#chapter-3">3</a>.</li>
+<li>Rebuild one reference per week in a scratch file with a sphere, a cube and a torus. The setups transfer to any subject.</li>
+<li>Change one light at a time and watch what it does; a setup you understand is one you can modify, which a downloaded preset is not.</li>
+</ul>
+
+      </section>
+      <section class="exercise" id="exercise-5-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 5.1</span> <span class="exercise-name">Place a reflection</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="lighting/exercise-5-1"> Done</label>
+        </div>
+<ol>
+<li>Glossy candy sphere, camera fixed. Decide where on the sphere you want a highlight: say, upper left, a third of the way in from the edge.</li>
+<li>Add an area light and move it until the highlight sits exactly there. Then change the light to a Rectangle 2 m by 0.1 m and rotate it until the reflection is a vertical bar.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The highlight lands where you decided, and then becomes a bar. You placed a reflection by moving its source, which is the whole skill.</p>
+
+      </section>
+      <section class="exercise" id="exercise-5-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 5.2</span> <span class="exercise-name">The ribbon</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="lighting/exercise-5-2"> Done</label>
+        </div>
+<ol>
+<li>Build the ribbon from the steps above around the map, hide it from the camera, and render in Cycles.</li>
+<li>Animate it one full turn over 120 frames and render a few frames.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> A bright line tracing the map's contour, moving along it as the ribbon turns, with the ribbon itself invisible.</p>
+
+      </section>
+      <section class="exercise" id="exercise-5-3">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 5.3</span> <span class="exercise-name">Steal a setup</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="lighting/exercise-5-3"> Done</label>
+        </div>
+<ol>
+<li>Find a watch advertisement. Count the highlights on the bezel and the glass.</li>
+<li>Rebuild them on a torus and a disk using strips and a softbox.</li>
+</ol>
+<p class="result"><span class="result-label">What you should find</span> Usually one large soft source above and two thin strips to the sides; the &quot;expensive&quot; look is three well-placed reflections and a dark surround, nothing more.</p>
+
+      </section>
+      <section class="check" id="chapter-5-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Where does a highlight appear on a glossy surface?</p><details><summary>Answer</summary><p>Where the surface normal points halfway between the camera and the light.</p></details></li>
+<li><p class="q">Why use Emission rather than Principled on the ribbon?</p><details><summary>Answer</summary><p>So it emits only and does not pick up shading or reflections of its own.</p></details></li>
+<li><p class="q">What does negative fill do?</p><details><summary>Answer</summary><p>Takes light away: reflects darkness into glossy parts and blocks fill from matte parts, restoring contrast.</p></details></li>
+<li><p class="q">Why do product setups often use several lights when one would shade the object well?</p><details><summary>Answer</summary><p>Each light is placed for one reflection; the shading is a side effect.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-6">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 6</span>          <h2 id="chapter-6">Lighting for scientific figures</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>State the five priorities that separate figure lighting from cinematic lighting.</li>
+            <li>Build and save a figure rig that gives identical light in every panel.</li>
+            <li>Aim a rig at the part of a structure the figure is about.</li>
+          </ul>
+        </div>
+      </header>
+
+<p>A figure has a different job from an advertisement: the reader must be able to see every domain, compare panels, and trust the colors. That rules out most of the drama in Chapter <a class="ref" href="#chapter-4">4</a> and leaves a small set of priorities.</p>
+
+      <section id="the-priorities">
+        <h3>The priorities</h3>
+<ol>
+<li><strong>Shape must read everywhere.</strong> No part of the structure should fall into black shadow. Medium contrast at most, with a fill at half the key rather than a third, and World Strength around 0.3 so cavities stay visible. A domain hidden in shadow is a domain the reader cannot check.</li>
+<li><strong>No color cast.</strong> Lights stay white (Temperature 5600 K or Color pure white), the world light neutral gray. Colored lights change the chain colors the legend depends on, and a warm key over a blue chain makes a purple that is in neither the legend nor the data.</li>
+<li><strong>Same light in every panel.</strong> Build the rig once, save it, and append it into each figure file, so two structures side by side differ only in the structure. Light the structure, not the camera: if the rig is parented to the camera, every panel is lit from the same screen direction, which is what you usually want for comparisons; if it is parented to the structure, rotating the structure rotates the light with it and the shading stays fixed to the molecule.</li>
+<li><strong>Depth without darkness.</strong> Ambient occlusion, a soft contact shadow, and a slight rim do the work that deep shadows do in cinematic images. The Ambient Occlusion material in Molecular Nodes gives this at almost no cost, and the Fast GI option in Cycles' Light Paths adds occlusion to any material.</li>
+<li><strong>Transparent background.</strong> Film › Transparent, so the figure sits on the page without a box. Remember that whatever the world color is still lights and reflects in the subject, so keep it neutral.</li>
+</ol>
+
+      </section>
+      <section id="a-default-rig">
+        <h3>A default rig</h3>
+<ul>
+<li>Key: Area, Disk, Size equal to the width of the subject, 45° to the camera's left and 45° above, Track To the subject.</li>
+<li>Fill: Area, Disk, twice the key's size, 45° to the right, slightly below the camera's height, half the key's power.</li>
+<li>Rim: Area, Rectangle, narrow and tall, behind the subject on the key side, at about the key's power, light-linked to the subject if the model and map should get different edges.</li>
+<li>World: neutral gray, Strength 0.3.</li>
+<li>Power: whatever makes the brightest part of the subject just short of white, found with Film › Exposure rather than by editing all three lights.</li>
+</ul>
+<p>For orthographic panels and schematic styles, a single Sun light from the camera's upper left with Angle 10° plus the world light is simpler and gives identical shading at every scale, because a sun's brightness does not depend on distance.</p>
+
+      </section>
+      <section id="rigs-that-follow-the-camera">
+        <h3>Rigs that follow the camera</h3>
+<p>Parent the three lights and their target Empty to the camera (select the lights, then the camera last, Ctrl + P › Object). Now every camera angle gets the same lighting from the viewer's point of view: the key always comes from the upper left of the frame. This is the right choice for a multi-panel figure with different orientations, because the reader's eye expects light from a consistent direction across the page.</p>
+
+      </section>
+      <section id="what-to-show-first">
+        <h3>What to show first</h3>
+<p>Aim the key at the part of the structure the figure is about: the epitope, the interface, the ligand. The eye goes to the brightest, highest-contrast region, so if the interesting part sits in fill light while a loop on the far side catches the key, the figure points the wrong way. Rotate the rig, not the structure, so that the orientation stays consistent with the other panels. A second, subtle way to point: a slightly stronger rim on the far side of the region of interest draws its outline against the rest.</p>
+
+      </section>
+      <section class="exercise" id="exercise-6-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 6.1</span> <span class="exercise-name">Build and save the figure rig</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="lighting/exercise-6-1"> Done</label>
+        </div>
+<ol>
+<li>Build the default rig around the map, parent it to the camera, and put the lights and the Empty in a collection named <code>Lights_Figure</code>.</li>
+<li>Save the file. Open a new file, import a different structure, and File › Append › your file › Collection › <code>Lights_Figure</code>.</li>
+<li>Render both.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> Identical lighting on two different structures, from the same screen direction. That is what consistency across panels means in practice.</p>
+
+      </section>
+      <section class="exercise" id="exercise-6-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 6.2</span> <span class="exercise-name">Point the figure</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="lighting/exercise-6-2"> Done</label>
+        </div>
+<ol>
+<li>On a two-chain structure, render with the key aimed at chain A, then at chain B, without moving the camera.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The chain that catches the key is the one the eye goes to first. The figure's subject changed without any change to the structure or the camera.</p>
+
+      </section>
+      <section class="check" id="chapter-6-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Why do figure lights stay white?</p><details><summary>Answer</summary><p>Colored light shifts the chain colors the legend depends on.</p></details></li>
+<li><p class="q">What does parenting the rig to the camera guarantee?</p><details><summary>Answer</summary><p>That every panel is lit from the same screen direction regardless of the structure's orientation.</p></details></li>
+<li><p class="q">Where do depth cues come from when deep shadows are not allowed?</p><details><summary>Answer</summary><p>Ambient occlusion, a soft contact shadow and a light rim.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-7">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 7</span>          <h2 id="chapter-7">A build procedure</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Light a scene one source at a time so every light's contribution is known.</li>
+            <li>Use clay override, solo viewing and exposure as diagnostic tools.</li>
+            <li>Save a rig so the next project starts lit.</li>
+          </ul>
+        </div>
+      </header>
+
+<p>Light one source at a time, on a neutral material, and judge each addition before the next. Lights added all at once cannot be told apart afterwards, and the usual result of adding four lights together is three of them fighting.</p>
+
+      <section id="the-procedure">
+        <h3>The procedure</h3>
+<ol>
+<li><strong>Lock the camera first.</strong> Lighting depends on the viewpoint; a rim that works from one angle is a flare from another. Frame the shot, then do not touch the camera until the lights are done. Pin the view with N › View › Lock Camera to View unticked, so an accidental orbit does not move it.</li>
+<li><strong>Start in the dark.</strong> World Strength 0, every existing light disabled (the eye icon in the Outliner for the viewport, the camera icon for renders). Rendered view should be black. If it is not, something is emitting; find it before continuing.</li>
+<li><strong>Use a clay material while placing lights.</strong> Put a mid-gray Principled BSDF with Roughness 0.5 on everything, or set Material Override in View Layer Properties (Cycles). Color and gloss hide lighting mistakes; gray clay shows them. The override is one dropdown and leaves your real materials untouched.</li>
+<li><strong>Add the key.</strong> Area, Disk. Give it a Track To constraint aimed at an Empty on the subject (Ctrl + T › Track To with the Empty selected last), then move the light with G and watch the shadow side. Set its size for the softness you want, then its Power until the brightest part is just below white. Everything after this is relative to the key.</li>
+<li><strong>Judge, then add the fill.</strong> Only if the shadow side needs opening. Larger than the key, opposite it, start at half the key's Power. If a second shadow appears, enlarge the fill or move it closer to the camera axis.</li>
+<li><strong>Add the rim.</strong> Behind the subject, opposite the key. Hide the fill and key for a moment (click their eye icons) to see exactly what the rim alone draws, then bring them back. A rim that draws a line wider than a few percent of the subject is too strong or too far forward.</li>
+<li><strong>Now turn on the world</strong> at 0.2 to 0.3. It lifts everything a little and gives glossy parts something to reflect.</li>
+<li><strong>Switch to the real materials</strong> and revisit the reflections: move the key or add a strip until the glossy parts show a bright shape where you want it. This is the step where the material and the light are tuned together.</li>
+<li><strong>Set exposure once.</strong> Render Properties › Film › Exposure moves everything together; use it instead of editing three powers.</li>
+<li><strong>Render a test at half resolution</strong> (Output Properties › Resolution % at 50) with 64 samples. Noise, fireflies and over-bright highlights show up here before you commit to a full render.</li>
+<li><strong>Save the rig.</strong> Put the lights and their target Empty in a collection named <code>Lights_Figure</code>, save the file, and append that collection into later projects (File › Append › the .blend › Collection).</li>
+</ol>
+
+      </section>
+      <section id="viewport-habits">
+        <h3>Viewport habits</h3>
+<p>Dragging the yellow dot at the end of a light's direction line aims it without a constraint. N › View › Lock Camera to View, with the viewport in camera view, lets you orbit the camera to check that a rim is not flaring into the lens; untick it afterwards. The Outliner's eye icons solo a light in the viewport, which is faster than editing powers to see one light's contribution. And the Viewport Shading popover in Rendered view has Scene Lights and Scene World toggles: turning them off shows the materials under Blender's studio light, which tells you whether a problem is in the rig or in the materials.</p>
+
+      </section>
+      <section class="exercise" id="exercise-7-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 7.1</span> <span class="exercise-name">Light the map from black</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="lighting/exercise-7-1"> Done</label>
+        </div>
+<ol>
+<li>Follow the eleven steps on the map with the clay override on, taking a screenshot after steps 4, 5, 6 and 7.</li>
+<li>Lay the four screenshots side by side.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> Form appears at step 4, the shadows open at step 5, an edge appears at step 6, and the whole image lifts slightly at step 7. If any step made the image worse, that light is wrong; fix it before the next.</p>
+
+      </section>
+      <section class="exercise" id="exercise-7-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 7.2</span> <span class="exercise-name">The override test</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="lighting/exercise-7-2"> Done</label>
+        </div>
+<ol>
+<li>On a finished scene, switch Material Override on and off.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> If the clay version looks well lit and the real version does not, the materials need work. If the clay version looks badly lit, the rig needs work. The test separates the two in one click.</p>
+
+      </section>
+      <section class="check" id="chapter-7-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Why start from a black scene?</p><details><summary>Answer</summary><p>So that each light's contribution is seen alone as it is added.</p></details></li>
+<li><p class="q">What is the purpose of the clay material?</p><details><summary>Answer</summary><p>Color and gloss hide lighting mistakes; neutral gray shows shading and shadows plainly.</p></details></li>
+<li><p class="q">When should Film › Exposure be set?</p><details><summary>Answer</summary><p>Last, after the ratios between lights are right; it scales everything together.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-8">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 8</span>          <h2 id="chapter-8">Units, exposure and color</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Convert between light power, distance and brightness at the subject.</li>
+            <li>Use Film › Exposure correctly and know what it does not change.</li>
+            <li>Choose a color temperature and a view transform for figures.</li>
+          </ul>
+        </div>
+      </header>
+
+<p>Blender's lights are physical, which makes their numbers feel arbitrary until you know what they measure.</p>
+
+      <section id="watts-and-the-inverse-square">
+        <h3>Watts and the inverse square</h3>
+<p>Point, spot and area lights are set in watts of radiant power, the energy they emit as visible light, not the electrical rating printed on a bulb (<a href="https://docs.blender.org/manual/en/latest/render/lights/light_object.html" rel="noopener">Light Objects</a>). A bright household bulb is about 2 to 3 W in these units. Studio renders use 100 to 5,000 W because the lights are large and far away, and because the light reaching the subject falls with the square of the distance:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Distance from subject</th>
+<th>Light reaching it, relative to 1 m</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 m</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2 m</td>
+<td>1/4</td>
+</tr>
+<tr>
+<td>5 m</td>
+<td>1/25</td>
+</tr>
+<tr>
+<td>10 m</td>
+<td>1/100</td>
+</tr>
+<tr>
+<td>50 m</td>
+<td>1/2,500</td>
+</tr>
+</tbody>
+</table></div>
+<p>Moving a light twice as far needs four times the power for the same brightness. Sun lights escape this: their Strength is in W/m² at the subject, 1000 for clear sky and 500 for overcast, and distance does not matter. Area lights also spread their power over their surface, so with Normalize on, doubling the size keeps the total the same and makes each part of the panel dimmer.</p>
+<p>Molecular Nodes imports at 1 nm per meter, so a 20 nm structure is 20 m across. Lights that fit the scene end up 20 to 50 m away and need thousands of watts, or an Exposure of +5 to +8 on each light. Neither is wrong; it is the arithmetic above. A quick rule: multiply the power you would use at 1 m by the square of the distance in meters.</p>
+
+      </section>
+      <section id="exposure">
+        <h3>Exposure</h3>
+<p>Render Properties › Film › Exposure scales the whole image by 2 to that value, the way a camera's exposure does. Set the light ratios first, then use exposure to place the brightest part of the subject just below white. Changing exposure does not change noise or the balance between lights, and it does not change which highlights clip, because clipping is decided by the view transform after exposure is applied. Per-light Exposure, by contrast, changes one light's share of the ratio.</p>
+
+      </section>
+      <section id="color-temperature">
+        <h3>Color temperature</h3>
+<p>A light's Temperature setting gives natural colors without picking them by hand: 2700 K candle-warm, 3200 K tungsten, 5600 K daylight, 6500 K overcast, 8000 K blue shade. A warm key with a cool fill is a standard way to separate planes, but for figures keep both at 5600 K so the material colors stay true. The world light's color counts too; a bluish world is a cool fill.</p>
+
+      </section>
+      <section id="color-management">
+        <h3>Color management</h3>
+<p>The View Transform in Render Properties › Color Management decides how bright values become pixels. AgX, the default, compresses highlights gracefully and desaturates bright colors, which makes glossy surfaces look natural but shifts saturated chain colors. Standard maps values directly, keeps colors exact, and clips highlights to white. For figures where the legend colors must match, use Standard and control highlights with light power. The Look setting adds contrast curves on top; leave it at None for figures. Filmic, the older transform, is still available and sits between the two.</p>
+<p>The World's Strength also matters more than its small number suggests, because it arrives from every direction at once. At Strength 1 with a light gray color it alone lights a scene adequately; 0.2 to 0.3 is a fill, not a key.</p>
+
+      </section>
+      <section class="exercise" id="exercise-8-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 8.1</span> <span class="exercise-name">The inverse square by hand</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="lighting/exercise-8-1"> Done</label>
+        </div>
+<ol>
+<li>One point light at 1 m from the sphere, Power 10 W. Note how bright the sphere is.</li>
+<li>Move the light to 2 m. Raise Power until the sphere matches. Then 4 m.</li>
+</ol>
+<p class="result"><span class="result-label">What you should find</span> About 40 W at 2 m and about 160 W at 4 m. The numbers quadruple each time the distance doubles.</p>
+
+      </section>
+      <section class="exercise" id="exercise-8-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 8.2</span> <span class="exercise-name">AgX against Standard</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="lighting/exercise-8-2"> Done</label>
+        </div>
+<ol>
+<li>Render a chain-colored model under the figure rig with View Transform AgX, then Standard.</li>
+<li>Use the eyedropper in the Image Editor (right-click and hold on a pixel) to read the color of a chain in each.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> Under AgX the chain is paler and slightly shifted from the color set in the material; under Standard it matches, and the brightest highlights are clipped flat white. For a legend, Standard is right; for a cover, AgX.</p>
+
+      </section>
+      <section class="check" id="chapter-8-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">A light at 3 m needs how much more power than at 1 m for the same brightness?</p><details><summary>Answer</summary><p>Nine times.</p></details></li>
+<li><p class="q">What does Film › Exposure leave unchanged?</p><details><summary>Answer</summary><p>The ratios between lights and the amount of noise.</p></details></li>
+<li><p class="q">Which view transform preserves the material's colors exactly?</p><details><summary>Answer</summary><p>Standard.</p></details></li>
+<li><p class="q">Why is the world light stronger than its number suggests?</p><details><summary>Answer</summary><p>It arrives from every direction at once rather than from one panel.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-9">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 9</span>          <h2 id="chapter-9">Troubleshooting</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Match a lighting symptom to its cause without trial and error.</li>
+            <li>Know which problems are fixed by moving a light, which by resizing it, and which by changing a setting.</li>
+          </ul>
+        </div>
+      </header>
+
+<p>Most lighting problems are one of three kinds: a light in the wrong place, a light the wrong size for its distance, or a setting such as visibility, exposure or view transform. The table sorts the common symptoms into those kinds.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Everything is dark</td>
+<td>Lights too far for their power; world at 0</td>
+<td>Raise light Exposure by +3 at a time, or move lights closer; then set Film › Exposure</td>
+</tr>
+<tr>
+<td>Flat, no shape</td>
+<td>Key too close to the camera axis, or fill as strong as the key</td>
+<td>Move the key to 45°/45°; halve the fill</td>
+</tr>
+<tr>
+<td>Harsh, every bump casts a shadow</td>
+<td>Key too small or too far</td>
+<td>Enlarge the key (Normalize on) or move it closer</td>
+</tr>
+<tr>
+<td>Two shadows</td>
+<td>Fill too strong or too small</td>
+<td>Enlarge the fill, lower its power, move it nearer the camera axis</td>
+</tr>
+<tr>
+<td>Shadow side is black</td>
+<td>No fill, world at 0</td>
+<td>World Strength 0.3 or a large fill at half the key</td>
+</tr>
+<tr>
+<td>Glossy parts look dead or black</td>
+<td>Nothing bright for them to reflect</td>
+<td>Add a large area light or a strip where its reflection lands; raise World Strength</td>
+</tr>
+<tr>
+<td>Highlights blow out to white</td>
+<td>Light too strong or too small for the gloss</td>
+<td>Lower Power, enlarge the light, or switch View Transform to AgX</td>
+</tr>
+<tr>
+<td>Grainy render, bright speckles</td>
+<td>Small bright lights with glossy surfaces</td>
+<td>Enlarge lights, raise Max Samples, keep Denoise on, set Light Paths › Clamping › Indirect Light to 10</td>
+</tr>
+<tr>
+<td>Rim light flares the image</td>
+<td>Rim aimed into the lens</td>
+<td>Move it further behind the subject, narrow it, or light-link it to the subject only</td>
+</tr>
+<tr>
+<td>Colors look wrong</td>
+<td>A colored light or world, or AgX desaturation</td>
+<td>Lights white at 5600 K, world gray, View Transform Standard</td>
+</tr>
+<tr>
+<td>Changes do nothing</td>
+<td>Viewport in Solid or Material Preview; light hidden for render</td>
+<td>Z › Rendered; check the camera icon in the Outliner</td>
+</tr>
+<tr>
+<td>Emissive ribbon shows no reflection in EEVEE</td>
+<td>EEVEE does not sample emissive meshes as lights</td>
+<td>Add a thin area light along the ribbon, or render in Cycles</td>
+</tr>
+<tr>
+<td>Emissive ribbon appears in the frame</td>
+<td>Ray Visibility › Camera still on</td>
+<td>Untick Camera in Object Properties › Visibility (Cycles)</td>
+</tr>
+<tr>
+<td>Lighting differs between panels</td>
+<td>Rig rebuilt per file</td>
+<td>Append one saved <code>Lights_Figure</code> collection into every file</td>
+</tr>
+</tbody>
+</table></div>
+
+      <section class="exercise" id="exercise-9-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 9.1</span> <span class="exercise-name">Diagnose from screenshots</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="lighting/exercise-9-1"> Done</label>
+        </div>
+<ol>
+<li>Take the four screenshots from <a class="ref" href="#exercise-7-1">Exercise 7.1</a> and, for each, cover the lights in the viewport and look only at the render.</li>
+<li>Write down which lights are on and where they are, from the shadows and highlights alone, then uncover and check.</li>
+</ol>
+<p class="result"><span class="result-label">What you should find</span> By the fourth screenshot you can name every light from its evidence. Reading a render this way is the same skill as diagnosing a bad one.</p>
+
+      </section>
+      <section class="exercise" id="exercise-9-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 9.2</span> <span class="exercise-name">Make the mistakes</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="lighting/exercise-9-2"> Done</label>
+        </div>
+<ol>
+<li>Starting from a correct figure rig, produce five rows of the table on purpose: flat, two shadows, dead gloss, blown highlights, flaring rim.</li>
+<li>Fix each using only the fix in the table.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> Each fix returns the image to the correct version with one change. Mistakes you have made deliberately are the ones you recognize fastest.</p>
+
+      </section>
+      <section class="check" id="chapter-9-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">The image is too dark and raising Film › Exposure makes it grainy. What is wrong?</p><details><summary>Answer</summary><p>The lights are too weak for their distance; raise their power or move them closer, so the renderer has more light to sample.</p></details></li>
+<li><p class="q">Everything looks flat. Which decision from Chapter <a class="ref" href="#chapter-3">3</a> is most likely wrong?</p><details><summary>Answer</summary><p>The key direction: too close to the camera axis, or the fill as strong as the key.</p></details></li>
+<li><p class="q">The glossy map shows no sheen under a strong key. What is missing?</p><details><summary>Answer</summary><p>Something large and bright for it to reflect: a bigger key or a brighter world.</p></details></li>
+</ol>
+      </section>
+
+
+      <section id="sources">
+        <h3>Sources</h3>
+<ul>
+<li><a href="https://docs.blender.org/manual/en/latest/render/lights/light_object.html" rel="noopener">Light Objects</a>, <a href="https://docs.blender.org/manual/en/latest/render/lights/light_linking.html" rel="noopener">Light Linking</a> (Blender Manual)</li>
+</ul>
+
+      </section>
+    </article>
+    <nav class="pager" aria-label="Parts">
+<a class="pager-prev" href="designing-a-look.html" data-socket="color"><span class="pager-label">Previous part</span><span class="pager-title"><span class="sock" aria-hidden="true"></span>Designing a look from scratch</span></a><a class="pager-next" href="shaders.html" data-socket="shader"><span class="pager-label">Next part</span><span class="pager-title"><span class="sock" aria-hidden="true"></span>Shaders: the whole menu, from zero</span></a>    </nav>
+  </main>
+</div>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

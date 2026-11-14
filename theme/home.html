@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block body_class %}is-home{% endblock %}
+{% block main %}
+    <header class="hero">
+      <h1>{{ site.title }}</h1>
+      <p class="hero-lede">A workbook for structural biologists who can already make a figure in ChimeraX and want what Blender adds: materials, light and geometry you control yourself.</p>
+      <p class="hero-facts">{{ totals.parts }} parts, {{ totals.chapters }} chapters and {{ totals.exercises }} exercises, written for {{ site.blender }} and the Molecular Nodes add-on.</p>
+    </header>
+
+    <div class="graph" aria-hidden="true">
+      <svg viewBox="0 0 {{ graph.width }} {{ graph.height }}" focusable="false">
+        <g class="wires">
+          {% for w in graph.wires %}
+          <path d="{{ w.d }}" data-socket="{{ w.socket }}"/>
+          {% endfor %}
+        </g>
+        {% set n = graph.in %}
+        <g transform="translate({{ n.x }} {{ n.y }})" data-socket="float">
+          <rect class="gnode-body" width="{{ n.w }}" height="{{ n.h }}" rx="6"/>
+          <path class="gnode-head" d="M0 {{ graph.head }}V6a6 6 0 0 1 6-6h{{ n.w - 12 }}a6 6 0 0 1 6 6v{{ graph.head - 6 }}z"/>
+          <text class="gnode-title" x="10" y="19">Group Input</text>
+          <text class="gnode-row" x="{{ n.w - 13 }}" y="{{ graph.head + 18 }}" text-anchor="end">Your structure</text>
+          <circle class="gsock" cx="{{ n.w }}" cy="{{ graph.head + 14 }}" r="5.5"/>
+        </g>
+        {% for n in graph.nodes %}
+        <a href="{{ n.part.slug }}.html" tabindex="-1">
+          <g transform="translate({{ n.x }} {{ n.y }})" data-socket="{{ n.part.socket }}">
+            <rect class="gnode-body" width="{{ n.w }}" height="{{ n.h }}" rx="6"/>
+            <path class="gnode-head" d="M0 {{ graph.head }}V6a6 6 0 0 1 6-6h{{ n.w - 12 }}a6 6 0 0 1 6 6v{{ graph.head - 6 }}z"/>
+            <text class="gnode-title" x="10" y="19">{{ n.part.short }}</text>
+            <text class="gnode-row" x="{{ n.w - 13 }}" y="{{ graph.head + 18 }}" text-anchor="end">{{ n.part.gives }}</text>
+            <text class="gnode-quiet" x="13" y="{{ graph.head + graph.row + 18 }}">{{ n.part.n_chapters }} chapters, {{ n.part.n_exercises }} exercises</text>
+            <circle class="gsock" cx="{{ n.w }}" cy="{{ graph.head + 14 }}" r="5.5"/>
+            <circle class="gsock" cx="0" cy="{{ graph.head + graph.row + 14 }}" r="5.5" data-socket="float"/>
+          </g>
+        </a>
+        {% endfor %}
+        {% set n = graph.out %}
+        <g transform="translate({{ n.x }} {{ n.y }})" data-socket="float">
+          <rect class="gnode-body" width="{{ n.w }}" height="{{ n.h }}" rx="6"/>
+          <path class="gnode-head" d="M0 {{ graph.head }}V6a6 6 0 0 1 6-6h{{ n.w - 12 }}a6 6 0 0 1 6 6v{{ graph.head - 6 }}z"/>
+          <text class="gnode-title" x="10" y="19">Group Output</text>
+          {% for s in n.sockets %}
+          <text class="gnode-row" x="13" y="{{ s.y - n.y + 4 }}">{{ s.name }}</text>
+          <circle class="gsock" cx="0" cy="{{ s.y - n.y }}" r="5.5"/>
+          {% endfor %}
+        </g>
+      </svg>
+      <p class="graph-note">How the parts feed each other. Start at any node whose input you already have.</p>
+    </div>
+
+    <ol class="part-list">
+      {% for p in parts %}
+      <li data-socket="{{ p.socket }}">
+        <a class="part-card" href="{{ p.slug }}.html">
+          <span class="part-card-head">{{ p.title }}</span>
+          <span class="part-card-body">
+            <span>{{ p.blurb }}</span>
+            <span class="part-card-meta">{{ p.n_chapters }} chapters, {{ p.n_exercises }} exercises</span>
+          </span>
+        </a>
+      </li>
+      {% endfor %}
+    </ol>
+
+    <div class="home-notes">
+      <section>
+        <h2>How to use it</h2>
+        <p>Keep the page open beside Blender; it stays readable in a narrow window. Each chapter opens with what you will be able to do, explains the idea, then sets exercises that say what you should see when it works.</p>
+        <p>The questions that close a chapter keep their answers folded until you ask. Ticking an exercise as done is remembered in this browser and nowhere else.</p>
+      </section>
+      <section>
+        <h2>Where to start</h2>
+        <ul>
+          <li>You have never moved an object in Blender: <a href="objects-and-modeling.html">Objects and modeling</a>, Chapters 1 to 3.</li>
+          <li>Your structure is on screen and looks like wet plastic: <a href="material-recipes.html">Recipes</a>, which opens with why.</li>
+          <li>You want to change what is drawn, not how it is shaded: <a href="geometry-nodes.html">Geometry Nodes, from zero</a>, then <a href="molecular-nodes.html">Molecular Nodes</a>.</li>
+        </ul>
+      </section>
+      <section>
+        <h2>What you need</h2>
+        <ul>
+          <li><a href="https://www.blender.org/download/" rel="noopener">{{ site.blender }}</a>. Menus and node names move between versions; when a step does not match your screen, press Shift + A and type the node's name.</li>
+          <li>The <a href="https://bradyajohnston.github.io/MolecularNodes/" rel="noopener">Molecular Nodes</a> add-on.</li>
+          <li>A model or a map of your own. A PDB entry does as well as unpublished data.</li>
+        </ul>
+      </section>
+      <section>
+        <h2>How it was made</h2>
+        <p>Claude, an AI model made by Anthropic, wrote the text in working sessions with Jiaze Liu, who did the exercises in Blender and reported what broke. Not every chapter has been checked that way yet.</p>
+        <p><a href="about.html">About this guide</a> says what to trust and how to report a mistake.</p>
+      </section>
+    </div>
+{% endblock %}

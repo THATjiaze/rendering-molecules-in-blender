@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif" viewBox="0 0 760 388" role="img" aria-label="Every shader node is one of six behaviors; Principled stacks four of them" font-size="13">
+<defs>
+<marker id="shader-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M0 0L10 5L0 10z" fill="var(--fig-line, #6b7280)"/>
+</marker>
+</defs>
+<text x="24" y="34" font-size="15" font-weight="600" fill="var(--fig-ink, #1a1c20)">Every shader node is one of six behaviors; Principled stacks four of them</text>
+<g>
+<rect x="24" y="52" width="710" height="56" rx="8" fill="var(--fig-accent, #0f9d7a)" fill-opacity="0.12" stroke="var(--fig-accent, #0f9d7a)" stroke-width="2"/>
+<text x="36" y="76" font-weight="600" fill="var(--fig-ink, #1a1c20)">Principled BSDF</text>
+<text x="36" y="92" font-size="11.5" fill="var(--fig-muted, #5b616b)">Reflect, transmit, scatter and emit, layered in physical order, each with its own dial</text>
+</g>
+<g>
+<path d="M106.5 108V124" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25" marker-end="url(#shader-arrow)"/>
+<path d="M287.5 108V124" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25" marker-end="url(#shader-arrow)"/>
+<path d="M468.5 108V124" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25" marker-end="url(#shader-arrow)"/>
+<path d="M649.5 108V124" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25" marker-end="url(#shader-arrow)"/>
+</g>
+<g>
+<rect x="24" y="124" width="165" height="136" rx="8" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<text x="36" y="148" font-weight="600" fill="var(--fig-ink, #1a1c20)">Reflect</text>
+<text x="36" y="164" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Diffuse BSDF</text>
+<text x="36" y="180" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Glossy BSDF</text>
+<text x="36" y="196" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Metallic BSDF</text>
+<text x="36" y="212" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Toon BSDF</text>
+<text x="36" y="228" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Sheen BSDF</text>
+<text x="36" y="244" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Specular BSDF (EEVEE)</text>
+</g>
+<g>
+<rect x="205" y="124" width="165" height="136" rx="8" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<text x="217" y="148" font-weight="600" fill="var(--fig-ink, #1a1c20)">Transmit</text>
+<text x="217" y="164" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Transparent BSDF</text>
+<text x="217" y="180" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Refraction BSDF</text>
+<text x="217" y="196" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Glass BSDF</text>
+<text x="217" y="212" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Translucent BSDF</text>
+</g>
+<g>
+<rect x="386" y="124" width="165" height="136" rx="8" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<text x="398" y="148" font-weight="600" fill="var(--fig-ink, #1a1c20)">Scatter inside</text>
+<text x="398" y="164" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Subsurface Scattering</text>
+<text x="398" y="180" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Volume Absorption</text>
+<text x="398" y="196" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Volume Scatter</text>
+<text x="398" y="212" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Principled Volume</text>
+<text x="398" y="228" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Volume Coefficients</text>
+</g>
+<g>
+<rect x="567" y="124" width="165" height="136" rx="8" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<text x="579" y="148" font-weight="600" fill="var(--fig-ink, #1a1c20)">Emit</text>
+<text x="579" y="164" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Emission</text>
+<text x="579" y="180" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Background (world)</text>
+</g>
+<g>
+<rect x="24" y="276" width="347" height="88" rx="8" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<text x="36" y="300" font-weight="600" fill="var(--fig-ink, #1a1c20)">Combine</text>
+<text x="36" y="316" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Mix Shader: blend two by a factor</text>
+<text x="36" y="332" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Add Shader: sum two, for emission on top</text>
+</g>
+<g>
+<rect x="387" y="276" width="347" height="88" rx="8" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<text x="399" y="300" font-weight="600" fill="var(--fig-ink, #1a1c20)">Special</text>
+<text x="399" y="316" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Holdout: cuts a transparent hole</text>
+<text x="399" y="332" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Ray Portal BSDF: teleports rays</text>
+<text x="399" y="348" font-size="11.5" fill="var(--fig-ink, #1a1c20)">Hair BSDF, Principled Hair BSDF</text>
+</g>
+</svg>

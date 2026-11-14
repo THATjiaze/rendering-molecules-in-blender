@@ -1,0 +1,906 @@
+<!doctype html>
+<html lang="en" data-socket="material">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Material recipes for molecular renders | Rendering Molecules in Blender</title>
+<meta name="description" content="Settings tables for named looks, from slime and frosted glass to matte clay, all on one Principled BSDF.">
+<script>
+  (function () {
+    var root = document.documentElement;
+    root.classList.add('js');
+    try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') root.dataset.theme = t; } catch (e) {}
+  })();
+</script>
+<link rel="preload" href="assets/fonts/literata.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body class="is-part">
+<a class="skip" href="#main">Skip to the text</a>
+<header class="topbar">
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="rail">Contents</button>
+  <a class="topbar-title" href="index.html">Rendering Molecules in Blender</a>
+  <span class="topbar-end">
+    <a class="topbar-about" href="about.html">About</a>
+    <button class="theme-toggle" type="button" hidden>Dark theme</button>
+  </span>
+</header>
+<div class="shell">
+  <nav class="rail" id="rail" aria-label="Contents">
+    <a class="site-name" href="index.html">Rendering Molecules in Blender</a>
+    <div class="search" role="search">
+      <label class="visually-hidden" for="search-input">Search the guide</label>
+      <input id="search-input" type="search" placeholder="Search the guide" autocomplete="off" spellcheck="false">
+      <ol class="search-results" id="search-results" hidden></ol>
+    </div>
+    <ol class="parts">
+      <li data-socket="material" class="is-current">
+        <a class="part-link" href="material-recipes.html" aria-current="page"><span class="sock" aria-hidden="true"></span>Recipes</a>
+        <ol class="chapters">
+          <li><a href="#how-to-use-this-guide"><span>How to use this guide</span></a></li>
+          <li><a href="#why-your-render-looks-slimy"><span>Why your render looks slimy</span></a></li>
+          <li><a href="#the-controls-that-set-a-look"><span>The controls that set a look</span></a></li>
+          <li><a href="#recipes"><span>Recipes</span></a></li>
+          <li><a href="#slime-on-purpose-step-by-step"><span>Slime on purpose, step by step</span></a></li>
+          <li><a href="#sticky-slime-where-the-tubes-come-out"><span>Sticky slime: where the tubes come out</span></a></li>
+          <li><a href="#edge-glow-ghost"><span>Edge-glow ghost</span></a></li>
+          <li><a href="#setting-up-a-recipe-on-a-molecular-nodes-object"><span>Setting up a recipe on a Molecular Nodes object</span></a></li>
+          <li><a href="#sources"><span>Sources</span></a></li>
+        </ol>
+      </li>
+      <li data-socket="color">
+        <a class="part-link" href="designing-a-look.html"><span class="sock" aria-hidden="true"></span>Designing a look</a>
+      </li>
+      <li data-socket="string">
+        <a class="part-link" href="lighting.html"><span class="sock" aria-hidden="true"></span>Lighting</a>
+      </li>
+      <li data-socket="shader">
+        <a class="part-link" href="shaders.html"><span class="sock" aria-hidden="true"></span>Shaders</a>
+      </li>
+      <li data-socket="geometry">
+        <a class="part-link" href="geometry-nodes.html"><span class="sock" aria-hidden="true"></span>Geometry Nodes</a>
+      </li>
+      <li data-socket="vector">
+        <a class="part-link" href="geometry-nodes-for-art.html"><span class="sock" aria-hidden="true"></span>Geometry Nodes for art</a>
+      </li>
+      <li data-socket="boolean">
+        <a class="part-link" href="molecular-nodes.html"><span class="sock" aria-hidden="true"></span>Molecular Nodes</a>
+      </li>
+      <li data-socket="object">
+        <a class="part-link" href="objects-and-modeling.html"><span class="sock" aria-hidden="true"></span>Objects and modeling</a>
+      </li>
+    </ol>
+    <div class="rail-foot">
+      <a href="about.html">About this guide</a>
+      <button class="theme-toggle" type="button" hidden>Dark theme</button>
+    </div>
+  </nav>
+  <main id="main" class="page">
+    <header class="part-head">
+      <h1>Material recipes for molecular renders</h1>
+      <div class="lead">
+<p>Every look here is the same Principled BSDF shader with different settings. Roughness, and how light gets through the surface (Alpha, Transmission, Subsurface), do most of the work.</p>
+<p>For a texture you can picture but cannot name, see <a href="designing-a-look.html">Designing a look from scratch</a>.</p>
+<p>Materials only look as good as their light; the full course is in <a href="lighting.html">Lighting</a>.</p>
+<p>Every shader node Blender has, and why the recipes start from the Principled BSDF, is in <a href="shaders.html">Shaders: the whole menu, from zero</a>.</p>
+<p>How the maps and models themselves are built, and the tool the sticky-slime section uses, is in <a href="geometry-nodes.html">Geometry Nodes, from zero</a>.</p>
+
+      </div>
+      <p class="progress" hidden><span class="progress-count"></span> of 13 exercises done</p>
+    </header>
+    <article class="chapter" aria-labelledby="how-to-use-this-guide">
+      <header class="node">
+        <div class="node-head">
+          <h2 id="how-to-use-this-guide">How to use this guide</h2>
+        </div>
+      </header>
+<p>Every section in every part follows one pattern: objectives, the material itself, one or more exercises to do in Blender, and a short self-check with answers. Do the exercises. The numbers in the tables only become intuition once you have moved the sliders and watched the render change.</p>
+<p>Set up a lab bench once and reuse it for everything here: a new file containing a UV Sphere (Shift + A › Mesh › UV Sphere, right-click › Shade Smooth), a Cube, a Monkey (Shift + A › Mesh › Monkey, with a Subdivision Surface modifier at level 2 and Shade Smooth), and a copy of your map, all on a large plane, lit with the default rig from the <a href="lighting.html">Lighting part</a>, viewport in Rendered mode with Cycles. Save it as <code>material_lab.blend</code>. The sphere shows highlights and the shadow edge, the cube shows flat faces and sharp edges, the monkey shows cavities and thin parts, and the map shows real geometry.</p>
+
+    </article>
+    <article class="chapter" aria-labelledby="why-your-render-looks-slimy">
+      <header class="node">
+        <div class="node-head">
+          <h2 id="why-your-render-looks-slimy">Why your render looks slimy</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Name the four settings that together produce a wet, gelatinous look.</li>
+            <li>Predict what removing each one does before you try it.</li>
+            <li>Recognize the same four ingredients in other people's renders.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="the-four-ingredients">
+        <h3>The four ingredients</h3>
+<p>Four things combine in that render: a mirror-smooth surface, a see-through surface, color that deepens with thickness, and a bumpy shape. None of them alone reads as slime. Together they are unmistakable.</p>
+<ul>
+<li><strong>Roughness near 0.</strong> The two area lights reflect in the surface as sharp white streaks, one per ridge that happens to face a light at the mirror angle. Sharp, bright, white highlights are the single strongest cue for wetness, because dry surfaces almost never have them; a film of water is what gives a surface a polished skin.</li>
+<li><strong>Alpha below 1.</strong> At 0.177 you see about 80% of what is behind each surface. On a folded map, what is behind is more map, then the tubes of the model, then more map again. The eye reads stacked translucent layers as gel.</li>
+<li><strong>Layered tint.</strong> Every see-through layer multiplies its color into what is behind it and loses some brightness. Three layers of pale pink over a green ribbon add up to a dim olive. Thin edges have only one layer and stay pale, thick regions have several and go dark. That gradient from pale edge to dark body is exactly how jelly and thick syrup look.</li>
+<li><strong>The map's own bumps.</strong> A density surface is a field of small lobes. Each lobe catches the lights from its own angle, so instead of one broad highlight you get hundreds of small ones. Smooth the geometry, or raise roughness, and the glitter becomes a single sheen.</li>
+</ul>
+<p>To get slime on purpose, keep all four and add a thickness tint from a Volume Absorption node (the slime recipe below does this). To lose it, raise Roughness to 0.4 or higher first; that alone removes most of the wet look, and Alpha 1 removes the rest.</p>
+
+      </section>
+      <section class="exercise" id="exercise-1-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 1.1</span> <span class="exercise-name">Take the slime apart</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="material-recipes/exercise-1-1"> Done</label>
+        </div>
+<ol>
+<li>In the Material tab, click the copy icon next to the material's name so you keep the original, and rename the copy <code>slime_ref</code>.</li>
+<li>Raise Roughness from 0.05 to 0.4. Watch the viewport for a few seconds while it cleans up.</li>
+<li>Put Roughness back and set Alpha to 1.</li>
+<li>Put Alpha back, select the sphere from the lab bench, give it the same material, and compare it with the map.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> In step 2 the streaks spread into a soft sheen and the surface stops looking wet, even though it is still see-through. In step 3 the olive murk disappears and the pink returns, and the surface reads as solid pink plastic. In step 4 the sphere shows one or two clean highlights where the map showed hundreds, which tells you the glitter comes from the geometry rather than the material.</p>
+
+      </section>
+      <section class="check" id="why-your-render-looks-slimy-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Which single setting removes most of the wet look, and why does it work?</p><details><summary>Answer</summary><p>Roughness. Wetness is read from sharp specular highlights, and roughness spreads them until they stop reading as reflections.</p></details></li>
+<li><p class="q">The material's Base Color is pink. Why does the render show olive?</p><details><summary>Answer</summary><p>Each translucent layer tints and darkens what is behind it; several pink layers over the green ribbon multiply to a dim olive.</p></details></li>
+<li><p class="q">Two renders use the identical material. One glitters, one shows a single highlight. What differs?</p><details><summary>Answer</summary><p>The geometry. Many small bumps give many small highlights; a smooth surface gives one.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="the-controls-that-set-a-look">
+      <header class="node">
+        <div class="node-head">
+          <h2 id="the-controls-that-set-a-look">The controls that set a look</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Locate each of the eleven controls that matter on the Principled BSDF node and in its panels.</li>
+            <li>Describe what the eye sees as each control moves from low to high.</li>
+            <li>Know which three controls to touch first and which to leave alone.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="where-they-are">
+        <h3>Where they are</h3>
+<p>In the Material tab, the Principled BSDF shows its main inputs at the top, Base Color through Alpha, and then a row of collapsible panels: Diffuse, Subsurface, Specular, Transmission, Coat, Sheen, Emission, Thin Film. In the Shader Editor the same panels fold open on the node itself. The table names the panel for each control so you can find it either way (<a href="https://docs.blender.org/manual/en/latest/render/shader_nodes/shader/principled.html" rel="noopener">Principled BSDF manual</a>).</p>
+<p>Roughness, plus how light passes through the surface, sets most of the look; the other controls are finishing touches.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Panel</th>
+<th>Low <span class="arrow">→</span> high</th>
+<th>Use it for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Roughness</td>
+<td>Main</td>
+<td>0 mirror-sharp highlights <span class="arrow">→</span> 1 no visible highlight</td>
+<td>The biggest lever. 0.3 to 0.6 suits most figures.</td>
+</tr>
+<tr>
+<td>IOR</td>
+<td>Main</td>
+<td>1.0 no reflection <span class="arrow">→</span> higher, more reflective</td>
+<td>Keep 1.4 to 1.5. Most real materials sit between 1.0 and 4.0.</td>
+</tr>
+<tr>
+<td>Alpha</td>
+<td>Main</td>
+<td>0 invisible <span class="arrow">→</span> 1 opaque</td>
+<td>Ghosted overlays. Nothing bends, so the model inside stays undistorted.</td>
+</tr>
+<tr>
+<td>Transmission Weight</td>
+<td>Transmission</td>
+<td>0 opaque <span class="arrow">→</span> 1 glass-like</td>
+<td>Gel, glass, liquid. Light passes through and bends what is behind.</td>
+</tr>
+<tr>
+<td>Subsurface Weight and Scale</td>
+<td>Subsurface</td>
+<td>0 plain surface <span class="arrow">→</span> 1 light glows inside</td>
+<td>Wax, milk, soft tissue. Scale is how far light travels, in scene units.</td>
+</tr>
+<tr>
+<td>Coat Weight and Roughness</td>
+<td>Coat</td>
+<td>0 none <span class="arrow">→</span> 1 full clear layer</td>
+<td>Lacquer, candy, or a wet sheen on top of any other look.</td>
+</tr>
+<tr>
+<td>Sheen Weight</td>
+<td>Sheen</td>
+<td>0 none <span class="arrow">→</span> 1 strong</td>
+<td>A soft, velvety glow at the edges.</td>
+</tr>
+<tr>
+<td>IOR Level</td>
+<td>Specular</td>
+<td>0 no highlights <span class="arrow">→</span> 0.5 default</td>
+<td>Dims highlights without changing Roughness.</td>
+</tr>
+<tr>
+<td>Emission Color and Strength</td>
+<td>Emission</td>
+<td>Strength 1 shows the exact color, unshaded</td>
+<td>Flat, illustration-style color.</td>
+</tr>
+<tr>
+<td>Thin Film Thickness</td>
+<td>Thin Film</td>
+<td>0 none <span class="arrow">→</span> a few hundred nm</td>
+<td>Soap-bubble iridescence (Cycles).</td>
+</tr>
+<tr>
+<td>Metallic</td>
+<td>Main</td>
+<td>0 <span class="arrow">→</span> 1</td>
+<td>Real metals only. Keep 0 for biology.</td>
+</tr>
+</tbody>
+</table></div>
+
+      </section>
+      <section id="what-each-control-looks-like-as-it-moves">
+        <h3>What each control looks like as it moves</h3>
+<ul>
+<li><strong>Roughness</strong> spreads the highlight. At 0 the lights are small, sharp mirror images; at 0.3 they are soft blobs; at 0.6 they are a faint wide sheen; at 1 the surface shows no highlight, only a lighter and a darker side. Between 0.3 and 0.6 a material reads as plastic, paint or skin, which is why that range suits most figures.</li>
+<li><strong>IOR</strong> sets how strongly the surface reflects when seen head-on, through the Fresnel effect. Keep it near 1.5 for anything non-metal: 1.33 is water, 1.45 glass, 1.5 plastic. Values above 2 reflect so much that the color underneath disappears into mirrored surroundings, which is what happened at 71.4.</li>
+<li><strong>Alpha</strong> fades the whole surface toward invisible without bending light. At 0.5 the object is half-transparent and anything behind it stays sharp. It is cheap, works in both engines, and is the right tool for ghosted overlays.</li>
+<li><strong>Transmission Weight</strong> turns the surface into glass: light enters and refracts by the IOR. At 1 the Base Color becomes the tint of the glass and the object's diffuse color is gone. Roughness now controls frosting as well as highlights.</li>
+<li><strong>Subsurface Weight and Scale</strong> let light wander below the surface before leaving. Thin parts glow when lit from behind, and the shadow edge softens. Scale is a distance in scene units; 1 to 2% of the object's width is a usual start, and the Radius sets how far each color channel travels, which is why skin defaults to a reddish radius.</li>
+<li><strong>Coat Weight and Roughness</strong> add a clear layer with its own gloss. The body keeps its roughness; the coat adds a second, sharper highlight on top. It is how you make a matte body look wet or varnished without making the body itself glossy.</li>
+<li><strong>Sheen Weight</strong> adds a pale glow at grazing angles, as fine fibers do. It brightens the silhouette and leaves the center alone.</li>
+<li><strong>IOR Level</strong> scales the strength of the specular highlight without changing its size. 0.5 is physically correct for the given IOR; 0.2 mutes highlights for dusty looks; 0 removes them.</li>
+<li><strong>Emission Color and Strength</strong> make the surface give off light. Strength 1 shows the color unshaded; 5 and above makes a visible lamp in Cycles.</li>
+<li><strong>Thin Film Thickness</strong> adds the rainbow interference of a soap film at a few hundred nanometers, Cycles only.</li>
+<li><strong>Metallic</strong> switches the surface to a metal model: the reflection takes on the Base Color and the diffuse color disappears. Biological surfaces stay at 0.</li>
+</ul>
+
+      </section>
+      <section class="exercise" id="exercise-2-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 2.1</span> <span class="exercise-name">The roughness ladder</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="material-recipes/exercise-2-1"> Done</label>
+        </div>
+<ol>
+<li>In <code>material_lab.blend</code>, duplicate the sphere four times (Shift + D, then X and a distance) so five spheres sit in a row.</li>
+<li>Give each a separate material (click the number next to the material name to make it single-user), all with Base Color mid-blue and IOR 1.5.</li>
+<li>Set Roughness to 0, 0.25, 0.5, 0.75 and 1 from left to right.</li>
+<li>Render with F12 and save the image as <code>roughness_ladder.png</code>.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The first sphere mirrors the lights and the room, the second shows soft bright blobs, the middle one a gentle sheen, and the last two differ only slightly from each other. Keep the image; it is your reference for reading roughness in other renders.</p>
+
+      </section>
+      <section class="exercise" id="exercise-2-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 2.2</span> <span class="exercise-name">Alpha against Transmission</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="material-recipes/exercise-2-2"> Done</label>
+        </div>
+<ol>
+<li>Two spheres, same blue material. Put a thin vertical cylinder behind them.</li>
+<li>On the first set Alpha 0.3. On the second set Transmission Weight 1 and IOR 1.45.</li>
+<li>Compare the cylinder seen through each.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> Through the Alpha sphere the cylinder is faint but straight. Through the Transmission sphere it is bent, flipped and magnified, and the sphere's edges show a bright rim of reflected light. That difference is the whole choice between the two controls.</p>
+
+      </section>
+      <section class="check" id="the-controls-that-set-a-look-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">A render looks like a plastic toy. Which control is most likely at its default, and what range would you try?</p><details><summary>Answer</summary><p>Roughness, sitting at a middle value with no variation. Try moving it, or adding a coat over a rougher body, or a little noise.</p></details></li>
+<li><p class="q">You need the model to stay undistorted inside a translucent map. Alpha or Transmission?</p><details><summary>Answer</summary><p>Alpha. Transmission refracts.</p></details></li>
+<li><p class="q">What does IOR Level change that Roughness does not?</p><details><summary>Answer</summary><p>The brightness of the highlight, not its size.</p></details></li>
+<li><p class="q">Why does a transmissive material need a paler Base Color than you expect?</p><details><summary>Answer</summary><p>Base Color tints every pass of light through the glass, and light passes through more than once, so a mid color darkens to a deep one.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="recipes">
+      <header class="node">
+        <div class="node-head">
+          <h2 id="recipes">Recipes</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Build any of the eight looks from a fresh Principled BSDF in under a minute.</li>
+            <li>Explain why each recipe uses the values it does, so you can bend it instead of copying it.</li>
+            <li>Place a new look on the roughness and see-through map before building it.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="how-to-read-a-recipe">
+        <h3>How to read a recipe</h3>
+<p>Start from a fresh Principled BSDF, change only the settings listed, and leave everything else at its default. Then adjust by eye in Rendered view. The map below places each look by its two most important properties, which is also the quickest way to decide where a look you have in mind belongs.</p>
+<figure class="figure"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 488" role="img" aria-label="Two settings place most looks; slime is glossy and see-through" font-size="13">
+<text x="24" y="34" font-size="15" font-weight="600" fill="var(--fig-ink, #1a1c20)">Two settings place most looks; slime is glossy and see-through</text>
+<g>
+<rect x="120" y="64" width="580" height="376" rx="8" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<line x1="410" y1="64" x2="410" y2="440" stroke="var(--fig-grid, #c9cdd3)"/>
+<line x1="120" y1="252" x2="700" y2="252" stroke="var(--fig-grid, #c9cdd3)"/>
+</g>
+<g>
+<text x="24" y="90" font-size="11.5" fill="var(--fig-muted, #5b616b)">See-through</text>
+<text x="24" y="432" font-size="11.5" fill="var(--fig-muted, #5b616b)">Opaque</text>
+<text x="120" y="464" font-size="11.5" fill="var(--fig-muted, #5b616b)">Glossy</text>
+<text x="700" y="464" text-anchor="end" font-size="11.5" fill="var(--fig-muted, #5b616b)">Matte</text>
+</g>
+<g>
+<text x="136" y="90" font-size="11.5" fill="var(--fig-muted, #5b616b)">Wet, glassy</text>
+<text x="684" y="90" text-anchor="end" font-size="11.5" fill="var(--fig-muted, #5b616b)">Frosted, ghosted</text>
+<text x="136" y="428" font-size="11.5" fill="var(--fig-muted, #5b616b)">Polished</text>
+<text x="684" y="428" text-anchor="end" font-size="11.5" fill="var(--fig-muted, #5b616b)">Soft, chalky</text>
+</g>
+<g>
+<circle cx="172" cy="132" r="7" fill="var(--fig-accent, #0f9d7a)"/>
+<text x="186" y="136" font-weight="600" fill="var(--fig-ink, #1a1c20)">Slime</text>
+</g>
+<g>
+<circle cx="468" cy="160" r="6" fill="var(--fig-muted, #5b616b)"/>
+<text x="482" y="164" fill="var(--fig-ink, #1a1c20)">Frosted glass</text>
+</g>
+<g>
+<circle cx="432" cy="196" r="6" fill="var(--fig-muted, #5b616b)"/>
+<text x="446" y="200" fill="var(--fig-ink, #1a1c20)">Ghost</text>
+</g>
+<g>
+<circle cx="204" cy="318" r="6" fill="var(--fig-muted, #5b616b)"/>
+<text x="218" y="322" fill="var(--fig-ink, #1a1c20)">Glossy candy</text>
+</g>
+<g>
+<circle cx="432" cy="330" r="6" fill="var(--fig-muted, #5b616b)"/>
+<text x="446" y="334" fill="var(--fig-ink, #1a1c20)">Soft wax</text>
+</g>
+<g>
+<circle cx="381" cy="372" r="6" fill="var(--fig-muted, #5b616b)"/>
+<text x="369" y="376" text-anchor="end" fill="var(--fig-ink, #1a1c20)">Satin plastic</text>
+</g>
+<g>
+<circle cx="642" cy="372" r="6" fill="var(--fig-muted, #5b616b)"/>
+<text x="630" y="376" text-anchor="end" fill="var(--fig-ink, #1a1c20)">Matte clay</text>
+</g>
+</svg><figcaption>Recipe looks placed by roughness and see-through</figcaption></figure>
+<p>Slime and frosted glass both let light through; roughness is what separates them. The flat look is left off the map because it is unshaded, so roughness does not change it.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Look</th>
+<th>Roughness</th>
+<th>Alpha</th>
+<th>Transmission</th>
+<th>Other changes</th>
+<th>Good for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Matte clay</td>
+<td>0.9</td>
+<td>1</td>
+<td>0</td>
+<td>IOR Level 0.2</td>
+<td>Clean, illustration-like figures; pairs well with ambient occlusion</td>
+</tr>
+<tr>
+<td>Satin plastic</td>
+<td>0.45</td>
+<td>1</td>
+<td>0</td>
+<td>None</td>
+<td>The safe default for most figures</td>
+</tr>
+<tr>
+<td>Glossy candy</td>
+<td>0.4</td>
+<td>1</td>
+<td>0</td>
+<td>Coat Weight 1, Coat Roughness 0.03</td>
+<td>Eye-catching, cover-style renders</td>
+</tr>
+<tr>
+<td>Soft wax</td>
+<td>0.5</td>
+<td>1</td>
+<td>0</td>
+<td>Subsurface Weight 1, Subsurface Scale about 2% of the map's width</td>
+<td>Organic surfaces that glow softly at thin edges</td>
+</tr>
+<tr>
+<td>Ghost</td>
+<td>0.5</td>
+<td>0.25</td>
+<td>0</td>
+<td>IOR Level 0.2</td>
+<td>Map over model: the model stays sharp and undistorted</td>
+</tr>
+<tr>
+<td>Frosted glass</td>
+<td>0.6</td>
+<td>1</td>
+<td>1</td>
+<td>IOR 1.45</td>
+<td>Milky see-through shells</td>
+</tr>
+<tr>
+<td>Slime</td>
+<td>0.05</td>
+<td>1</td>
+<td>1</td>
+<td>IOR 1.35, Coat Weight 0.5, saturated Base Color</td>
+<td>Wet, gelatinous surfaces (steps below)</td>
+</tr>
+<tr>
+<td>Flat illustration</td>
+<td>Any</td>
+<td>1</td>
+<td>0</td>
+<td>Base Color black, IOR Level 0, Emission Color set to your color, Emission Strength 1</td>
+<td>Flat, unshaded color, like a 2D schematic</td>
+</tr>
+</tbody>
+</table></div>
+<p>To find the map's width for Subsurface Scale, select it and read N › Item › Dimensions. For the flat look, also set Color Management › View Transform to Standard so the color comes out exactly as picked.</p>
+<p>Molecular Nodes also ships ready-made materials, including Ambient Occlusion, Flat and Squishy (<a href="https://bradyajohnston.github.io/MolecularNodes/api/materials.html" rel="noopener">materials guide</a>). Pick one in the style node's Material field, then open it in the Shader Editor to see how it is built.</p>
+
+      </section>
+      <section id="why-each-recipe-works">
+        <h3>Why each recipe works</h3>
+<ul>
+<li><strong>Matte clay</strong> turns the highlight off with Roughness 0.9 and IOR Level 0.2, leaving pure shading. It looks best with ambient occlusion because, without highlights, cavities are the only remaining depth cue.</li>
+<li><strong>Satin plastic</strong> is the Principled default with the roughness tuned. It is safe because a single medium highlight reads correctly on every shape and under every light.</li>
+<li><strong>Glossy candy</strong> keeps a soft body (Roughness 0.4) and adds a mirror-smooth coat. The two highlights, one broad and one sharp, are what candy, ceramic glaze and car paint have in common.</li>
+<li><strong>Soft wax</strong> lets light into the surface. Subsurface Scale at about 2% of the object's width is far enough to soften shading and light thin edges, not so far that the whole object glows.</li>
+<li><strong>Ghost</strong> uses Alpha for see-through without refraction and dims the highlight with IOR Level 0.2 so the ghost does not sparkle over the model.</li>
+<li><strong>Frosted glass</strong> is transmission with high roughness. The frosting is the same roughness that blurs the highlight; it blurs the view through the glass too.</li>
+<li><strong>Slime</strong> is near-zero roughness, transmission with a water-like IOR, and a half-strength coat for a second glint; the section below adds the thickness tint.</li>
+<li><strong>Flat illustration</strong> takes the shading out entirely: a black Base Color reflects nothing, IOR Level 0 removes highlights, and Emission at Strength 1 paints the color on unshaded.</li>
+</ul>
+
+      </section>
+      <section class="exercise" id="exercise-3-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 3.1</span> <span class="exercise-name">Three looks side by side</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="material-recipes/exercise-3-1"> Done</label>
+        </div>
+<ol>
+<li>On three spheres from the lab bench, build Matte clay, Satin plastic and Glossy candy, all in the same mid-red.</li>
+<li>Render once with the full rig, then once with the key light hidden (click its eye icon in the Outliner) and only the world light on.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> Under the full rig the three are clearly different. With only world light they look nearly the same, because the differences are all in how they reflect a bright, well-placed light. Materials are only half of a look.</p>
+
+      </section>
+      <section class="exercise" id="exercise-3-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 3.2</span> <span class="exercise-name">Ghost against frosted glass on the map</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="material-recipes/exercise-3-2"> Done</label>
+        </div>
+<ol>
+<li>Build Ghost and Frosted glass as two materials, and switch the map's style node between them.</li>
+<li>Look at the model inside in each.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> Through the Ghost the model is faint but exactly in place; through the frosted glass it is a blurred, slightly swimming shape. Ghost is for figures where position matters; frosted glass is for images where mood matters.</p>
+
+      </section>
+      <section class="check" id="recipes-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Which two settings differ between Satin plastic and Glossy candy?</p><details><summary>Answer</summary><p>Coat Weight and Coat Roughness; the body roughness is nearly the same.</p></details></li>
+<li><p class="q">Why is the flat illustration's Base Color black?</p><details><summary>Answer</summary><p>So that no diffuse shading is added to the emission; the color comes entirely from Emission.</p></details></li>
+<li><p class="q">Why does Soft wax specify Subsurface Scale relative to the object's width rather than as a fixed number?</p><details><summary>Answer</summary><p>Scale is a distance in scene units, so the same number means different things on a 1 m sphere and a 20 m map.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="slime-on-purpose-step-by-step">
+      <header class="node">
+        <div class="node-head">
+          <h2 id="slime-on-purpose-step-by-step">Slime on purpose, step by step</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Build a wet, gelatinous material from scratch and know what each step contributes.</li>
+            <li>Add color that deepens with thickness using a volume shader.</li>
+            <li>Add ripples with a procedural bump without image textures.</li>
+            <li>Turn the same recipe into water, honey or tar by changing three numbers.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="the-build">
+        <h3>The build</h3>
+<p>Slime is a wet, see-through surface whose color deepens where it is thick. Build it in this order in the Shader Editor, checking Rendered view in Cycles after each step, because each step changes what the next one looks like.</p>
+<ol>
+<li><strong>Surface.</strong> A Principled BSDF in the Surface socket, nothing in Volume yet. If the material started on a volume object, remove the Principled Volume first.</li>
+<li><strong>Wet glints.</strong> Roughness 0.05. Coat Weight 0.5, Coat Roughness 0. The body gloss gives the broad wet sheen; the coat adds a second, sharper glint on top, which is what a thin water film over a soft gel looks like.</li>
+<li><strong>See-through.</strong> Transmission Weight 1, IOR 1.35. Water is 1.33 and most gels are a little above it. A lower IOR bends less and gives a thinner, watery look; 1.45 looks like glass.</li>
+<li><strong>Color.</strong> A saturated, mid-dark Base Color. Transmission tints the light passing through, and light passes through twice or more, so the color compounds; a strong color reads as jelly, a pale one as water.</li>
+<li><strong>Color that deepens with thickness (optional).</strong>
+<ul>
+<li>Set Base Color to near-white so the surface itself stops tinting.</li>
+<li>Add Shift + A › Shader › Volume Absorption, set its Color to the slime color, and connect its Volume output to the Material Output's Volume input.</li>
+<li>Density: start at 1 divided by the map's width in meters, then double or halve. Thick lobes go dark and saturated while thin edges stay clear, which is what distinguishes jelly from tinted glass.</li>
+</ul>
+</li>
+<li><strong>Ripples (optional).</strong>
+<ul>
+<li>Add Shift + A › Input › Texture Coordinate and Shift + A › Texture › Noise Texture. Connect Object to the Noise Texture's Vector.</li>
+<li>Noise Scale: about 30 divided by the map's width in meters, so roughly 30 ripples across. Detail 3.</li>
+<li>Add Shift + A › Vector › Bump: Noise Fac into Height, Strength 0.15. Connect its Normal to both Normal and Coat Normal on the Principled BSDF so the film follows the ripples.</li>
+</ul>
+</li>
+<li><strong>Light for glints.</strong> One fairly small, strong key light makes sharp streaks; a large one makes broad bands. A light behind the map makes the gel glow through, which is the single most convincing addition.</li>
+</ol>
+<p>If the model inside looks warped, that is refraction from Transmission. For a figure, use Alpha 0.35 with Transmission 0 instead of step 3. You keep the glints and the see-through look, and the model stays undistorted; that is close to what your accidental render did.</p>
+
+      </section>
+      <section id="variants">
+        <h3>Variants</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Variant</th>
+<th>Change from the recipe</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Clean water</td>
+<td>IOR 1.33, Base Color white, no absorption, Coat Weight 0</td>
+<td>Water has no body color and no second film</td>
+</tr>
+<tr>
+<td>Honey</td>
+<td>IOR 1.48, Absorption Color amber at double density, Roughness 0.02</td>
+<td>Thicker, more refractive, strongly colored</td>
+</tr>
+<tr>
+<td>Tar</td>
+<td>Absorption near black at high density, Roughness 0.1, Coat Weight 1</td>
+<td>Opaque in all but the thinnest edges, with a hard wet shine</td>
+</tr>
+<tr>
+<td>Wet soap</td>
+<td>Add Thin Film Thickness 400 nm</td>
+<td>Rainbow interference on the surface film</td>
+</tr>
+</tbody>
+</table></div>
+
+      </section>
+      <section class="exercise" id="exercise-4-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 4.1</span> <span class="exercise-name">Build and vary</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="material-recipes/exercise-4-1"> Done</label>
+        </div>
+<ol>
+<li>Build the full recipe on the monkey head from the lab bench, including steps 5 and 6.</li>
+<li>Render, then change only the three settings in the Honey row and render again.</li>
+<li>Place a small area light behind the head, pointing at the camera, and render a third time.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The first render is a green or pink jelly with dark ears and pale brows. Honey turns the thin parts amber and the thick parts almost brown. The backlight makes the ears and brow ridge glow, and the whole head suddenly reads as translucent rather than merely shiny.</p>
+
+      </section>
+      <section class="check" id="slime-on-purpose-step-by-step-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Why set Base Color to near-white when adding Volume Absorption?</p><details><summary>Answer</summary><p>So the color comes only from the absorption, which depends on thickness, instead of being applied evenly at the surface as well.</p></details></li>
+<li><p class="q">What does Coat Normal do that Normal alone does not?</p><details><summary>Answer</summary><p>It makes the coat's highlight follow the bump; without it the film stays smooth over a rippled body.</p></details></li>
+<li><p class="q">Which single light change does the most for a translucent material?</p><details><summary>Answer</summary><p>A light behind it, so that light passes through to the camera.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="sticky-slime-where-the-tubes-come-out">
+      <header class="node">
+        <div class="node-head">
+          <h2 id="sticky-slime-where-the-tubes-come-out">Sticky slime: where the tubes come out</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Make slime cling to whatever passes through it: a wet collar, a meniscus, strands and drips.</li>
+            <li>Build each effect as a node chain you can reuse on any object.</li>
+            <li>Keep all four reading as one substance.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="why-the-exits-matter">
+        <h3>Why the exits matter</h3>
+<p>Tubes breaking through a translucent surface are what make it read as a substance rather than a shell. But real gel wets whatever leaves it, and a clean geometric intersection says &quot;model placed inside map&quot; instead of &quot;model emerging from slime.&quot; Four things fix it, and the first two do most of the work. The node chains live in Geometry Nodes; the concepts behind them are in <a href="geometry-nodes.html">Geometry Nodes, from zero</a>, Chapter <a class="ref" href="geometry-nodes.html#chapter-7">7</a> of which walks the same chains with more explanation.</p>
+
+      </section>
+      <section id="1-the-wet-collar">
+        <h3>1. The wet collar</h3>
+<p>A tube that just left slime is glossy and darker for a short distance, then dry. Store a <code>wet</code> value on the model that is 1 at the surface and fades to 0 a short way out, then let the material read it.</p>
+<p>In the model's Geometry Nodes tree, after the style node:</p>
+<ol>
+<li>Object Info (Object: the map, Relative) › Geometry <span class="arrow">→</span> Geometry Proximity (Target Element: Faces), Target input.</li>
+<li>Geometry Proximity › Distance <span class="arrow">→</span> Map Range (From Min 0, From Max 0.2, To Min 1, To Max 0, Clamp on). From Max is how far the wetness reaches; 0.2 m is about 2 nm at the Blender 5 world scale.</li>
+<li>Map Range › Result <span class="arrow">→</span> Store Named Attribute (Domain: Point, Data Type: Float, Name <code>wet</code>), with the style's geometry through the Geometry socket, then on to Group Output.</li>
+</ol>
+<p>In the model's material:</p>
+<ol start="4">
+<li>Attribute (Name <code>wet</code>) › Fac <span class="arrow">→</span> Coat Weight. Coat Roughness 0.02.</li>
+<li>Attribute <code>wet</code> › Fac <span class="arrow">→</span> Factor of a Mix Color whose A is the chain color (Attribute <code>Color</code>) and whose B is the same color through Hue/Saturation/Value at Value 0.5; the Mix result <span class="arrow">→</span> Base Color. Wet surfaces are darker.</li>
+<li>Attribute <code>wet</code> › Fac <span class="arrow">→</span> Map Range (0 to 1 into 0.5 to 0.15) <span class="arrow">→</span> Roughness.</li>
+</ol>
+
+      </section>
+      <section id="2-the-meniscus">
+        <h3>2. The meniscus</h3>
+<p>Slime climbs a little way up anything that passes through it. Blender 5's SDF nodes make this a smooth union with a fillet, which is a meniscus in the mathematical sense.</p>
+<p>In the map's tree, after the Density Style Surface:</p>
+<ol>
+<li>Density Style Surface › Geometry <span class="arrow">→</span> Mesh to SDF Grid (Voxel Size 0.02, Band Width 3).</li>
+<li>Object Info (Object: the model, Relative) › Geometry <span class="arrow">→</span> Mesh to SDF Grid with the same Voxel Size. The model must be outputting a mesh style (cartoon, ribbon or sticks), not points.</li>
+<li>Both grids <span class="arrow">→</span> SDF Grid Boolean (Union).</li>
+<li>SDF Grid Boolean <span class="arrow">→</span> SDF Grid Fillet (Iterations 3). This rounds the concave crease where tube meets surface into a curve that rises up the tube; each iteration rounds it a little further, and a coarser voxel size makes each step larger.</li>
+<li>SDF Grid Fillet <span class="arrow">→</span> Grid to Mesh (Threshold 0) <span class="arrow">→</span> Set Material (the slime material) <span class="arrow">→</span> Group Output.</li>
+</ol>
+<p>The result includes the tubes themselves, now wrapped in slime. To show the model's own material on the tubes, keep the original model object visible as well; the slime skin over it is very thin and the model's material shows through where the tubes leave the slime, or use the Alpha-based ghost version of the slime on the union mesh. The quick alternative when the SDF chain is too heavy: lower the map threshold slightly so the surface swells around the tubes, then add a Metaball (Shift + A › Metaball › Ball) with the slime material at each exit. Metaballs merge smoothly into each other and into nothing else, so they fake a meniscus from the outside.</p>
+
+      </section>
+      <section id="3-strands">
+        <h3>3. Strands</h3>
+<p>The stretchy threads between a tube and the surface are curves with a radius.</p>
+<ol>
+<li>Shift + A › Curve › Bézier. In Edit Mode, place one end on the tube just outside the surface and the other on the slime surface a little way off, and pull the middle control handles downward so the curve sags.</li>
+<li>Object Data Properties › Geometry › Bevel › Depth 0.01, Resolution 6, and the slime material.</li>
+<li>For a pulled look rather than a hung one, taper the middle: in Geometry Nodes on the curve, Spline Parameter › Factor <span class="arrow">→</span> Float Curve (a dip to 0.3 at the center, 1 at both ends) <span class="arrow">→</span> Set Curve Radius, then Curve to Mesh with a Curve Circle profile.</li>
+<li>Three or four strands per exit at different lengths read better than one. Duplicate with Shift + D and vary the sag.</li>
+</ol>
+
+      </section>
+      <section id="4-drips">
+        <h3>4. Drips</h3>
+<p>Elongated metaballs hanging below the lowest exits: Shift + A › Metaball › Ellipsoid, scaled tall, with a small Ball metaball at the lower tip. Metaballs of one object merge, so the tip blends into the ellipsoid as a droplet. Give the metaball object the slime material. To animate a falling drop, keyframe the tip ball's position downward; the ellipsoid stretches with it until they separate.</p>
+
+      </section>
+      <section id="keeping-it-one-substance">
+        <h3>Keeping it one substance</h3>
+<p>Give the map, the union mesh, the strands and the drips the same slime material, including its Volume Absorption, so color deepens with thickness in all of them. Then put a light behind the scene: thin gel glows when lit from behind, and the strands and drips are where it shows.</p>
+
+      </section>
+      <section class="exercise" id="exercise-s-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise S.1</span> <span class="exercise-name">Wet collar only</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="material-recipes/exercise-s-1"> Done</label>
+        </div>
+<ol>
+<li>Build chain 1 on the model and render with the slime material on the map.</li>
+<li>Set From Max to 0.05, then 1.0, and render each.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> At 0.05 only a thin dark gloss ring at each exit; at 0.2 a convincing wet collar that fades over a tube's length; at 1.0 the whole model looks dipped. The length of the collar is how recently the tube left the slime.</p>
+
+      </section>
+      <section class="exercise" id="exercise-s-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise S.2</span> <span class="exercise-name">The meniscus by SDF</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="material-recipes/exercise-s-2"> Done</label>
+        </div>
+<ol>
+<li>Build chain 2 with Fillet Iterations 0, render, then 3, then 10.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> At 0 the surface meets the tubes at a sharp crease; at 0.05 the crease rounds into a small climbing curve; at 0.15 the slime mounds up around every tube. Somewhere between the last two is what wet gel does.</p>
+
+      </section>
+      <section class="exercise" id="exercise-s-3">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise S.3</span> <span class="exercise-name">One strand</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="material-recipes/exercise-s-3"> Done</label>
+        </div>
+<ol>
+<li>Build one tapered strand from step 3 and render it with a backlight.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> A thread that glows where it is thin, which is the single most convincing detail in the whole effect.</p>
+
+      </section>
+      <section class="check" id="sticky-slime-where-the-tubes-come-out-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Which node measures how far each point of the model is from the map surface?</p><details><summary>Answer</summary><p>Geometry Proximity, with the map's geometry as its target.</p></details></li>
+<li><p class="q">Why does a wet surface need to be darker as well as glossier?</p><details><summary>Answer</summary><p>Water on a surface reduces diffuse reflection, so wet things look darker; gloss alone reads as plastic.</p></details></li>
+<li><p class="q">What does SDF Grid Fillet do to the union of two shapes?</p><details><summary>Answer</summary><p>Rounds the concave crease between them into a smooth curve, which is a meniscus.</p></details></li>
+<li><p class="q">Why do metaballs suit slime?</p><details><summary>Answer</summary><p>They merge smoothly into each other, so drops and collars blend without seams.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="edge-glow-ghost">
+      <header class="node">
+        <div class="node-head">
+          <h2 id="edge-glow-ghost">Edge-glow ghost</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Drive a shader input with a node instead of a fixed number.</li>
+            <li>Use the Layer Weight node to make a property depend on viewing angle.</li>
+            <li>Build a see-through map that keeps a crisp outline.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="the-idea">
+        <h3>The idea</h3>
+<p>This makes the map nearly clear where it faces you and solid at its silhouette. The model reads through it, while the map keeps a crisp outline. It works because Alpha is a socket, not just a number: anything that outputs a value can drive it, and the Layer Weight node outputs a value that depends on the angle between the surface and the camera.</p>
+<p>Facing is 0 where the surface points straight at the camera and rises to 1 where it turns edge-on. At the silhouette every surface is edge-on, so Facing is highest there. Feeding it to Alpha makes the faces transparent and the outline opaque.</p>
+
+      </section>
+      <section id="the-build-2">
+        <h3>The build</h3>
+<ol>
+<li>Start from the Ghost recipe: Roughness 0.5, IOR Level 0.2.</li>
+<li>Add Shift + A › Input › Layer Weight. Set Blend to 0.3. Blend controls how quickly Facing rises toward the edge: low values keep the center clear and make the rim narrow, high values widen the rim.</li>
+<li>Add a Map Range node (Shift + A, then type Map Range). Set From Min 0, From Max 1, To Min 0.05, To Max 0.9. This rescales Facing so the faces are not fully invisible and the rim is not fully opaque.</li>
+<li>Connect Layer Weight's Facing output to Map Range's Value, and Map Range's Result to the Principled BSDF's Alpha.</li>
+<li>Tune by eye: raise To Max for a stronger outline, raise Blend for a wider rim, and raise To Min if the faces vanish completely.</li>
+</ol>
+<p>For a glowing rim on a dark background, also connect Map Range's Result to Emission Strength and set Emission Color to the map's color. The rim then emits as well as reflects, which reads as an X-ray or a hologram.</p>
+
+      </section>
+      <section class="exercise" id="exercise-5-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 5.1</span> <span class="exercise-name">Watch Facing</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="material-recipes/exercise-5-1"> Done</label>
+        </div>
+<ol>
+<li>Temporarily connect Layer Weight's Facing output straight to the Principled BSDF's Base Color.</li>
+<li>Orbit the camera around the sphere and the map in Rendered view.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> Black in the center of every surface, white at every edge, moving as you orbit. This is the value you are feeding to Alpha; seeing it directly makes the rest of the setup obvious. Reconnect Base Color afterwards.</p>
+
+      </section>
+      <section class="exercise" id="exercise-5-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 5.2</span> <span class="exercise-name">Invert it</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="material-recipes/exercise-5-2"> Done</label>
+        </div>
+<ol>
+<li>Swap the Map Range's To Min and To Max so faces are opaque and edges fade out.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The map's silhouette dissolves and only the surfaces facing you remain, the opposite effect. This is the same trick used to fade objects at their edges into a background.</p>
+
+      </section>
+      <section class="check" id="edge-glow-ghost-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">What value does Facing give at the exact silhouette?</p><details><summary>Answer</summary><p>1, because the surface is edge-on to the camera there.</p></details></li>
+<li><p class="q">What would happen with Blend at 1?</p><details><summary>Answer</summary><p>Facing rises very slowly, so almost the whole surface stays near 0 and only the last sliver of the edge becomes opaque.</p></details></li>
+<li><p class="q">Why use Map Range instead of connecting Facing directly to Alpha?</p><details><summary>Answer</summary><p>To set the lowest and highest alpha the surface reaches, so the faces never fully disappear and the rim never becomes a hard white line.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="setting-up-a-recipe-on-a-molecular-nodes-object">
+      <header class="node">
+        <div class="node-head">
+          <h2 id="setting-up-a-recipe-on-a-molecular-nodes-object">Setting up a recipe on a Molecular Nodes object</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Put any recipe onto a Molecular Nodes map or model through the style node.</li>
+            <li>Keep the per-chain colors that Molecular Nodes computes while using your own material.</li>
+            <li>Compare two materials on the same object without rebuilding either.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="how-materials-reach-a-molecular-nodes-object">
+        <h3>How materials reach a Molecular Nodes object</h3>
+<p>A Molecular Nodes object is not a plain mesh with a material slot. Its geometry is generated by a node tree, and the style node at the end of that tree has a Material field; whatever material is in that field is applied to the geometry it generates. The material slots in the Material tab still exist, but the style node overrides them. So the workflow is: build the material in the Shader Editor, then choose it in the style node's Material field.</p>
+<ul>
+<li><strong>Use a surface material.</strong> Principled BSDF in Surface, nothing in Volume. A map is a volume object, so Material › New starts with a Principled Volume, which renders as fog. Set Surface to Principled BSDF and the Volume field to Remove.</li>
+<li><strong>Assign it in the style node.</strong> In the Geometry Nodes workspace, set the density style node's Material field to your material. The viewport updates immediately in Rendered mode.</li>
+<li><strong>Keep Molecular Nodes' colors.</strong> The per-chain or per-atom colors live in a mesh attribute named <code>Color</code>, filled by the Color nodes in the Geometry Nodes tree. Add Shift + A › Input › Attribute, set its Name to <code>Color</code>, and connect its Color output to Base Color, or to Emission Color for the flat look. Without this, the style node's Color swatch and the color nodes before it have no effect, because your material sets Base Color to a constant.</li>
+<li><strong>Compare recipes.</strong> Duplicate the material with the copy icon beside its name, rename the copy, change it, and switch between the two in the style node's Material field. Each switch takes a few seconds to resolve in Rendered view.</li>
+<li><strong>Find nodes fast.</strong> In any node editor, press Shift + A and start typing a node's name.</li>
+<li><strong>Render engine.</strong> Cycles renders Transmission, Subsurface, Coat, Thin Film and Volume Absorption accurately. EEVEE is faster but approximates them. If Alpha looks wrong in EEVEE, try the material's Settings › Render Method › Blended.</li>
+<li><strong>Preview.</strong> Judge materials in Rendered view (Z › Rendered). Material Preview uses a built-in studio light, not your lights, and it hides most of what a material does under your actual rig.</li>
+</ul>
+
+      </section>
+      <section class="exercise" id="exercise-6-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 6.1</span> <span class="exercise-name">Chain colors through your own material</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="material-recipes/exercise-6-1"> Done</label>
+        </div>
+<ol>
+<li>Load a model from the PDB tab with Cartoon style and the default coloring, so chains differ in color.</li>
+<li>Build a Glossy candy material and assign it in the style node. The whole model turns one color.</li>
+<li>Add the Attribute node with Name <code>Color</code> and connect its Color output to Base Color.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The chain colors return, now with the candy coat on top. Change a color in the Geometry Nodes tree and it flows through to the render, because the material reads the attribute rather than a constant.</p>
+
+      </section>
+      <section class="exercise" id="exercise-6-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 6.2</span> <span class="exercise-name">The fog mistake, on purpose</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="material-recipes/exercise-6-2"> Done</label>
+        </div>
+<ol>
+<li>On the map, click Material › New and look at the Surface and Volume fields before changing anything.</li>
+<li>Render once as is, then set Surface to Principled BSDF and remove the Volume, and render again.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The first render is a cloud; the second is a surface. Knowing exactly what the fog looks like means you will recognize it instantly the next time a map renders wrong.</p>
+
+      </section>
+      <section class="check" id="setting-up-a-recipe-on-a-molecular-nodes-object-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">You changed the color swatch on the Density Style Surface node and nothing happened. Why?</p><details><summary>Answer</summary><p>Your material sets Base Color to a constant; it needs an Attribute node reading <code>Color</code> for the swatch to reach it.</p></details></li>
+<li><p class="q">Where is the one place a material must be chosen for a Molecular Nodes object?</p><details><summary>Answer</summary><p>The Material field on the style node in the Geometry Nodes tree.</p></details></li>
+<li><p class="q">Why does a new material on a map start as fog?</p><details><summary>Answer</summary><p>The map is a volume object, so Blender creates a Principled Volume by default.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="sources">
+      <header class="node">
+        <div class="node-head">
+          <h2 id="sources">Sources</h2>
+        </div>
+      </header>
+<ul>
+<li><a href="https://docs.blender.org/manual/en/latest/render/shader_nodes/shader/principled.html" rel="noopener">Principled BSDF</a> (Blender Manual)</li>
+<li><a href="https://bradyajohnston.github.io/MolecularNodes/api/materials.html" rel="noopener">Materials</a> (Molecular Nodes documentation)</li>
+</ul>
+
+    </article>
+    <nav class="pager" aria-label="Parts">
+<a class="pager-next" href="designing-a-look.html" data-socket="color"><span class="pager-label">Next part</span><span class="pager-title"><span class="sock" aria-hidden="true"></span>Designing a look from scratch</span></a>    </nav>
+  </main>
+</div>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

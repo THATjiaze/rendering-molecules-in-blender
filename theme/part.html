@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}{{ part.title }} | {{ site.title }}{% endblock %}
+{% block description %}{{ part.blurb }}{% endblock %}
+{% block body_class %}is-part{% endblock %}
+{% block main %}
+    <header class="part-head">
+      <h1>{{ part.title }}</h1>
+      <div class="lead">
+{{ part.lead }}
+      </div>
+      <p class="progress" hidden><span class="progress-count"></span> of {{ part.n_exercises }} exercises done</p>
+    </header>
+{% for c in part.chapters %}
+    <article class="chapter" aria-labelledby="{{ c.id }}">
+      <header class="node">
+        <div class="node-head">
+          {% if c.num %}<span class="node-kicker">Chapter {{ c.num }}</span>{% endif %}
+          <h2 id="{{ c.id }}">{{ c.title }}</h2>
+        </div>
+        {% if c.objectives %}
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            {% for o in c.objectives %}
+            <li>{{ o }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+      </header>
+{{ c.lead }}
+{% for s in c.sections if s.kind != "objectives" %}
+{% if s.kind == "exercise" %}
+      <section class="exercise" id="{{ s.id }}">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">{{ s.label }}</span>{% if s.name %} <span class="exercise-name">{{ s.name }}</span>{% endif %}</h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="{{ s.key }}"> Done</label>
+        </div>
+{{ s.html }}
+      </section>
+{% elif s.kind == "check" %}
+      <section class="check" id="{{ s.id }}">
+        <div class="check-head">
+          <h3>{{ s.title }}</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+{{ s.html }}
+      </section>
+{{ s.after }}
+{% else %}
+      <section id="{{ s.id }}">
+        <h3>{{ s.title }}</h3>
+{{ s.html }}
+      </section>
+{% endif %}
+{% endfor %}
+    </article>
+{% endfor %}
+    <nav class="pager" aria-label="Parts">
+      {% if prev %}<a class="pager-prev" href="{{ prev.slug }}.html" data-socket="{{ prev.socket }}"><span class="pager-label">Previous part</span><span class="pager-title"><span class="sock" aria-hidden="true"></span>{{ prev.title }}</span></a>{% endif %}
+      {% if next %}<a class="pager-next" href="{{ next.slug }}.html" data-socket="{{ next.socket }}"><span class="pager-label">Next part</span><span class="pager-title"><span class="sock" aria-hidden="true"></span>{{ next.title }}</span></a>{% endif %}
+    </nav>
+{% endblock %}

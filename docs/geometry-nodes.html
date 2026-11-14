@@ -1,0 +1,1308 @@
+<!doctype html>
+<html lang="en" data-socket="geometry">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Geometry Nodes, from zero | Rendering Molecules in Blender</title>
+<meta name="description" content="Node trees, attributes and fields, then volumes and SDFs, ending with a sticky-slime map and local-resolution coloring.">
+<script>
+  (function () {
+    var root = document.documentElement;
+    root.classList.add('js');
+    try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') root.dataset.theme = t; } catch (e) {}
+  })();
+</script>
+<link rel="preload" href="assets/fonts/literata.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body class="is-part">
+<a class="skip" href="#main">Skip to the text</a>
+<header class="topbar">
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="rail">Contents</button>
+  <a class="topbar-title" href="index.html">Rendering Molecules in Blender</a>
+  <span class="topbar-end">
+    <a class="topbar-about" href="about.html">About</a>
+    <button class="theme-toggle" type="button" hidden>Dark theme</button>
+  </span>
+</header>
+<div class="shell">
+  <nav class="rail" id="rail" aria-label="Contents">
+    <a class="site-name" href="index.html">Rendering Molecules in Blender</a>
+    <div class="search" role="search">
+      <label class="visually-hidden" for="search-input">Search the guide</label>
+      <input id="search-input" type="search" placeholder="Search the guide" autocomplete="off" spellcheck="false">
+      <ol class="search-results" id="search-results" hidden></ol>
+    </div>
+    <ol class="parts">
+      <li data-socket="material">
+        <a class="part-link" href="material-recipes.html"><span class="sock" aria-hidden="true"></span>Recipes</a>
+      </li>
+      <li data-socket="color">
+        <a class="part-link" href="designing-a-look.html"><span class="sock" aria-hidden="true"></span>Designing a look</a>
+      </li>
+      <li data-socket="string">
+        <a class="part-link" href="lighting.html"><span class="sock" aria-hidden="true"></span>Lighting</a>
+      </li>
+      <li data-socket="shader">
+        <a class="part-link" href="shaders.html"><span class="sock" aria-hidden="true"></span>Shaders</a>
+      </li>
+      <li data-socket="geometry" class="is-current">
+        <a class="part-link" href="geometry-nodes.html" aria-current="page"><span class="sock" aria-hidden="true"></span>Geometry Nodes</a>
+        <ol class="chapters">
+          <li><a href="#chapter-1"><span class="num">1</span><span>What Geometry Nodes is</span></a></li>
+          <li><a href="#chapter-2"><span class="num">2</span><span>Geometry and attributes</span></a></li>
+          <li><a href="#chapter-3"><span class="num">3</span><span>Fields</span></a></li>
+          <li><a href="#chapter-4"><span class="num">4</span><span>The core vocabulary</span></a></li>
+          <li><a href="#chapter-5"><span class="num">5</span><span>Reading and editing a Molecular Nodes tree</span></a></li>
+          <li><a href="#chapter-6"><span class="num">6</span><span>Volumes, grids and SDFs</span></a></li>
+          <li><a href="#chapter-7"><span class="num">7</span><span>Worked projects: the sticky slime and local resolution</span></a></li>
+          <li><a href="#chapter-8"><span class="num">8</span><span>Working habits and debugging</span></a></li>
+          <li><a href="#chapter-9"><span class="num">9</span><span>The chooser, a glossary and sources</span></a></li>
+        </ol>
+      </li>
+      <li data-socket="vector">
+        <a class="part-link" href="geometry-nodes-for-art.html"><span class="sock" aria-hidden="true"></span>Geometry Nodes for art</a>
+      </li>
+      <li data-socket="boolean">
+        <a class="part-link" href="molecular-nodes.html"><span class="sock" aria-hidden="true"></span>Molecular Nodes</a>
+      </li>
+      <li data-socket="object">
+        <a class="part-link" href="objects-and-modeling.html"><span class="sock" aria-hidden="true"></span>Objects and modeling</a>
+      </li>
+    </ol>
+    <div class="rail-foot">
+      <a href="about.html">About this guide</a>
+      <button class="theme-toggle" type="button" hidden>Dark theme</button>
+    </div>
+  </nav>
+  <main id="main" class="page">
+    <header class="part-head">
+      <h1>Geometry Nodes, from zero</h1>
+      <div class="lead">
+<p>Materials decide how a surface looks; Geometry Nodes decides what the surface is. Every Molecular Nodes object is a Geometry Nodes tree, so learning it is learning how your maps and models are built, and it is what the sticky slime in the <a href="material-recipes.html">Recipes part</a> is made of. This part goes from what a node tree is, through attributes and fields, to volumes and SDFs, and ends with the slime project built chain by chain.</p>
+<p><strong>Notation.</strong> Shift + A › Geometry › Read is a menu path. Node › Socket names one output of a node, so Separate XYZ › Z is the Z output of a Separate XYZ node. An arrow, <span class="arrow">→</span>, is a link you draw from one socket to the next.</p>
+
+      </div>
+      <p class="progress" hidden><span class="progress-count"></span> of 21 exercises done</p>
+    </header>
+    <article class="chapter" aria-labelledby="chapter-1">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 1</span>          <h2 id="chapter-1">What Geometry Nodes is</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Explain what a Geometry Nodes modifier does and why it never damages the original data.</li>
+            <li>Find your way around the Geometry Nodes workspace and the Group Input and Group Output nodes.</li>
+            <li>Open any Molecular Nodes object and see it as a tree you can read.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="a-pipeline-on-a-modifier">
+        <h3>A pipeline on a modifier</h3>
+<p>Geometry Nodes is a modifier. Like a Subdivision Surface or a Solidify modifier, it sits in the Modifier Properties tab, takes the object's geometry in, and hands transformed geometry out to the viewport and the renderer. The difference is that what it does is not fixed: it is a tree of nodes you build. The original mesh is never touched; the tree runs again every time something it depends on changes, which is why you can drag a threshold slider and watch a density surface reshape itself.</p>
+<p>Read a tree from left to right. Group Input on the left is where the object's own data enters. Each node takes what arrives, does one operation, and passes the result on. Group Output on the right is what Blender shows. Anything not connected to Group Output does not exist as far as the viewport is concerned, which is a useful way to park work in progress.</p>
+<p>The same tree can be applied to different objects, and the values you expose on Group Input appear as sliders in the modifier panel, so a tree is also a tool: build it once, reuse it on every map.</p>
+
+      </section>
+      <section id="the-workspace">
+        <h3>The workspace</h3>
+<p>The Geometry Nodes workspace tab at the top of Blender gives the standard layout: the 3D viewport top right, the node editor across the bottom, and the Spreadsheet top left. The Spreadsheet shows the actual numbers of a geometry, one row per vertex or point and one column per attribute, and it is the single most useful debugging tool, because it shows what the data is rather than what you think it is. The menu at its top left chooses which geometry it shows: <strong>Evaluated</strong> is the modifier's final result, <strong>Original</strong> is the object's data before any modifier (what Group Input receives), and <strong>Viewer Node</strong> is whatever is connected to a Viewer node. Selecting a node in the editor does not change what it shows; to inspect a point in the tree, connect that point to a Viewer.</p>
+<p>In the node editor: Shift + A adds nodes, and typing immediately after Shift + A searches them by name. Drag from a socket to connect; drag a link into empty space to disconnect. Ctrl + right-drag across links cuts them. Tab enters a node group. Home frames the whole tree. N opens the sidebar, where the Group tab lists the tree's exposed inputs and outputs. Ctrl + Shift + click on a node connects it to a Viewer so the viewport and Spreadsheet show that node's result.</p>
+<p>Sockets are typed and colored: green for geometry, gray for a number, yellow for a color, blue for a vector, pink for a boolean, orange for an object or collection, and a diamond shape means a field (Chapter <a class="ref" href="#chapter-3">3</a>). A link between mismatched types converts where it can and refuses where it cannot.</p>
+
+      </section>
+      <section id="why-every-molecular-nodes-object-is-one">
+        <h3>Why every Molecular Nodes object is one</h3>
+<p>Molecular Nodes does not model a cartoon. It imports the atoms as points, with the data from the file stored on them as attributes, and adds a Geometry Nodes modifier whose tree reads those attributes and builds the cartoon, the sticks or the surface. A density map imports as a volume with the map values in a grid, and its tree turns the grid into a surface at a threshold. Click any Molecular Nodes object with the Geometry Nodes workspace open and you will see the tree: Group Input, a color node, a style node, Group Output. Everything in the Molecular Nodes menu is a node group designed to fit into that pattern, and everything in this part applies to it.</p>
+
+      </section>
+      <section id="which-tree-you-are-looking-at">
+        <h3>Which tree you are looking at</h3>
+<p>The node editor shows one tree: the one in the active modifier of the active object. Its breadcrumb at the top left reads object › modifier › node group, and the Modifier tab (the wrench) shows the same group in each Geometry Nodes modifier's field. That field is the only link between an object and a tree: pick a different group there, or click New, and the object runs that one instead. A group with a user count of 0 beside its name belongs to no object and is gone after the file is saved and reopened, so point the modifier back at a Molecular Nodes tree before saving if you replaced it by accident.</p>
+<p>To give a new object its own tree, select it, Add Modifier › Geometry Nodes, and click New in the empty field; rename the group at once (double-click its name) so that Geometry Nodes.001 and .002 do not pile up. Tab's meaning depends on where the mouse is: over the viewport it toggles Edit Mode, where X opens a menu for deleting vertices of the active object rather than the object itself; over the node editor it enters and leaves a node group. If the viewport header reads Edit Mode and you did not ask for it, press Tab again.</p>
+
+      </section>
+      <section class="exercise" id="exercise-1-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 1.1</span> <span class="exercise-name">A tree from nothing</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-1-1"> Done</label>
+        </div>
+<ol>
+<li>Add a Cube. In Modifier Properties, Add Modifier › Geometry Nodes, and click New. Open the Geometry Nodes workspace.</li>
+<li>Between Group Input and Group Output, add Shift + A › Mesh › Operations › Subdivide Mesh (Level 2), then Shift + A › Geometry › Operations › Transform Geometry (Scale 2).</li>
+<li>Disconnect the Transform node's output from Group Output, then reconnect it.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The cube gains edges, then doubles in size, and disappears entirely while the output is disconnected. Apply nothing; the cube in Edit Mode is still eight vertices.</p>
+
+      </section>
+      <section class="exercise" id="exercise-1-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 1.2</span> <span class="exercise-name">Open a Molecular Nodes tree</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-1-2"> Done</label>
+        </div>
+<ol>
+<li>Select your map and your model in turn with the Geometry Nodes workspace open.</li>
+<li>Set the Spreadsheet's menu (top left) to Original and read the row count and the column names. Then Ctrl + Shift + click the style node, which connects it to a Viewer and switches the menu to Viewer Node, and read them again.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The model's Group Input is a few thousand points with columns like <code>chain_id</code> and <code>b_factor</code>; after the style node it is a mesh with far more vertices and a <code>Color</code> column. The map's Group Input is a volume with a grid; after the style node it is a mesh. Each node changed the kind of data as well as its shape.</p>
+
+      </section>
+      <section class="check" id="chapter-1-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">What happens to geometry that is not connected to Group Output?</p><details><summary>Answer</summary><p>It is not shown; it exists only in the tree.</p></details></li>
+<li><p class="q">Where do you see the actual numbers a node produces?</p><details><summary>Answer</summary><p>The Spreadsheet, after connecting the node to a Viewer with Ctrl + Shift + click; selecting the node is not enough.</p></details></li>
+<li><p class="q">Which Spreadsheet setting shows the data Group Input receives?</p><details><summary>Answer</summary><p>Original.</p></details></li>
+<li><p class="q">What does a Molecular Nodes model object contain before its tree runs?</p><details><summary>Answer</summary><p>Points, one per atom, with the file's data stored as attributes.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-2">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 2</span>          <h2 id="chapter-2">Geometry and attributes</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Name the five geometry types and the domains each one has.</li>
+            <li>Read and write attributes with Named Attribute and Store Named Attribute.</li>
+            <li>List the attributes Molecular Nodes puts on a model and know which domain each lives on.</li>
+            <li>Check the world scale of your file.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="the-geometry-types">
+        <h3>The geometry types</h3>
+<p>A green socket can carry any of five kinds of geometry, and one geometry can contain several at once (a mesh plus some instances, say). Nodes act on the kinds they understand and pass the others through.</p>
+<ul>
+<li><strong>Mesh</strong>: vertices, edges and faces, with face corners as a fourth level. Everything renderable as a surface is a mesh by the time it reaches Group Output.</li>
+<li><strong>Curves</strong>: control points joined into splines, with a radius per point. They render only after Curve to Mesh or with a profile; Molecular Nodes builds cartoons by making curves through the backbone and sweeping a profile along them.</li>
+<li><strong>Point cloud</strong>: points with a radius and no connections. A Molecular Nodes model is a mesh with only vertices, which behaves like points; Mesh to Points converts it to a true point cloud for instancing.</li>
+<li><strong>Instances</strong>: references to a piece of geometry placed many times, each with a transform. Cheap to display and render; Realize Instances turns them into real geometry when a later node needs to edit them.</li>
+<li><strong>Volume</strong>: a grid of values in space, either as a Blender volume object or as named grids inside geometry. A density map is this. Grids have no vertices; they are converted to a mesh at a threshold (Chapter <a class="ref" href="#chapter-6">6</a>).</li>
+</ul>
+
+      </section>
+      <section id="domains">
+        <h3>Domains</h3>
+<p>An attribute lives on one domain of its geometry: Point (vertices or points), Edge, Face, Face Corner, Spline (for curves), Instance, or Layer (for Grease Pencil). <code>position</code> is on Point. A face's shade-smooth flag is on Face. Molecular Nodes stores its atom data on Point, one row per atom. When a node needs an attribute on a different domain, Blender interpolates: reading a Point attribute on Face averages the face's corners. Store Named Attribute lets you pick the domain explicitly, and the Spreadsheet has a tab per domain so you can see where a column lives.</p>
+
+      </section>
+      <section id="reading-and-writing-attributes">
+        <h3>Reading and writing attributes</h3>
+<ul>
+<li><strong>Named Attribute</strong> (Shift + A › Geometry › Read › Named Attribute) reads an attribute by name, as a field of the chosen type: Float for <code>b_factor</code>, Integer for <code>chain_id</code>, Color for <code>Color</code>, Vector for <code>position</code>. An attribute that does not exist reads as zero, and the node shows a warning, which is the first thing to check when a chain does nothing.</li>
+<li><strong>Store Named Attribute</strong> (Shift + A › Geometry › Write) writes a value into an attribute on a domain, creating it if needed. Geometry passes through. This is how a computed value, such as a distance, becomes something the material can read with its Attribute node.</li>
+<li><strong>Capture Attribute</strong> stores a value under an anonymous name for use later in the same tree, which Chapter <a class="ref" href="#chapter-3">3</a> explains.</li>
+<li>Attributes are also visible in the Data tab of the Properties editor under Attributes, where they can be added, removed and renamed by hand.</li>
+</ul>
+
+      </section>
+      <section id="what-molecular-nodes-gives-you">
+        <h3>What Molecular Nodes gives you</h3>
+<p>On a model, on the Point domain (<a href="https://bradyajohnston.github.io/MolecularNodes/attributes.html" rel="noopener">Attributes</a>):</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>position</code></td>
+<td>Vector</td>
+<td>Atom coordinates, scaled by the world scale</td>
+</tr>
+<tr>
+<td><code>Color</code></td>
+<td>Color</td>
+<td>The current per-atom color, written by the Color nodes</td>
+</tr>
+<tr>
+<td><code>chain_id</code></td>
+<td>Int</td>
+<td>Chain, as an integer index; the names are in the Molecular Nodes panel</td>
+</tr>
+<tr>
+<td><code>res_id</code></td>
+<td>Int</td>
+<td>Residue number</td>
+</tr>
+<tr>
+<td><code>res_name</code></td>
+<td>Int</td>
+<td>Residue type as an integer code</td>
+</tr>
+<tr>
+<td><code>atomic_number</code></td>
+<td>Int</td>
+<td>Element</td>
+</tr>
+<tr>
+<td><code>b_factor</code></td>
+<td>Float</td>
+<td>B-factor, or pLDDT for AlphaFold models</td>
+</tr>
+<tr>
+<td><code>vdw_radii</code></td>
+<td>Float</td>
+<td>Van der Waals radius in world units</td>
+</tr>
+<tr>
+<td><code>sec_struct</code></td>
+<td>Int</td>
+<td>Secondary structure class</td>
+</tr>
+<tr>
+<td><code>is_backbone</code>, <code>is_side_chain</code>, <code>is_alpha_carbon</code></td>
+<td>Bool</td>
+<td>Backbone classification</td>
+</tr>
+<tr>
+<td><code>entity_id</code>, <code>model_id</code>, <code>occupancy</code>, <code>charge</code> and others</td>
+<td>Various</td>
+<td>From the file, where present</td>
+</tr>
+</tbody>
+</table></div>
+<p>Strings cannot be attributes, so chain and residue names are stored as integers, and the Molecular Nodes select nodes translate between the two.</p>
+<p>On a map, the data is a grid named after the file, not a Point attribute. After the Density Style Surface it is a mesh with a <code>Color</code> attribute and nothing else, which is why coloring a map needs data sampled from the model (Chapter <a class="ref" href="#chapter-5">5</a>).</p>
+
+      </section>
+      <section id="world-scale">
+        <h3>World scale</h3>
+<p>Molecular Nodes scales coordinates on import. In Blender 5 the scale is 0.1, so 1 nm equals 1 m and a 15 nm complex is 15 m across; in earlier versions it was 0.01, so 1 Å equaled 1 cm and the same complex was 1.5 m. Every distance in this guide, from Subsurface Scale to the wet collar's reach, depends on it. Check once per file: select the model, press N › Item and read Dimensions, then compare with the real size.</p>
+
+      </section>
+      <section class="exercise" id="exercise-2-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 2.1</span> <span class="exercise-name">Read the Spreadsheet</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-2-1"> Done</label>
+        </div>
+<ol>
+<li>Select the model and set the Spreadsheet's menu to Original, which shows the atoms exactly as Group Input receives them.</li>
+<li>Show only one residue with a row filter. The Spreadsheet cannot sort, but it can filter: with the mouse over the Spreadsheet press N to open its sidebar, add a row filter with the + button, set its column to <code>res_id</code>, Equal To, 19, and make sure the funnel icon (Use Filter) in the Spreadsheet's header is on.</li>
+<li>Ctrl + Shift + click the style node to view its output, then switch the domain list on the left from Vertex to Face.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> A handful of rows for residue 19, one per atom, each with its element and chain. After the style node, the Vertex tab still has the atom columns, because Style Cartoon copies them onto the cartoon's vertices, but the Face tab has different, face-level columns. Where a column appears tells you which domain it lives on.</p>
+
+      </section>
+      <section class="exercise" id="exercise-2-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 2.2</span> <span class="exercise-name">Write an attribute and read it in a material</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-2-2"> Done</label>
+        </div>
+<ol>
+<li>Add a Store Named Attribute node (Domain Point, Float, Name <code>height</code>) and drop it onto the link between the style node and Join Geometry so it splices in. Its Geometry output must continue on to Group Output; a Store node on a side branch writes to a copy that is thrown away.</li>
+<li>Add a Position node and a Separate XYZ node, and draw Position <span class="arrow">→</span> Separate XYZ's Vector input. Separate XYZ › Z is now each vertex's height in meters.</li>
+<li>Rescale it to 0 to 1 so the material needs no numbers. Add an Attribute Statistic node (Float, Point): style node's Geometry <span class="arrow">→</span> its Geometry, Separate XYZ › Z <span class="arrow">→</span> its Attribute. Add a Map Range: Separate XYZ › Z <span class="arrow">→</span> Value, Attribute Statistic › Min <span class="arrow">→</span> From Min, Attribute Statistic › Max <span class="arrow">→</span> From Max, To Min 0, To Max 1. Then Map Range › Result <span class="arrow">→</span> Store Named Attribute's Value. The Spreadsheet's Vertex tab now shows a <code>height</code> column running from 0 to 1.</li>
+<li>Make a material for the test. A Molecular Nodes object has no material in its slots, because the style node assigns it, so the Material tab only offers New: click New, double-click the name and rename it <code>height_test</code>, then on the style node click its Material field (it shows Default) and pick <code>height_test</code>. Open the Shader Editor: click the Editor Type menu in the top-left corner of the node editor and choose Shader Editor, <strong>or click the Shading workspace tab at the top of the window.</strong> With the model selected, the Shader Editor's header shows <code>height_test</code>. Press Shift + A, type Attribute to add one, and set its Name to <code>height</code>. Add a Color Ramp the same way, then draw Attribute › Fac <span class="arrow">→</span> Color Ramp's Fac, and Color Ramp › Color <span class="arrow">→</span> Principled BSDF's Base Color.</li>
+<li>Turn the Viewer off (the icon in its header) and view in Material Preview or Rendered. Solid mode never shows a shader.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The model colored by height. The whole route from a geometry node to a pixel is Store Named Attribute on one side and Attribute on the other.</p>
+
+      </section>
+      <section class="check" id="chapter-2-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Which domain do Molecular Nodes atom attributes live on?</p><details><summary>Answer</summary><p>Point.</p></details></li>
+<li><p class="q">Why are chain names stored as integers?</p><details><summary>Answer</summary><p>Geometry Nodes cannot store strings as attributes.</p></details></li>
+<li><p class="q">A Named Attribute node reads all zeros. What is the likeliest cause?</p><details><summary>Answer</summary><p>The name is misspelled or the attribute is on a different geometry than the one connected.</p></details></li>
+<li><p class="q">How do you confirm the world scale of a file?</p><details><summary>Answer</summary><p>N › Item › Dimensions on the model, compared with its real size.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-3">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 3</span>          <h2 id="chapter-3">Fields</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Explain what a field is and recognize one by its diamond socket.</li>
+            <li>Use Position, Index, Normal and Named Attribute as fields inside Math and Compare nodes.</li>
+            <li>Drive a Selection input with a comparison.</li>
+            <li>Explain why Capture Attribute exists and when you need it.</li>
+            <li>Bring data from one geometry onto another with Sample Index, Sample Nearest and Geometry Proximity.</li>
+          </ul>
+        </div>
+      </header>
+
+<p>Fields are the idea that makes Geometry Nodes different from a flowchart, and the one that confuses everyone at first. Once it is clear, every node in Chapter <a class="ref" href="#chapter-4">4</a> reads the same way.</p>
+
+      <section id="a-field-is-a-function-not-a-number">
+        <h3>A field is a function, not a number</h3>
+<p>A gray socket carrying a number can carry two different things. A circle socket carries one value: a single roughness, a single scale. A diamond socket carries a field: a rule that produces a value for each element of whatever geometry it is eventually evaluated on. The Position node outputs a field; it does not output one position, it outputs &quot;the position of this element,&quot; and the node that consumes it, say Set Position, evaluates it once per vertex.</p>
+<p>So a Math node fed by Position <span class="arrow">→</span> Separate XYZ › Z does not compute one number; it computes &quot;Z of this point&quot; for every point of the geometry the result is applied to. Which geometry? The one connected to the node that finally consumes the field. The field itself is geometry-free until then, which is why the Spreadsheet shows nothing for it and why the same chain can be reused on a different mesh.</p>
+<p>A diamond socket with a dot in it means the field is currently just a single value; a plain diamond means it depends on per-element data. Hover over any socket for a tooltip saying which.</p>
+
+      </section>
+      <section id="the-built-in-fields">
+        <h3>The built-in fields</h3>
+<ul>
+<li><strong>Position</strong>: the location of the element, in the object's local space.</li>
+<li><strong>Index</strong>: the element's number, 0 upward, in the order the geometry stores it. Molecular Nodes stores atoms in file order, so Index on the atoms is the atom's serial position.</li>
+<li><strong>Normal</strong>: the direction a face or point faces.</li>
+<li><strong>Named Attribute</strong>: any stored attribute, by name, including everything in the table in Chapter <a class="ref" href="#chapter-2">2</a>.</li>
+<li><strong>ID</strong>, <strong>Radius</strong>, <strong>Spline Parameter</strong> and the rest are the same idea for their domains.</li>
+</ul>
+<p>Any Math, Vector Math, Compare, Map Range, Color Ramp or Mix node accepts fields and stays a field, so you can write expressions: &quot;points whose <code>b_factor</code> is above 60,&quot; &quot;the distance of this point from the origin,&quot; &quot;a color from <code>res_id</code>.&quot;</p>
+
+      </section>
+      <section id="why-position-has-no-input">
+        <h3>Why Position has no input</h3>
+<p>The Spreadsheet is the right picture of a field. Each row is one element, and Position is one of its columns. A node with no geometry input and a diamond output is a question each element answers about itself: Position asks &quot;where am I?&quot;, so it needs no wire telling it which geometry to read.</p>
+<p>A chain such as Position <span class="arrow">→</span> Separate XYZ › Z <span class="arrow">→</span> Map Range is a formula written once, height = (Z − Min) / (Max − Min), that nobody has run yet. Separate XYZ and Map Range only extend the formula. It runs the moment it reaches a node with a Geometry input beside the field input: Store Named Attribute, Attribute Statistic, Set Position, or a Selection socket on Delete Geometry. That node supplies the rows and computes the formula for each one. This is why Store Named Attribute must sit after Style Cartoon in <a class="ref" href="#exercise-2-2">Exercise 2.2</a>: the geometry flowing into it decides whose positions are read.</p>
+<p>Dashed links carry a formula; solid links carry one number. In the height chain, Z <span class="arrow">→</span> Map Range and Map Range <span class="arrow">→</span> Store are dashed. Min and Max arrive on solid links, because Attribute Statistic collapses the whole column into single numbers. Map Range mixes the two: a value that changes per row and two constants.</p>
+<p>The same Position can answer differently for two consumers. Feed Attribute Statistic the atoms (Group Input › Atoms) and feed the cartoon mesh to Store Named Attribute: Min and Max come from atom positions, while the written values come from cartoon vertices.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Node</th>
+<th>What it asks each element</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Position</td>
+<td>Where am I?</td>
+</tr>
+<tr>
+<td>Normal</td>
+<td>Which way does the surface face here?</td>
+</tr>
+<tr>
+<td>Index</td>
+<td>Which row am I?</td>
+</tr>
+<tr>
+<td>Named Attribute</td>
+<td>What is in my column called X? (<code>chain_id</code>, <code>res_id</code>, <code>b_factor</code>)</td>
+</tr>
+<tr>
+<td>Spline Parameter</td>
+<td>How far along my curve am I, 0 to 1?</td>
+</tr>
+<tr>
+<td>Random Value</td>
+<td>A random number, different for each element</td>
+</tr>
+<tr>
+<td>Sample Grid</td>
+<td>What value does a grid hold at my position? (Chapter <a class="ref" href="#chapter-7">7</a>, project 2)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Scene Time and Object Info also have no geometry input, but they give one answer for everything, so they are single values, not fields. Some nodes read Position without a wire: Set Position, Geometry Proximity, Sample Nearest and Sample Grid use each element's own position when their position socket is left empty. That is how chain 1 of the slime measures distance from every cartoon vertex with no Position node in sight.</p>
+<p>The Shader Editor works the same way. Texture Coordinate and Geometry have no inputs either; they answer per shading point instead of per vertex.</p>
+
+      </section>
+      <section id="selections">
+        <h3>Selections</h3>
+<p>Most nodes have a Selection input, a boolean field that defaults to true everywhere. Connect a Compare node (Shift + A › Utilities › Math › Compare) and the node acts only where the comparison is true: Named Attribute <code>chain_id</code> <span class="arrow">→</span> Compare (Equal, B = 0) <span class="arrow">→</span> Selection on a Delete Geometry node deletes chain 0 only. Molecular Nodes' Select nodes are prebuilt comparisons of exactly this kind, which is why they plug into the Selection socket of every style node.</p>
+
+      </section>
+      <section id="capture-attribute-freezing-a-field">
+        <h3>Capture Attribute: freezing a field</h3>
+<p>A field is evaluated on the geometry at the point where it is consumed. If the geometry changes between where you set up the field and where you use it, the field evaluates on the new geometry, which is usually not what you meant. The standard example: after Instance on Points and Realize Instances, Index and Random Value count the vertices of every sphere instead of the atoms, so a random color per atom turns into a speckle per vertex. Capture Attribute (Shift + A › Attribute) evaluates the field on the geometry passing through it right now and carries the result forward as an anonymous attribute, so later nodes read the frozen values: Instance on Points copies it onto each instance, and Realize Instances onto every vertex of that instance. The rule of thumb: when a value should be computed on the geometry before a node that changes the geometry, capture it before that node. Fields wired into a node's own inputs need no capture: Instance on Points evaluates its Selection, Rotation and Scale on the points it receives.</p>
+
+      </section>
+      <section id="data-from-another-geometry">
+        <h3>Data from another geometry</h3>
+<p>Fields read from the geometry they are evaluated on. To read from a different geometry, three nodes bridge the gap:</p>
+<ul>
+<li><strong>Sample Index</strong> (Shift + A › Geometry › Sample): read the value of an attribute at a given index on another geometry. Molecular Nodes uses it internally to copy atom data onto the cartoon it builds.</li>
+<li><strong>Sample Nearest</strong>: for each element here, find the nearest element of another geometry and return its index; chain it into Sample Index to read that element's attribute. Older Molecular Nodes versions packaged this pair as a Sample Nearest Attribute node; with or without it, the pair is how a map borrows the model's colors.</li>
+<li><strong>Geometry Proximity</strong>: for each position here, the closest point on another geometry and the distance to it. It is a distance field to any object, which is the basis of the wet collar in the slime project.</li>
+</ul>
+<p>In every case the other geometry arrives through an Object Info node (Shift + A › Input › Scene › Object Info), with Relative ticked so the two objects' transforms are reconciled.</p>
+
+      </section>
+      <section class="exercise" id="exercise-3-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 3.1</span> <span class="exercise-name">See a field evaluate</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-3-1"> Done</label>
+        </div>
+<ol>
+<li>On the subdivided cube from Chapter <a class="ref" href="#chapter-1">1</a>, add Set Position between the Subdivide and the Transform nodes.</li>
+<li>Position <span class="arrow">→</span> Separate XYZ › Z <span class="arrow">→</span> Math (Multiply, 0.5) <span class="arrow">→</span> Combine XYZ (into Z only) <span class="arrow">→</span> Set Position › Offset.</li>
+<li>Ctrl + Shift + click the Math node, and look at the Spreadsheet.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The top of the cube lifts and the bottom sinks, by an amount that depends on each vertex's own height; and the Spreadsheet's Viewer column lists one number per vertex, which is the field evaluated.</p>
+
+      </section>
+      <section class="exercise" id="exercise-3-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 3.2</span> <span class="exercise-name">A selection on the model</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-3-2"> Done</label>
+        </div>
+<ol>
+<li>On the model, before the style node, add Delete Geometry. Named Attribute (Float, <code>b_factor</code>) <span class="arrow">→</span> Compare (Greater Than, B 80) <span class="arrow">→</span> Selection.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The most mobile atoms vanish from the cartoon, and the threshold is a single number you can drag. Swap Delete Geometry for Separate Geometry and both halves are available to style differently.</p>
+
+      </section>
+      <section class="exercise" id="exercise-3-3">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 3.3</span> <span class="exercise-name">Capture before you instance</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-3-3"> Done</label>
+        </div>
+<ol>
+<li>Mesh to Points on the model's atoms (Group Input › Atoms, or Set Color's output so the chain colors come along) <span class="arrow">→</span> Instance on Points with an Icosphere: Mesh to Points' output <span class="arrow">→</span> its Points socket, and an Ico Sphere (Shift + A › Mesh › Primitives, Radius 0.08, Subdivisions 2) <span class="arrow">→</span> its Instance socket, so one sphere lands on every atom. Position <span class="arrow">→</span> Separate XYZ › Z <span class="arrow">→</span> Map Range (To Min 0.5, To Max 2) <span class="arrow">→</span> the Scale socket on the instancer, Instance on Points, so each sphere is sized by its atom's height. From Min and From Max come from an Attribute Statistic (Float, Point) with Mesh to Points' output in its Geometry and the same Z in its Attribute; with nothing in Geometry both read 0, and every sphere gets To Min.</li>
+<li>Add Realize Instances after Instance on Points, then Store Named Attribute (Float, Point, Name rand) with a Random Value (Float) as its Value. Spheres made in the tree have no material of their own, so give them one: click New in the Material tab and rename it, then add Set Material (Shift + A › Material) after Store with that material picked. In the Shader Editor (Editor Type menu at the node editor's top-left, as in <a class="ref" href="#exercise-2-2">Exercise 2.2</a>), read rand in a material: Attribute › Fac <span class="arrow">→</span> Color Ramp <span class="arrow">→</span> Base Color. Then insert a Capture Attribute (Point) between Mesh to Points and Instance on Points, drag Random Value › Value into its empty bottom socket to add a capture item, and connect that item's output, on the node's right side, to Store's Value instead.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> After step 1 every sphere is sized by its atom's height, with no capture, because Instance on Points evaluates its Scale field on the points it receives. In step 2 the uncaptured version speckles every sphere, because after Realize Instances the random number is drawn once per sphere vertex; the captured version paints each sphere one solid color, because the number was drawn once per atom and carried onto every vertex of its sphere.</p>
+<p>The same trap catches a selection placed after instancing. Separate Geometry, Delete Geometry and Set Position on the Point domain reach inside each instance and evaluate on the instanced mesh itself. Named Attribute <code>b_factor</code> <span class="arrow">→</span> Compare <span class="arrow">→</span> Separate Geometry after Instance on Points therefore reads 0 on the sphere's own vertices: Greater Than removes every sphere and Less Than keeps them all, whatever the threshold. Set the domain to Instance, where Instance on Points has copied <code>b_factor</code> onto each instance, or wire the comparison into Instance on Points' Selection socket so the unwanted atoms never get a sphere.</p>
+
+      </section>
+      <section class="exercise" id="exercise-3-4">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 3.4</span> <span class="exercise-name">Four more formulas on the height chain</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-3-4"> Done</label>
+        </div>
+<p>Each variant reuses the tree from <a class="ref" href="#exercise-2-2">Exercise 2.2</a>. Change only what is named, keep Attribute Statistic and Map Range, and watch the <code>height</code> column and the material update.</p>
+<ol>
+<li>Side to side: connect Sepfarate XYZ › X instead of Z to both Map Range's Value and Attribute Statistic's Attribute.</li>
+<li>B-factor, like <code>spectrum b</code> in PyMOL: replace Position <span class="arrow">→</span> Separate XYZ with Named Attribute (Float, Name <code>b_factor</code>), feeding both nodes. Check first that <code>b_factor</code> appears among the Spreadsheet's columns on the Viewer output.</li>
+<li>Which way the surface faces: replace Position with Normal and keep Separate XYZ › Z. Upward-facing parts read 1 and downward-facing parts −1 before Map Range rescales them.</li>
+<li>Core versus surface: distance from the center only works for a sphere, so measure to the surface instead. Add Style Surface on Group Input › Atoms as a branch that goes nowhere else, then Geometry Proximity with Target Element set to Faces and that surface as Target; leave Sample Position empty. Its Distance is each vertex's depth below the nearest surface, including the lining of a channel or cavity. Feed Distance into Attribute Statistic and Map Range in place of Z. An SDF grid holds true distances only within its band (3 voxels for Points to SDF Grid), so Proximity is the exact route.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> A gradient across the model in each case: left to right, by refinement B-factor, by facing, and from the surface inward. In variant 4 the exposed loops are dark and the buried core bright whichever way the model is turned, because a depth does not depend on the view, and the lining of any channel through the model is dark as well.</p>
+
+      </section>
+      <section class="check" id="chapter-3-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">What is the difference between a circle socket and a diamond socket?</p><details><summary>Answer</summary><p>A circle carries one value; a diamond carries a field, a rule evaluated per element.</p></details></li>
+<li><p class="q">On which geometry is a field evaluated?</p><details><summary>Answer</summary><p>The geometry connected to the node that consumes it.</p></details></li>
+<li><p class="q">What does Capture Attribute protect you from?</p><details><summary>Answer</summary><p>A field evaluating on later, changed geometry instead of the geometry you meant.</p></details></li>
+<li><p class="q">Which node gives a distance from every point of one object to the surface of another?</p><details><summary>Answer</summary><p>Geometry Proximity.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-4">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 4</span>          <h2 id="chapter-4">The core vocabulary</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Recognize the twenty nodes that do most of the work in any tree.</li>
+            <li>Say, for each, what goes in, what comes out, and what you would use it for on a molecule.</li>
+          </ul>
+        </div>
+      </header>
+
+<p>Geometry Nodes has several hundred nodes. These twenty cover nearly every tree you will read or build. Each is listed by the menu path under Shift + A, with search by name as the faster route.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Node</th>
+<th>Menu</th>
+<th>Takes</th>
+<th>Gives</th>
+<th>Use it for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Set Position</td>
+<td>Geometry › Write</td>
+<td>Geometry, Position or Offset field</td>
+<td>Moved geometry</td>
+<td>Deforming, pushing along normals, jitter</td>
+</tr>
+<tr>
+<td>Transform Geometry</td>
+<td>Geometry › Operations</td>
+<td>Geometry, Translation, Rotation, Scale</td>
+<td>Moved geometry</td>
+<td>Placing a part, scaling a whole map</td>
+</tr>
+<tr>
+<td>Join Geometry</td>
+<td>Geometry</td>
+<td>Several geometries</td>
+<td>One geometry</td>
+<td>Combining two styles, adding a collar to a map</td>
+</tr>
+<tr>
+<td>Separate Geometry</td>
+<td>Geometry › Operations</td>
+<td>Geometry, Selection</td>
+<td>Selected and Inverted</td>
+<td>Two styles for two parts of one model</td>
+</tr>
+<tr>
+<td>Delete Geometry</td>
+<td>Geometry › Operations</td>
+<td>Geometry, Selection</td>
+<td>The rest</td>
+<td>Hiding solvent, trimming a map</td>
+</tr>
+<tr>
+<td>Set Material</td>
+<td>Geometry › Material</td>
+<td>Geometry, Selection, Material</td>
+<td>Geometry with material</td>
+<td>Assigning your slime material after a join</td>
+</tr>
+<tr>
+<td>Mesh to Points</td>
+<td>Mesh › Operations</td>
+<td>Mesh</td>
+<td>Point cloud</td>
+<td>Preparing atoms for instancing</td>
+</tr>
+<tr>
+<td>Instance on Points</td>
+<td>Instances</td>
+<td>Points, Instance geometry, Scale, Rotation</td>
+<td>Instances</td>
+<td>Spheres on atoms, arrows on residues</td>
+</tr>
+<tr>
+<td>Realize Instances</td>
+<td>Instances</td>
+<td>Instances</td>
+<td>Real mesh</td>
+<td>Before any node that edits instance geometry</td>
+</tr>
+<tr>
+<td>Curve Line, Curve Circle, Bézier Segment</td>
+<td>Curve › Primitives</td>
+<td>Points or parameters</td>
+<td>A curve</td>
+<td>Strands, profiles for sweeps</td>
+</tr>
+<tr>
+<td>Set Curve Radius</td>
+<td>Curve › Write</td>
+<td>Curve, Radius field</td>
+<td>Curve</td>
+<td>Tapering strands</td>
+</tr>
+<tr>
+<td>Curve to Mesh</td>
+<td>Curve › Operations</td>
+<td>Curve, Profile curve</td>
+<td>Mesh</td>
+<td>Turning a strand or a backbone into a tube</td>
+</tr>
+<tr>
+<td>Spline Parameter</td>
+<td>Curve › Read</td>
+<td>Curve (field)</td>
+<td>Factor 0 to 1 along the spline</td>
+<td>Driving taper or color along a strand</td>
+</tr>
+<tr>
+<td>Points to Volume, Volume to Mesh</td>
+<td>Point, Volume</td>
+<td>Points and radius; volume and threshold</td>
+<td>Volume; mesh</td>
+<td>Blobby envelopes around atoms</td>
+</tr>
+<tr>
+<td>Mesh to SDF Grid, Grid to Mesh</td>
+<td>Volume</td>
+<td>Mesh, voxel size; grid</td>
+<td>SDF grid; mesh</td>
+<td>The meniscus chain (Chapter <a class="ref" href="#chapter-6">6</a>)</td>
+</tr>
+<tr>
+<td>SDF Grid Boolean, SDF Grid Fillet</td>
+<td>Volume › Operations</td>
+<td>Two grids; a grid and Iterations</td>
+<td>Combined grid</td>
+<td>Smooth unions</td>
+</tr>
+<tr>
+<td>Geometry Proximity</td>
+<td>Geometry › Sample</td>
+<td>Target geometry, Source Position</td>
+<td>Position and Distance fields</td>
+<td>Wetness by distance to the map</td>
+</tr>
+<tr>
+<td>Sample Nearest, Sample Index</td>
+<td>Geometry › Sample</td>
+<td>Another geometry, an attribute</td>
+<td>Index; the value at an index</td>
+<td>Borrowing the model's color for the map</td>
+</tr>
+<tr>
+<td>Named Attribute, Store Named Attribute</td>
+<td>Geometry › Read, Write</td>
+<td>Name; name, value, domain</td>
+<td>Field; geometry with attribute</td>
+<td>Reading <code>chain_id</code>; writing <code>wet</code></td>
+</tr>
+<tr>
+<td>Object Info</td>
+<td>Input › Scene</td>
+<td>An object</td>
+<td>Its geometry, location, rotation</td>
+<td>Bringing the map into the model's tree</td>
+</tr>
+</tbody>
+</table></div>
+<p>Three habits make the table usable. First, Geometry passes through almost every node, so chains are built by inserting a node onto an existing link (drop it on the link and it splices in). Second, the gray inputs are fields, so any of them can be driven by a computation rather than a number. Third, a node that does not do what you expect is usually receiving the wrong geometry type: a Set Curve Radius on a mesh, a Realize Instances on nothing instanced.</p>
+
+      <section class="exercise" id="exercise-4-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 4.1</span> <span class="exercise-name">Spheres on atoms, by hand</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-4-1"> Done</label>
+        </div>
+<ol>
+<li>Start clean: hide your other molecules (the eye icons in the Outliner) and import the structure again with Molecular Nodes, from its tab in the viewport sidebar (N), the way you imported it the first time; any style will do, since you will delete it. The new object comes with its own node tree: check that the breadcrumb at the top of the node editor names the new object. In that tree, delete the style node, which leaves Set Color's Atoms output free.</li>
+<li>Set Color › Atoms <span class="arrow">→</span> Mesh to Points' Mesh, then Mesh to Points <span class="arrow">→</span> Instance on Points with Shift + A › Mesh › Primitives › Ico Sphere (Radius 1, Subdivisions 2) as the Instance. With a radius of 1, the Scale you give each copy is its radius in scene units.</li>
+<li>Named Attribute (Float, <code>vdw_radii</code>) <span class="arrow">→</span> Scale on the instancer, so every sphere takes its element's van der Waals radius; Molecular Nodes stores it in scene units, 0.17 for carbon. For ball-and-stick proportions, put Math (Multiply, 0.3) in between. Then Realize Instances <span class="arrow">→</span> Set Material <span class="arrow">→</span> Group Output.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> A space-filling model built from four nodes, with atom radii by element. This is what Molecular Nodes' Style Spheres does inside, plus color.</p>
+
+      </section>
+      <section class="exercise" id="exercise-4-1-part-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 4.1, part 2</span> <span class="exercise-name">One look per element</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-4-1-part-2"> Done</label>
+        </div>
+<p>Molecular Nodes stores each atom's element as <code>atomic_number</code>: 1 hydrogen, 6 carbon, 7 nitrogen, 8 oxygen, 16 sulfur. Instance on Points and Realize Instances carry it onto every vertex of that atom's sphere, so Set Material nodes after Realize Instances can choose a material by element.</p>
+<ol>
+<li>Check which elements your model has. With the Viewer on Realize Instances' output, add a Spreadsheet row filter on <code>atomic_number</code>, Equal To 1. Cryo-EM models refined in Phenix usually carry no hydrogens, so expect no rows; to have them, add hydrogens in ChimeraX (<code>addh</code>), save the model, and import that file.</li>
+<li>Make one material per element. In the Material tab press + to add a slot, click New and rename it; repeat for <code>atom_C</code> (light gray, Roughness 0.6), <code>atom_O</code> (red), <code>atom_N</code> (blue), <code>atom_S</code> (yellow) and <code>atom_H</code> (white). The slots make each material reachable from the Shader Editor's Slot menu. Give them different Roughness or Coat values too, and the elements differ in finish as well as color.</li>
+<li>After Realize Instances, chain five Set Material nodes. The first sets <code>atom_C</code> with nothing in Selection, so every sphere starts as carbon. Each of the others sets one element, with Selection = Compare (Integer, Equal, B = that element's number) whose A comes from one shared Named Attribute (Integer, <code>atomic_number</code>).</li>
+<li>Optional: to hide hydrogens, as most figures do, put Delete Geometry before Mesh to Points with Selection = Compare (Integer, Equal, A = <code>atomic_number</code>, B = 1).</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The space-filling model in the standard CPK colors, carbon gray, oxygen red, nitrogen blue, sulfur yellow, with hydrogens white and visibly smaller, since their van der Waals radius is 1.2 Å against carbon's 1.7 Å. A later Set Material overrides an earlier one only where its selection is true, which is why carbon goes first as the catch-all.</p>
+<p>One material instead of five: in a single material, Attribute (<code>atomic_number</code>) › Factor <span class="arrow">→</span> Map Range (From Min 0, From Max 20, To Min 0, To Max 1) <span class="arrow">→</span> Color Ramp set to Constant, with a stop just below each element's value: white at 0.03, gray at 0.28, blue at 0.33, red at 0.38, yellow at 0.78. With Constant interpolation each atom takes the stop at or below its value, and placing the stops slightly below keeps rounding from dropping an atom into the previous color. This colors by element but gives every element the same finish, which is what separate materials add.</p>
+
+      </section>
+      <section class="exercise" id="exercise-4-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 4.2</span> <span class="exercise-name">A tube from scratch</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-4-2"> Done</label>
+        </div>
+<ol>
+<li>Curve Line (Start 0,0,0, End 0,0,1) <span class="arrow">→</span> Resample Curve (Count 32) <span class="arrow">→</span> Set Curve Radius with Spline Parameter › Factor <span class="arrow">→</span> Float Curve (a dip in the middle) <span class="arrow">→</span> Curve to Mesh with a Curve Circle (Radius 0.02) as Profile <span class="arrow">→</span> Set Material.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> A tube that is thin in the middle, which is the strand from the slime project. Replace the Curve Line with a Bézier Segment and it sags.</p>
+
+      </section>
+      <section class="check" id="chapter-4-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Which node must come before editing the mesh of instanced spheres?</p><details><summary>Answer</summary><p>Realize Instances.</p></details></li>
+<li><p class="q">Which node brings another object's geometry into a tree?</p><details><summary>Answer</summary><p>Object Info.</p></details></li>
+<li><p class="q">What is the quickest way to insert a node into an existing chain?</p><details><summary>Answer</summary><p>Drop it onto the link.</p></details></li>
+<li><p class="q">Which pair of nodes writes a computed value for the material to read?</p><details><summary>Answer</summary><p>Store Named Attribute in the tree, Attribute in the material.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-5">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 5</span>          <h2 id="chapter-5">Reading and editing a Molecular Nodes tree</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Read the default model tree and the default density tree node by node.</li>
+            <li>Give different chains different styles and materials in one object.</li>
+            <li>Color a density surface from the model it encloses.</li>
+            <li>Expose a value to the modifier panel so it can be changed without opening the tree.</li>
+          </ul>
+        </div>
+      </header>
+
+<p>Molecular Nodes' node groups are ordinary Geometry Nodes groups with a consistent design, so once you know the pattern, every tree it makes is readable (<a href="https://bradyajohnston.github.io/MolecularNodes/tutorials/importing.html" rel="noopener">Fetch from the PDB</a>).</p>
+
+      <section id="the-model-tree">
+        <h3>The model tree</h3>
+<p>Group Input carries the atoms as points with their attributes. The first node is a Color node, for example Color Common or Color Chain, which writes the <code>Color</code> attribute by element or by chain; it changes data, not geometry. The last node is a Style node, Style Cartoon, Style Ribbon, Style Surface, Style Sticks, Style Ball and Stick or Style Spheres, which builds new geometry from the atoms and copies <code>Color</code> onto it. Group Output shows the style's result. Every style node has a Selection socket, so a Select node (Select Chain, Select Res ID and the rest, under Shift + A › Molecular Nodes › Select) plugged into it limits the style to part of the model, and a Material socket, which is how the <a href="material-recipes.html">Recipes part</a> assigns your materials.</p>
+<p>To add nodes from the Molecular Nodes library use Shift + A › Molecular Nodes, which has submenus for Style, Select, Color, Animate, Topology, Density and Utilities. Each is a node group; Tab opens it to see how it is built, and this part's chapters are enough to read what you find inside.</p>
+
+      </section>
+      <section id="the-density-tree">
+        <h3>The density tree</h3>
+<p>Group Input carries the volume. A Density Style Surface, Wire or ISO Surface node turns it into a mesh at the Threshold and gives it a color and material. Group Output shows the mesh. There are no atom attributes anywhere in this tree, which is why the map's material has only the style's Color to work with unless you sample from the model.</p>
+
+      </section>
+      <section id="two-styles-in-one-object">
+        <h3>Two styles in one object</h3>
+<p>The style must be the last thing applied to a piece of geometry, because its output is a mesh and no longer atom-like. To show cartoon for one chain and sticks for another, run two style nodes in parallel from the same Color node, each with its own Select node on Selection, and merge them with Join Geometry before Group Output. Each branch can carry its own material. The same pattern gives ribbons for the backbone and ball-and-stick for a ligand: Select Res Name picks the ligand into one branch, and its inverse (the Select node's Inverted output, or a Boolean Math Not) picks the rest into the other.</p>
+
+      </section>
+      <section id="coloring-a-map-from-the-model">
+        <h3>Coloring a map from the model</h3>
+<p>The map mesh has no chain data, so it borrows the model's: for every vertex of the surface, find the nearest atom and copy its <code>Color</code>. Current Molecular Nodes versions no longer list a Sample Nearest Attribute node under Density, so build the same thing from Blender's own nodes in the map's tree. Object Info (Relative on) brings in the model. Sample Nearest (Point) takes the model's geometry and returns, for each surface vertex, the index of the nearest atom. Sample Index (Color, Point) takes the model's geometry, Named Attribute (Color, <code>Color</code>) as its Value and Sample Nearest › Index as its Index, and returns that atom's color. Store Named Attribute (Color, Point, Name <code>Color</code>) writes it onto the surface, between the Density Style node and Join Geometry. The model object should ideally be outputting atoms, not a cartoon, so that every bit of density takes the color of the atom inside it, side chains and glycans included; the CryoEM Maps tutorial duplicates the model and removes the style on the copy (<a href="https://bradyajohnston.github.io/MolecularNodes/tutorials/cryoem.html" rel="noopener">CryoEM Maps</a>, which still shows the older node). On that copy, also mute the Color Element node (M), so every atom carries its chain color: Color Element paints nitrogens blue and oxygens red, and a surface sampled from them comes out speckled. Sampling the cartoon object directly also works and needs no copy, because the cartoon's vertices carry the chain colors of their alpha carbons; but the cartoon holds only the backbone, so density over side chains, glycans and ligands takes the color of the nearest backbone, which at a chain interface can be the neighboring chain's. The material then reads <code>Color</code> with an Attribute node, as in the <a href="material-recipes.html">Recipes part</a>.</p>
+
+      </section>
+      <section id="exposing-inputs">
+        <h3>Exposing inputs</h3>
+<p>Any value in a tree can become a slider on the modifier panel: drag a link from the node's input socket to the empty socket at the bottom of Group Input, and name it in the N panel's Group tab. A density threshold, a wetness reach or a strand radius exposed this way can be adjusted from the Modifier Properties without opening the node editor, and keyframed there for animation. Group Input sockets also accept an Object, which is how a tree can be pointed at a different map without editing it.</p>
+
+      </section>
+      <section class="exercise" id="exercise-5-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 5.1</span> <span class="exercise-name">Two styles, two materials</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-5-1"> Done</label>
+        </div>
+<ol>
+<li>On the model, add a second style node, Style Ball and Stick, fed from the same Color node, with Select Chain set to one chain on its Selection; set the cartoon's Select Chain to the inverse.</li>
+<li>Join Geometry both into Group Output. Give the cartoon branch the satin plastic material and the ball-and-stick branch glossy candy.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> One chain as colored sticks with glossy balls, the rest as a satin cartoon, in one object.</p>
+
+      </section>
+      <section class="exercise" id="exercise-5-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 5.2</span> <span class="exercise-name">Expose the threshold</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-5-2"> Done</label>
+        </div>
+<ol>
+<li>On the map, drag the Density Style Surface's Threshold input to Group Input and name it <code>Contour</code>.</li>
+<li>In Modifier Properties, change <code>Contour</code> and watch the surface.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The contour level as a slider on the modifier, which is how you would keyframe a contour sweep for a talk.</p>
+
+      </section>
+      <section class="check" id="chapter-5-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Why must a style node be last in its branch?</p><details><summary>Answer</summary><p>Its output is a mesh, not atoms; later Molecular Nodes nodes expect atoms.</p></details></li>
+<li><p class="q">How do two styles end up in one object?</p><details><summary>Answer</summary><p>Parallel branches from one Color node, joined by Join Geometry.</p></details></li>
+<li><p class="q">Why does the map need Sample Nearest and Sample Index to show chain colors?</p><details><summary>Answer</summary><p>Its mesh carries no atom data; the pair copies <code>Color</code> from the nearest atom of the model.</p></details></li>
+<li><p class="q">How do you make a tree value adjustable from the modifier panel?</p><details><summary>Answer</summary><p>Connect it to a new Group Input socket and name it.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-6">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 6</span>          <h2 id="chapter-6">Volumes, grids and SDFs</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Explain what a grid is, and the difference between a density grid and an SDF grid.</li>
+            <li>Convert between meshes and grids in both directions and choose a voxel size.</li>
+            <li>Build smooth unions, offsets and fillets with the SDF nodes.</li>
+          </ul>
+        </div>
+      </header>
+
+<p>A density map is a grid, so this chapter is the one that explains what your maps are and what the SDF chain in the slime project does.</p>
+
+      <section id="what-a-grid-is">
+        <h3>What a grid is</h3>
+<p>A grid is a value at every point of a regular 3D lattice of voxels. A cryo-EM map is a grid of density values; the Density Style node draws the surface where the value crosses the threshold. A signed distance field, SDF, is a grid of a different quantity: at every voxel, the distance to the nearest surface, negative inside and positive outside. Its surface is where the value crosses zero. SDFs are what make shape operations easy: union is the minimum of two distances, intersection the maximum, offset adds a constant, and smoothing filters the values. Meshes make these operations hard; grids make them one node each.</p>
+<p>In Blender 5, grids travel inside geometry alongside meshes and curves, with a name each. Get Named Grid and Store Named Grid read and write them; Grid Info reports voxel size and bounds; the Spreadsheet's Volume Grids tab lists them. A Molecular Nodes map carries one grid named after the file.</p>
+
+      </section>
+      <section id="converting">
+        <h3>Converting</h3>
+<ul>
+<li><strong>Grid to Mesh</strong> (Shift + A › Volume › Operations): a surface at a threshold, with Adaptivity to reduce triangles on flat regions. For a density grid the threshold is the contour level; for an SDF it is 0. This is what the Density Style Surface does inside.</li>
+<li><strong>Mesh to SDF Grid</strong>: a closed mesh becomes an SDF grid. Voxel Size sets resolution; Band Width, in voxels, is how far from the surface distances are stored. A mesh with holes gives a grid with leaks.</li>
+<li><strong>Mesh to Density Grid</strong>: a mesh becomes a filled density grid, for use with scatter and fog rather than shape operations.</li>
+<li><strong>Points to SDF Grid</strong>: points with radii become a blobby SDF, which is the metaball effect as a grid; useful for a cloud of atoms as one surface.</li>
+<li><strong>Points to Volume</strong> and <strong>Volume to Mesh</strong>: the older, simpler pair, which still works and is what Molecular Nodes' Style Surface uses for the molecular surface.</li>
+<li><strong>Field to Grid</strong>: any field evaluated on a lattice becomes a grid, which is how a formula or a distance becomes a volume.</li>
+</ul>
+
+      </section>
+      <section id="shape-operations-on-sdfs">
+        <h3>Shape operations on SDFs</h3>
+<ul>
+<li><strong>SDF Grid Boolean</strong>: Union, Intersection or Difference of two grids. Both need the same voxel size.</li>
+<li><strong>SDF Grid Fillet</strong>: rounds the concave creases of a grid a little further with each of its Iterations, which is what turns a union into a smooth blend and gives the slime a meniscus. The rounding is measured in voxels, so a coarser Voxel Size gives a larger fillet for the same Iterations.</li>
+<li><strong>SDF Grid Offset</strong>: grows or shrinks the surface by a distance, the grid version of a Solidify or a shell.</li>
+<li><strong>SDF Grid Mean</strong> and <strong>Median</strong>, <strong>Laplacian</strong>: smoothing filters, each a different flavor of blur on the distances, for taking the voxel steps out of a surface or the noise out of a map-derived one.</li>
+<li><strong>Grid Dilate &amp; Erode</strong>, <strong>Prune Grid</strong>, <strong>Clip Grid</strong>: housekeeping, for trimming a grid to a box or removing stray voxels.</li>
+</ul>
+
+      </section>
+      <section id="choosing-a-voxel-size">
+        <h3>Choosing a voxel size</h3>
+<p>Voxel size is the resolution of everything after it. Too large and the surface shows steps and loses detail; too small and the grid is slow and heavy, since halving the voxel size multiplies the voxel count by eight. A rule for a meniscus: voxel size about a tenth of the tube width, so a 0.1 m tube uses 0.01 m voxels. For an envelope around a whole map, a fiftieth of the map's width is plenty. Match the voxel size on every grid that meets in a Boolean.</p>
+
+      </section>
+      <section id="the-map-s-own-threshold">
+        <h3>The map's own threshold</h3>
+<p>The contour level on a density map is a threshold on density; the SDF nodes need a distance. To treat a map as a shape, first make a mesh from it at the contour level (the style node does this), then Mesh to SDF Grid. Going the other way, Grid to Mesh on the raw density grid at a chosen threshold reproduces the style node without Molecular Nodes, which is useful when you want the map in a tree with no add-on dependency.</p>
+
+      </section>
+      <section class="exercise" id="exercise-6-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 6.1</span> <span class="exercise-name">Smooth union</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-6-1"> Done</label>
+        </div>
+<ol>
+<li>A Cube and a UV Sphere overlapping, both in one tree via Object Info. Mesh to SDF Grid on each (Voxel Size 0.02), SDF Grid Boolean (Union), Grid to Mesh.</li>
+<li>Insert SDF Grid Fillet before Grid to Mesh with Iterations 0, 3 and 10.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> A cube and sphere fused with a sharp crease, then a soft crease, then a melted join. That melt is the meniscus of the slime project.</p>
+
+      </section>
+      <section class="exercise" id="exercise-6-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 6.2</span> <span class="exercise-name">Atoms as one blob</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-6-2"> Done</label>
+        </div>
+<ol>
+<li>On the model, Mesh to Points <span class="arrow">→</span> Points to SDF Grid (Radius 0.08, Voxel Size 0.02) <span class="arrow">→</span> Grid to Mesh <span class="arrow">→</span> Set Material.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> A space-filling envelope built from one grid, smoother than instanced spheres. Raise Radius and the envelope swells into a molecular surface.</p>
+
+      </section>
+      <section class="check" id="chapter-6-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">What value does an SDF store at each voxel?</p><details><summary>Answer</summary><p>The signed distance to the nearest surface: negative inside, positive outside.</p></details></li>
+<li><p class="q">What threshold draws the surface of an SDF grid?</p><details><summary>Answer</summary><p>Zero.</p></details></li>
+<li><p class="q">Why must two grids share a voxel size before a Boolean?</p><details><summary>Answer</summary><p>The operation compares them voxel by voxel.</p></details></li>
+<li><p class="q">What does SDF Grid Fillet do?</p><details><summary>Answer</summary><p>Rounds concave creases, further with each iteration, turning a union into a smooth blend.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-7">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 7</span>          <h2 id="chapter-7">Worked projects: the sticky slime and local resolution</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Build the four effects of the sticky slime as node chains and explain every node in them.</li>
+            <li>Combine data from two objects in one tree.</li>
+            <li>Leave the result adjustable from the modifier panel.</li>
+            <li>Paint cryoSPARC's local resolution onto a map surface and onto the model built into it with Sample Grid.</li>
+          </ul>
+        </div>
+      </header>
+
+<p>This chapter builds two projects with everything from Chapters <a class="ref" href="#chapter-2">2</a> to <a class="ref" href="#chapter-6">6</a>. The first is the sticky slime: the <a href="material-recipes.html">Recipes part</a> gives its settings, this chapter the reasoning, chain by chain. Build it on your map and model with the slime material from the <a href="material-recipes.html">Recipes part</a> already assigned. The second, after the slime exercises, paints cryoSPARC's local resolution onto the map surface and onto the model.</p>
+
+      <section id="chain-1-the-wet-collar-model-tree">
+        <h3>Chain 1: the wet collar (model tree)</h3>
+<p>The goal is a per-vertex number on the cartoon, 1 where it touches the slime and 0 a short way out, that the material reads.</p>
+<ol>
+<li><strong>Object Info</strong>, Object: the map, Relative on. This brings the map's evaluated geometry, which is the surface the style node made, into the model's tree, in the model's coordinate space.</li>
+<li><strong>Geometry Proximity</strong>, Target Element: Faces. Target: the Object Info geometry. Its Distance output is a field: for every element it is evaluated on, the distance to the nearest point of the map surface.</li>
+<li><strong>Map Range</strong>, From 0 to 0.2, To 1 to 0, Clamp on. Turns distance into wetness: 1 at contact, 0 at 0.2 m and beyond. The From Max is the reach; expose it to Group Input as <code>Wet reach</code>.</li>
+<li><strong>Store Named Attribute</strong>, inserted on the link after the style node, Domain Point, Float, Name <code>wet</code>, Value from the Map Range. Because the geometry passing through is the cartoon, the proximity field is evaluated on the cartoon's vertices, which is what you want.</li>
+</ol>
+<p>The material then reads <code>wet</code> with an Attribute node into Coat Weight, a darkening Mix and Roughness, as the <a href="material-recipes.html">Recipes part</a> lists. If <code>wet</code> reads as zero in the material, the Store node is before the style node rather than after it, so the attribute was written on atoms the style discarded.</p>
+
+      </section>
+      <section id="chain-2-the-meniscus-map-tree">
+        <h3>Chain 2: the meniscus (map tree)</h3>
+<p>The goal is a surface that is the slime and the tubes fused, with the crease between them rounded.</p>
+<ol>
+<li><strong>Density Style Surface</strong> as before, its output mesh going on to the next node.</li>
+<li><strong>Mesh to SDF Grid</strong>, Voxel Size 0.02, Band Width 3. The slime surface as distances.</li>
+<li><strong>Object Info</strong>, Object: the model, Relative on, into a second <strong>Mesh to SDF Grid</strong> with the same Voxel Size. The model must be outputting closed mesh geometry: cartoon, ribbon or sticks are closed tubes; Style Spheres as points is not a mesh.</li>
+<li><strong>SDF Grid Boolean</strong>, Union. The minimum of the two distances, which is both shapes as one.</li>
+<li><strong>SDF Grid Fillet</strong>, Iterations 3. Rounds the concave crease where the tubes enter the slime into a curve that climbs the tube. Expose Iterations as <code>Meniscus</code>.</li>
+<li><strong>Grid to Mesh</strong>, Threshold 0, Adaptivity 0.2 to keep the mesh light. <strong>Set Material</strong> with the slime material, then Group Output.</li>
+</ol>
+<p>The union mesh wraps the tubes in a thin slime skin everywhere, not only at the exits. Two ways to handle it: keep the original model object visible so its own material shows through the skin, which works because the skin is thin and the slime is translucent; or limit the union to the exits by inserting <strong>Delete Geometry</strong> on the model's mesh before its Mesh to SDF Grid, deleting where Geometry Proximity to the slime surface is greater than the meniscus reach, so only the parts of the tubes near the surface are fused in.</p>
+
+      </section>
+      <section id="chain-3-strands-a-new-object">
+        <h3>Chain 3: strands (a new object)</h3>
+<p>Strands are curves with a tapered radius, swept into tubes.</p>
+<ol>
+<li>On a new Empty mesh object with a Geometry Nodes modifier: <strong>Bézier Segment</strong>, Start and End exposed as <code>From</code> and <code>To</code>, with Start Handle and End Handle pulled downward for sag.</li>
+<li><strong>Resample Curve</strong>, Count 32, so the taper has enough points.</li>
+<li><strong>Spline Parameter</strong> › Factor <span class="arrow">→</span> <strong>Float Curve</strong> shaped as a dip to 0.3 at the center <span class="arrow">→</span> <strong>Set Curve Radius</strong>.</li>
+<li><strong>Curve to Mesh</strong>, Profile Curve: a <strong>Curve Circle</strong> (Resolution 8, Radius 0.01). <strong>Set Material</strong>: slime.</li>
+</ol>
+<p>To place strands, set <code>From</code> to a point on a tube just outside the surface and <code>To</code> to a point on the slime. For several strands, instead of duplicating objects, feed the whole chain a set of points: Points (Count 4) with randomized positions near an exit, Instance on Points with the strand as the instance, and Realize Instances; each strand then needs its own sag, which a Random Value into the handle offsets gives.</p>
+
+      </section>
+      <section id="chain-4-drips">
+        <h3>Chain 4: drips</h3>
+<p>Drips are easiest as a metaball object, outside Geometry Nodes, because metaballs merge by themselves. In Geometry Nodes the equivalent is Points to SDF Grid on two points, one large radius and one small below it, Grid to Mesh: the two blobs merge into a drop shape because an SDF of points is the metaball function. Animate the lower point downward and the drop stretches and separates, which is what Points to SDF Grid gives for free.</p>
+
+      </section>
+      <section id="putting-it-together">
+        <h3>Putting it together</h3>
+<p>Four objects: the model with chain 1, the map with chain 2, a strand object with chain 3, and drips. One slime material on everything except the model, which has the chain-colored material reading <code>wet</code>. Three exposed values, <code>Wet reach</code>, <code>Meniscus</code> and <code>Contour</code>, on the modifier panels. A backlight. That is the entire effect, and every node in it is one you can now explain.</p>
+
+      </section>
+      <section class="exercise" id="exercise-7-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 7.1</span> <span class="exercise-name">The whole chain, with the Viewer</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-7-1"> Done</label>
+        </div>
+<ol>
+<li>Build chain 1 and, after each node, Ctrl + Shift + click it and read the Spreadsheet's Viewer column.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> At the Proximity node, distances in meters; at the Map Range, values between 0 and 1 with the vertices near the map at 1; at the Store node, a <code>wet</code> column in the attribute list. If a column is missing, the previous node is where the chain broke.</p>
+
+      </section>
+      <section class="exercise" id="exercise-7-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 7.2</span> <span class="exercise-name">The meniscus with a limited union</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-7-2"> Done</label>
+        </div>
+<ol>
+<li>Build chain 2 with the Delete Geometry limit described above, exposing the reach.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The slime surface rises up each tube for a short distance and the tubes beyond it keep their own material, with no thin skin over the whole model. Change the reach and the collar of fused slime grows and shrinks.</p>
+
+      </section>
+      <section id="project-2-local-resolution-from-cryosparc">
+        <h3>Project 2: local resolution from cryoSPARC</h3>
+<p>The goal is the figure ChimeraX makes with <code>color sample</code>: the map surface colored by local resolution, and the same colors on the model built into that map. cryoSPARC's Local Resolution Estimation job writes <code>*_map_locres.mrc</code>, a map on the same grid as the half maps in which each voxel holds a resolution in Å instead of a density. (Local Filtering writes a filtered density, which is not the file to sample.) In Geometry Nodes the Sample Grid node reads that map at any position, and because the result is stored as an attribute, one chain serves both the surface and the cartoon.</p>
+
+      </section>
+      <section id="step-1-three-imports-in-one-frame">
+        <h3>Step 1: three imports in one frame</h3>
+<ol>
+<li>Import the density (<code>*_map_sharp.mrc</code>, or the unsharpened map) through the Molecular Nodes Density panel with Center Density off and Invert Data off. This object's tree makes the isosurface.</li>
+<li>Import the local resolution map (<code>*_map_locres.mrc</code>) the same way, with the same two settings. Its tree will try to contour resolution values as if they were density, which means nothing, so hide the object with its eye icon in the Outliner. It only needs to exist so its grid can be read.</li>
+<li>Import the model with Centre off. A model refined into this map in Phenix already sits in the map's coordinate frame, so with nothing recentered the three objects overlap in the viewport. If the model sits outside the density, one import was centered: import it again rather than moving objects by hand.</li>
+<li>Find the grid's name: select the locres object and choose Volume Grids in the Spreadsheet's domain list. A map imported with Molecular Nodes has one grid, named <code>density</code>.</li>
+</ol>
+
+      </section>
+      <section id="step-2-resolution-onto-the-map-surface">
+        <h3>Step 2: resolution onto the map surface</h3>
+<p>In the density object's tree, after the style node that makes the mesh (Style Density Surface):</p>
+<ol>
+<li>Object Info (Relative) with Object set to the locres object <span class="arrow">→</span> Get Named Grid (Float, Name <code>density</code>); search the Add menu for &quot;named grid&quot;. It takes the volume at its Geometry input and outputs the grid.</li>
+<li>Sample Grid (Float, Interpolation Trilinear): Get Named Grid › Grid <span class="arrow">→</span> Grid. Leave Position empty; it defaults to Position, so each element reads the resolution where it sits. Value is a field: &quot;the resolution in Å at this vertex.&quot;</li>
+<li>Map Range: Sample Grid › Value <span class="arrow">→</span> Value, From Min 3.0, From Max 6.0, To Min 0, To Max 1, Clamp on. Type the range the color bar will span, in Å, taken from the job's reported range. Do not use Attribute Statistic here: a fixed range keeps panels comparable and matches a printed color bar.</li>
+<li>Store Named Attribute (Float, Point, Name <code>locres</code>): the style node's mesh <span class="arrow">→</span> Geometry, Map Range › Result <span class="arrow">→</span> Value, in line before Group Output.</li>
+</ol>
+<p>Check with the Viewer on Store's output, Vertex tab: a <code>locres</code> column from 0 to 1 that varies across the surface. The same number everywhere means Sample Grid is returning a constant: the grid name is wrong, the two maps do not overlap, or Object Info points at the wrong object. World scale needs no correction, because the grid's values are resolutions, not coordinates, and both maps were scaled alike.</p>
+
+      </section>
+      <section id="step-3-the-material">
+        <h3>Step 3: the material</h3>
+<p>Duplicate <code>height_test</code> from <a class="ref" href="#exercise-2-2">Exercise 2.2</a> and rename it <code>locres</code>. In the Shader Editor change the Attribute node's Name to <code>locres</code>. On the Color Ramp make the left stop blue (0, the best resolution), add a white stop at 0.5, and make the right stop red (1, the worst). Assign it through the density style node's Material field. The convention in most papers is blue for high resolution and red for low; keep the same ramp and the same two numbers in every panel of a figure.</p>
+
+      </section>
+      <section id="step-4-the-same-values-on-the-model">
+        <h3>Step 4: the same values on the model</h3>
+<p>In the model's tree, after Style Cartoon, repeat step 2 word for word: Object Info to the locres object <span class="arrow">→</span> Get Named Grid <span class="arrow">→</span> Sample Grid <span class="arrow">→</span> Map Range with the same 3.0 and 6.0 <span class="arrow">→</span> Store Named Attribute <code>locres</code> on the cartoon mesh. Each cartoon vertex reads the resolution at its own position, so a flexible domain comes out red on both the map and the model. Assign the same <code>locres</code> material through Style Cartoon's Material field.</p>
+<p>This works for the reason in Chapter <a class="ref" href="#chapter-3">3</a>: Sample Grid has no geometry input of its own, and the geometry that reaches Store Named Attribute decides where the samples are taken. Swap the surface mesh for the cartoon and the sampling chain does not change.</p>
+
+      </section>
+      <section id="variants">
+        <h3>Variants</h3>
+<ul>
+<li>Per residue instead of per vertex: after Sample Grid, Accumulate Field (Float) with the value as Value and Named Attribute <code>ures_id</code> as Group ID gives each residue's Total; <code>ures_id</code> is unique across chains, where <code>res_id</code> repeats. A second Accumulate Field with Value 1 and the same Group ID gives the count. A Math node set to Divide gives the mean, and every vertex of a residue carries it.</li>
+<li>Model in weak density: sample the density grid instead of the locres grid (Object Info to the density object). Parts of the model sitting in weak density go dark, which is <code>measure mapvalues</code> in ChimeraX.</li>
+<li>Color bar: put the Color Ramp in a node group (Ctrl + G) and use it in a second material on a plane, with Texture Coordinate › Generated <span class="arrow">→</span> Separate XYZ › X as the ramp's Fac. Render the plane beside the figure, labeled with the two numbers from Map Range, or draw the bar in Illustrator with those numbers.</li>
+<li>Outside the mask: where the job's mask ends, the locres map holds a fill value rather than an estimate, and those vertices land at one end of the ramp. If a fringe of the surface shows a solid end color, read its value with the Viewer, then cut it with Delete Geometry using a Compare on the same Sample Grid value as the selection.</li>
+</ul>
+
+      </section>
+      <section class="exercise" id="exercise-7-3">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 7.3</span> <span class="exercise-name">The map by local resolution</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-7-3"> Done</label>
+        </div>
+<ol>
+<li>Build steps 1 to 3 on your sharpened map and its locres map, with the Viewer on Store Named Attribute's output. Set Interpolation to Nearest first, then to Trilinear.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> With Nearest, patches of flat color the size of a voxel; with Trilinear, smooth blends between them. The best-resolved core sits at the blue end and the periphery and any flexible domain at the red end, in the same places ChimeraX colors them.</p>
+
+      </section>
+      <section class="exercise" id="exercise-7-4">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 7.4</span> <span class="exercise-name">The model by local resolution</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-7-4"> Done</label>
+        </div>
+<ol>
+<li>Build step 4 on the model. Duplicate the <code>locres</code> material for the map, set its Alpha to 0.3 (Render Method Blended in EEVEE), and render the surface over the cartoon with both colored by <code>locres</code>.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The cartoon's colors match the surface around it, because both read the same voxels. Where they disagree, the model has drifted out of the map's frame; check the Center settings of the imports.</p>
+
+      </section>
+      <section class="check" id="chapter-7-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">Why must Store Named Attribute come after the style node in chain 1?</p><details><summary>Answer</summary><p>So the attribute is written on the cartoon's vertices rather than on atoms the style discards.</p></details></li>
+<li><p class="q">What does Relative on Object Info do?</p><details><summary>Answer</summary><p>Puts the other object's geometry into this object's coordinate space, so distances and unions line up.</p></details></li>
+<li><p class="q">Why does the union wrap the whole model in slime, and what limits it?</p><details><summary>Answer</summary><p>The Boolean fuses all of the model's mesh; deleting the parts far from the surface before the SDF step limits it to the exits.</p></details></li>
+<li><p class="q">Which single node produces a metaball-like merge of points?</p><details><summary>Answer</summary><p>Points to SDF Grid.</p></details></li>
+<li><p class="q">Why does the local resolution chain use typed numbers in Map Range instead of Attribute Statistic?</p><details><summary>Answer</summary><p>So every panel and the color bar share one scale; the statistic would change the scale with each map.</p></details></li>
+<li><p class="q">Why can one Sample Grid chain color both the surface and the cartoon?</p><details><summary>Answer</summary><p>Sample Grid is a field: the geometry reaching Store Named Attribute decides where it is evaluated.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-8">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 8</span>          <h2 id="chapter-8">Working habits and debugging</h2>
+        </div>
+        <div class="node-body">
+          <p class="node-label">Objectives</p>
+          <ul class="sockets">
+            <li>Find where a tree breaks in under a minute.</li>
+            <li>Keep trees readable and reusable with frames and node groups.</li>
+            <li>Keep heavy trees responsive, and bake what need not recompute.</li>
+          </ul>
+        </div>
+      </header>
+
+
+      <section id="debugging-in-order">
+        <h3>Debugging in order</h3>
+<ol>
+<li><strong>Look at the socket colors and warnings.</strong> A red link is a type mismatch; a node with a warning triangle has a tooltip saying what is wrong, most often a missing attribute name or the wrong geometry type.</li>
+<li><strong>View each node.</strong> Ctrl + Shift + click walks the Viewer along the chain. The viewport shows that node's geometry and the Spreadsheet shows its data. The first node whose output is not what you expect is the bug; everything before it is fine.</li>
+<li><strong>Read the Spreadsheet, not the viewport.</strong> Row counts tell you whether a selection deleted everything or nothing; the domain tabs tell you whether an attribute landed on points or faces; the Viewer column shows a field's actual numbers.</li>
+<li><strong>Check which geometry a field is evaluated on.</strong> If the values look right in the Spreadsheet but wrong in the result, the field is being consumed after a node that changed the geometry; capture it earlier (Chapter <a class="ref" href="#chapter-3">3</a>).</li>
+<li><strong>Check the modifier order.</strong> Geometry Nodes runs in the modifier stack's order; a Subdivision Surface above it changes what Group Input receives.</li>
+<li><strong>Mute, do not delete.</strong> M mutes a node so the geometry passes through unchanged, which isolates its effect without rebuilding anything.</li>
+</ol>
+
+      </section>
+      <section id="keeping-trees-readable">
+        <h3>Keeping trees readable</h3>
+<ul>
+<li><strong>Frames</strong> (Shift + A › Layout › Frame, or select nodes and Ctrl + J) box a chain with a label. One frame per effect, named for what it does, means a tree you can read in a year.</li>
+<li><strong>Node groups</strong> (select nodes, Ctrl + G) collapse a chain into one node with its own inputs and outputs. The wet-collar chain as a group called <code>Wetness</code> with one Reach input is reusable on any object, and editing the group updates every copy. Tab enters a group, Tab exits.</li>
+<li><strong>Reroutes</strong> (Shift + right-drag across a link) tidy long links.</li>
+<li><strong>Name every exposed input</strong> in the N panel's Group tab, with a tooltip and a sensible min and max, so the modifier panel reads like a tool.</li>
+<li><strong>Mark assets.</strong> Right-click a node group in the Blender File view and Mark as Asset, and it appears in the Asset Browser for drag-and-drop into any file, which is how Molecular Nodes itself ships its nodes.</li>
+</ul>
+
+      </section>
+      <section id="performance">
+        <h3>Performance</h3>
+<ul>
+<li>The timing overlay (the node editor's Overlays popover, Timings) shows how long each node takes. The expensive ones are almost always voxel conversions at small voxel sizes, Realize Instances on many instances, and Mesh Boolean.</li>
+<li>Keep instances as instances until the last possible node; a million spheres as instances are cheap, realized they are a million meshes.</li>
+<li>Lower voxel size only where it shows. Build at a coarse size and halve it for the final render.</li>
+<li>Use Delete Geometry early to drop what the rest of the tree does not need, such as solvent atoms or the far side of a map.</li>
+<li><strong>Bake</strong> (Shift + A › Geometry › Operations › Bake) stores a node's result on disk so it is not recomputed; put one after the SDF chain once the meniscus is settled, and the rest of the tree stays interactive.</li>
+</ul>
+
+      </section>
+      <section id="zones-briefly">
+        <h3>Zones, briefly</h3>
+<p>Two node pairs form loops. A <strong>Simulation Zone</strong> carries geometry from one frame to the next, so what leaves the zone at frame 10 enters it at frame 11; it is how particles, growth and drips that accumulate are built, and it needs the timeline to play. A <strong>Repeat Zone</strong> runs its contents a fixed number of times in one evaluation, for iterative smoothing or building a chain of segments. Neither is needed for anything in this guide, but they are what you will meet next in other people's trees.</p>
+
+      </section>
+      <section class="exercise" id="exercise-8-1">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 8.1</span> <span class="exercise-name">Break and find</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-8-1"> Done</label>
+        </div>
+<ol>
+<li>In the wet-collar chain, misspell the attribute name in the material's Attribute node, then in the Store node, then switch Object Info's object to the wrong one.</li>
+<li>For each, find the break using only the ordered list above.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> The first two show as a warning on the Named Attribute or a missing Spreadsheet column; the third shows as a Proximity distance that is wrong everywhere. Each takes one Viewer click to locate.</p>
+
+      </section>
+      <section class="exercise" id="exercise-8-2">
+        <div class="exercise-head">
+          <h3><span class="exercise-label">Exercise 8.2</span> <span class="exercise-name">Make it a tool</span></h3>
+          <label class="done" hidden><input type="checkbox" data-exercise="geometry-nodes/exercise-8-2"> Done</label>
+        </div>
+<ol>
+<li>Select the four nodes of the wet-collar chain, Ctrl + G, name the group <code>Wetness</code>, expose Reach and the target object as group inputs, and Mark as Asset.</li>
+<li>Apply it to a second model from the Asset Browser.</li>
+</ol>
+<p class="result"><span class="result-label">What you should see</span> One node on the second model's tree that does the whole job, with a Reach slider and an object picker. That is the difference between a chain and a tool.</p>
+
+      </section>
+      <section class="check" id="chapter-8-check">
+        <div class="check-head">
+          <h3>Check yourself</h3>
+          <button class="reveal" type="button" hidden>Show all answers</button>
+        </div>
+<ol>
+<li><p class="q">What is the fastest way to find which node breaks a chain?</p><details><summary>Answer</summary><p>Walk the Viewer along it with Ctrl + Shift + click and read the Spreadsheet.</p></details></li>
+<li><p class="q">What does muting a node do?</p><details><summary>Answer</summary><p>Passes geometry through unchanged, so you can isolate the node's effect.</p></details></li>
+<li><p class="q">When should instances be realized?</p><details><summary>Answer</summary><p>As late as possible; realized instances are heavy.</p></details></li>
+<li><p class="q">What does a Bake node save you?</p><details><summary>Answer</summary><p>Recomputing an expensive result every time something upstream changes.</p></details></li>
+</ol>
+      </section>
+
+
+    </article>
+    <article class="chapter" aria-labelledby="chapter-9">
+      <header class="node">
+        <div class="node-head">
+<span class="node-kicker">Chapter 9</span>          <h2 id="chapter-9">The chooser, a glossary and sources</h2>
+        </div>
+      </header>
+
+      <section id="i-want-this-use-that">
+        <h3>I want this; use that</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>I want</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A value from the file on every atom</td>
+<td>Named Attribute with the name from the Chapter <a class="ref" href="#chapter-2">2</a> table</td>
+</tr>
+<tr>
+<td>A computed value the material can read</td>
+<td>Store Named Attribute, then Attribute in the material</td>
+</tr>
+<tr>
+<td>Only some atoms</td>
+<td>A Select node, or Compare on an attribute, into a Selection socket</td>
+</tr>
+<tr>
+<td>Two representations in one object</td>
+<td>Two style branches joined with Join Geometry</td>
+</tr>
+<tr>
+<td>A sphere or arrow on every atom</td>
+<td>Mesh to Points, Instance on Points, Realize Instances only if needed</td>
+</tr>
+<tr>
+<td>The map colored by the model</td>
+<td>Sample Nearest <span class="arrow">→</span> Sample Index on the model's atoms via Object Info, stored as Color</td>
+</tr>
+<tr>
+<td>Distance from each point to another object</td>
+<td>Geometry Proximity on Object Info's geometry</td>
+</tr>
+<tr>
+<td>Depth below the surface, any shape</td>
+<td>Geometry Proximity, Faces, with a Style Surface branch as Target</td>
+</tr>
+<tr>
+<td>A smooth blob around points</td>
+<td>Points to SDF Grid, Grid to Mesh</td>
+</tr>
+<tr>
+<td>Two shapes fused with a rounded join</td>
+<td>Mesh to SDF Grid on each, SDF Grid Boolean, SDF Grid Fillet, Grid to Mesh</td>
+</tr>
+<tr>
+<td>A tapered tube between two points</td>
+<td>Bézier Segment, Resample, Set Curve Radius, Curve to Mesh</td>
+</tr>
+<tr>
+<td>A slider on the modifier panel</td>
+<td>Connect the input to Group Input and name it</td>
+</tr>
+<tr>
+<td>A reusable tool</td>
+<td>Ctrl + G into a node group, Mark as Asset</td>
+</tr>
+<tr>
+<td>The value a field actually has</td>
+<td>Ctrl + Shift + click the node and read the Spreadsheet</td>
+</tr>
+<tr>
+<td>An expensive result frozen</td>
+<td>A Bake node after it</td>
+</tr>
+<tr>
+<td>Something that changes over frames</td>
+<td>A Simulation Zone</td>
+</tr>
+<tr>
+<td>The map or model colored by local resolution</td>
+<td>Sample Grid on the locres grid via Object Info and Get Named Grid, then Store Named Attribute</td>
+</tr>
+</tbody>
+</table></div>
+
+      </section>
+      <section id="glossary">
+        <h3>Glossary</h3>
+<ul>
+<li><strong>Attribute</strong>: a named value stored on each element of a domain.</li>
+<li><strong>Bake</strong>: storing a node's result on disk so it is not recomputed.</li>
+<li><strong>Capture Attribute</strong>: freezing a field's values on the current geometry for use later in the tree.</li>
+<li><strong>Domain</strong>: the level an attribute lives on: Point, Edge, Face, Face Corner, Spline, Instance.</li>
+<li><strong>Field</strong>: a rule evaluated once per element of the geometry that consumes it; shown as a diamond socket.</li>
+<li><strong>Grid</strong>: values on a regular lattice of voxels; a density map is one.</li>
+<li><strong>Group Input, Group Output</strong>: where geometry enters and leaves a tree.</li>
+<li><strong>Instance</strong>: a reference to geometry placed many times, cheap until realized.</li>
+<li><strong>Node group</strong>: a tree collapsed into one node with its own sockets.</li>
+<li><strong>Realize</strong>: convert instances into real editable geometry.</li>
+<li><strong>Sample Grid</strong>: a field that reads a grid's value at each element's own position; the node behind local resolution coloring.</li>
+<li><strong>SDF</strong>: signed distance field; a grid of distances to a surface, negative inside.</li>
+<li><strong>Selection</strong>: a boolean field that limits where a node acts.</li>
+<li><strong>Spreadsheet</strong>: the editor that shows a geometry's elements and attributes as a table.</li>
+<li><strong>Viewer</strong>: the node that sends a geometry and a field to the viewport and Spreadsheet for inspection.</li>
+<li><strong>Voxel size</strong>: the resolution of a grid, in scene units.</li>
+<li><strong>World scale</strong>: the factor Molecular Nodes applies to coordinates on import.</li>
+</ul>
+
+      </section>
+      <section id="sources">
+        <h3>Sources</h3>
+<ul>
+<li><a href="https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/index.html" rel="noopener">Geometry Nodes</a> (Blender Manual), including <a href="https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/fields.html" rel="noopener">Fields</a> and <a href="https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/attributes_reference.html" rel="noopener">Attributes</a></li>
+<li><a href="https://bradyajohnston.github.io/MolecularNodes/attributes.html" rel="noopener">Molecular Nodes attributes</a>, <a href="https://bradyajohnston.github.io/MolecularNodes/tutorials/importing.html" rel="noopener">Fetch from the PDB</a> and <a href="https://bradyajohnston.github.io/MolecularNodes/tutorials/cryoem.html" rel="noopener">CryoEM Maps</a> (Molecular Nodes documentation)</li>
+</ul>
+
+      </section>
+    </article>
+    <nav class="pager" aria-label="Parts">
+<a class="pager-prev" href="shaders.html" data-socket="shader"><span class="pager-label">Previous part</span><span class="pager-title"><span class="sock" aria-hidden="true"></span>Shaders: the whole menu, from zero</span></a><a class="pager-next" href="geometry-nodes-for-art.html" data-socket="vector"><span class="pager-label">Next part</span><span class="pager-title"><span class="sock" aria-hidden="true"></span>Geometry Nodes for art</span></a>    </nav>
+  </main>
+</div>
+<script src="assets/site.js" defer></script>
+</body>
+</html>
