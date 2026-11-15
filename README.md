@@ -22,6 +22,9 @@ in Blender and reported what broke. Not every chapter has been checked that way.
 and renamed nodes, and please open an issue or a pull request when you find one. [content/about.md](content/about.md)
 says more.
 
+On the site, selecting any passage offers "Report this passage", which opens an issue here with the passage
+quoted and its place in the guide filled in.
+
 ## Editing the text
 
 The text is plain Markdown, one file per part, in `content/`. Each file keeps one shape, which the build relies on:
@@ -47,7 +50,7 @@ pip install -r requirements.txt
 python3 build.py
 ```
 
-This writes the whole site into `docs/`, which is what GitHub Pages serves (Settings, Pages, "Deploy from a
+Then run `python3 tools/check.py`. The build writes the whole site into `docs/`, which is what GitHub Pages serves (Settings, Pages, "Deploy from a
 branch", branch `main`, folder `/docs`). The pages are plain HTML with one stylesheet and one small script;
 opening `docs/index.html` from disk works too. Commit `docs/` together with the change that produced it.
 
@@ -57,6 +60,9 @@ opening `docs/index.html` from disk works too. Commit `docs/` together with the 
 | `content/` | The text and figures |
 | `theme/` | Page templates, `style.css`, `site.js` and the fonts |
 | `build.py` | Turns the three above into `docs/` |
+| `tools/check.py` | Checks a build: no text lost, no broken links. Run it before committing |
+| `tools/` (the rest) | Converters used to bring the text and figures in from the original document |
+| `CLAUDE.md` | Standing notes for Claude Code sessions that work on this repository |
 
 ## Credits
 

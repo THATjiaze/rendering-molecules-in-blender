@@ -3,8 +3,9 @@
 title = "Rendering Molecules in Blender"
 tagline = "A workbook for structural biologists: materials, light, shaders, Geometry Nodes and Molecular Nodes, taught through exercises in Blender 5.2."
 blender = "Blender 5.2 LTS"
-# Filled in once the repository exists, e.g. "https://github.com/USER/REPO". Leave empty to hide the links.
-repo = ""
+# The repository on GitHub. It switches on the "Report this passage" button and the link to the source;
+# leave it empty to hide both.
+repo = "https://github.com/THATjiaze/rendering-molecules-in-blender"
 
 # One entry per part, in reading order. `file` is the Markdown file in content/ (without .md),
 # `slug` is the page name, `socket` picks the part's color (a Blender socket type),

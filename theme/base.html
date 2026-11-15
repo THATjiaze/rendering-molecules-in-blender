@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"{% if current %} data-socket="{{ current.socket }}"{% endif %}>
+<html lang="en"{% if current %} data-socket="{{ current.socket }}"{% endif %}{% if site.repo and source %} data-repo="{{ site.repo }}" data-source="{{ source }}"{% endif %}>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,7 +50,7 @@
       {% endfor %}
     </ol>
     <div class="rail-foot">
-      <a href="about.html">About this guide</a>
+      <span class="rail-links"><a href="about.html">About</a>{% if site.repo %}<a href="{{ site.repo }}" rel="noopener">Source</a>{% endif %}</span>
       <button class="theme-toggle" type="button" hidden>Dark theme</button>
     </div>
   </nav>

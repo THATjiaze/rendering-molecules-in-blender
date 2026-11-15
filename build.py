@@ -283,11 +283,12 @@ class Site:
         pages = {"index.html": env.get_template("home.html").render(**shared, graph=self.graph(), current=None)}
         for i, part in enumerate(self.parts):
             neighbors = {"prev": self.parts[i - 1] if i else None, "next": self.parts[i + 1] if i + 1 < len(self.parts) else None}
-            pages[f"{part['slug']}.html"] = env.get_template("part.html").render(**shared, part=part, current=part, **neighbors)
-        about = (CONTENT / "about.md").read_text(encoding="utf-8").replace("{{ repo }}", self.cfg.get("repo") or "")
+            pages[f"{part['slug']}.html"] = env.get_template("part.html").render(
+                **shared, part=part, current=part, source=f"content/{part['file']}.md", **neighbors)
+        about = (CONTENT / "about.md").read_text(encoding="utf-8")
         title = re.match(r"# (.+)\n", about)
         pages["about.html"] = env.get_template("plain.html").render(
-            **shared, current=None, title=title.group(1), body=MD.render(about[title.end():]))
+            **shared, current=None, source="content/about.md", title=title.group(1), body=MD.render(about[title.end():]))
         for name, page in pages.items():
             (OUT / name).write_text(page, encoding="utf-8")
         print(f"Built {len(pages)} pages into {OUT.relative_to(ROOT)}/: {totals['chapters']} chapters, "

@@ -103,6 +103,52 @@
     answers.forEach(function (d) { d.addEventListener('toggle', label); });
   });
 
+  /* Select a passage to report it. The maintainer (who has opened any page once with ?edit added to the
+     address) also gets "Fix with Claude", which opens a Claude Code session on the repository with the
+     passage and its place in the source already written into the prompt. */
+  var repo = root.dataset.repo, source = root.dataset.source, main = document.getElementById('main');
+  if (repo && source && main && window.getSelection) {
+    var params = new URLSearchParams(location.search);
+    if (params.has('edit')) store.set('maintainer', params.get('edit') === 'off' ? '' : '1');
+    var maintainer = store.get('maintainer') === '1';
+    var bar = document.createElement('div');
+    bar.className = 'passage-bar';
+    bar.hidden = true;
+    bar.addEventListener('mousedown', function (e) { e.preventDefault(); });  // keep the selection while clicking
+    document.body.appendChild(bar);
+    var tidy = function (el) { return el ? el.textContent.replace(/\s+/g, ' ').trim() : ''; };
+    var showBar = function () {
+      var sel = window.getSelection();
+      var text = sel.isCollapsed ? '' : sel.toString().replace(/\s+/g, ' ').trim();
+      if (text.length < 4 || text.length > 700 || !main.contains(sel.anchorNode) || !main.contains(sel.focusNode)) { bar.hidden = true; return; }
+      var node = sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement;
+      var section = node.closest('section[id]'), chapter = node.closest('.chapter');
+      var heading = chapter && chapter.querySelector('h2');
+      var where = [tidy(document.querySelector('h1'))];
+      var joined = function (a, b) { return a && b ? a + ': ' + b : a || b; };
+      if (heading) where.push(joined(tidy(chapter.querySelector('.node-kicker')), tidy(heading)));
+      var h3 = section && section.querySelector('h3');
+      if (h3) where.push(h3.querySelector('.exercise-label') ? joined(tidy(h3.querySelector('.exercise-label')), tidy(h3.querySelector('.exercise-name'))) : tidy(h3));
+      var id = section ? section.id : (heading ? heading.id : '');
+      var page = location.href.split(/[?#]/)[0] + (id ? '#' + id : '');
+      var slug = repo.replace(/^https:\/\/github\.com\//, '').replace(/\/$/, '');
+      var issue = repo + '/issues/new?title=' + encodeURIComponent('Correction: ' + where[where.length - 1]) +
+        '&body=' + encodeURIComponent('> ' + text + '\n\nWhere: ' + where.join(' / ') + '\nPage: ' + page + '\nSource: ' + source +
+        '\n\nWhat is wrong, and what it should say:\n');
+      var prompt = 'In ' + source + ' (' + where.join(' / ') + '), this passage:\n\n"' + text + '"\n\nChange: ';
+      var claude = 'https://claude.ai/code?repositories=' + encodeURIComponent(slug) + '&prompt=' + encodeURIComponent(prompt);
+      bar.innerHTML = (maintainer ? '<a href="' + claude + '" target="_blank" rel="noopener">Fix with Claude</a>' : '') +
+        '<a href="' + issue + '" target="_blank" rel="noopener">Report this passage</a>';
+      var rect = sel.getRangeAt(0).getBoundingClientRect();
+      bar.hidden = false;
+      var maxLeft = window.scrollX + document.documentElement.clientWidth - bar.offsetWidth - 8;
+      bar.style.top = (window.scrollY + rect.bottom + 8) + 'px';
+      bar.style.left = Math.max(8, Math.min(window.scrollX + rect.left, maxLeft)) + 'px';
+    };
+    var waiting;
+    document.addEventListener('selectionchange', function () { clearTimeout(waiting); waiting = setTimeout(showBar, 250); });
+  }
+
   /* Search: the index is a script, loaded the first time the box is used, so it also works from a folder on disk. */
   var input = document.getElementById('search-input');
   var results = document.getElementById('search-results');

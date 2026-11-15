@@ -12,7 +12,7 @@ The explanations of how things work are more reliable than the exact names of no
 
 ## Reporting a mistake
 
-If you find one, please say so. The text lives in the repository as Markdown, one file per part, so a correction is usually a one-line change.
+If you find one, please say so. Select the passage on any page and a "Report this passage" button appears; it opens a GitHub issue with the passage quoted and its place in the guide filled in. The text lives in the repository as Markdown, one file per part, so a correction is usually a one-line change.
 
 ## Typefaces
 

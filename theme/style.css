@@ -274,12 +274,18 @@ figcaption { margin-top: 0.55rem; font-family: var(--font-ui); font-size: 0.8125
 .home-notes h2 { margin: 0 0 0.6rem; font-family: var(--font-text); font-size: 1.35rem; font-weight: 600; letter-spacing: -0.005em; }
 .home-notes :where(p, ul) { max-width: 34rem; }
 
+/* Appears under a selected passage: report it, or (for the maintainer) open a session to fix it. */
+.passage-bar { position: absolute; z-index: 25; display: flex; gap: 1px; overflow: hidden; border-radius: 7px; box-shadow: var(--shadow); font-family: var(--font-ui); font-size: 0.8125rem; font-weight: 550; }
+.passage-bar a { padding: 0.42rem 0.75rem; background: var(--ink); color: var(--bg); text-decoration: none; white-space: nowrap; }
+.passage-bar a:hover, .passage-bar a:focus-visible { background: var(--deep); color: #fff; }
+.rail-links { display: flex; gap: 0.9rem; }
+
 /* ----------------------------------------------------------------- misc */
 
 @media (prefers-reduced-motion: reduce) { .rail { transition: none !important; } }
 
 @media print {
-  .rail, .topbar, .done, .reveal, .pager, .skip { display: none !important; }
+  .rail, .topbar, .done, .reveal, .pager, .skip, .passage-bar { display: none !important; }
   .shell { display: block; }
   body { background: #fff; font-size: 10.5pt; }
   .page { max-width: none; padding: 0; }
