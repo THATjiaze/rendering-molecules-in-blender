@@ -1,6 +1,7 @@
 /* Rendering Molecules in Blender
    The one borrowed idea: a Blender node. Parts are nodes on the front page, chapters open with a
-   node whose output sockets are the objectives, and each part takes the color of a socket type.
+   node whose output sockets are the objectives, and each part takes the color of a socket type,
+   down to a faint tint of its page.
    Interface things (navigation, tables, node chrome) are set in Inter, Blender's own UI typeface;
    explanation is set in Literata. */
 
@@ -27,9 +28,11 @@
   --sock-float: #a1a1a1;    --deep-float: #4b4e54;
   --sock: var(--sock-float); --deep: var(--deep-float);
 
-  --bg: #f2f3f5; --surface: #ffffff; --wash: #e8eaee; --ink: #1a1c1f; --muted: #575e68;
-  --rule: #d6d9de; --rule-strong: #b4b9c1; --code: #e4e6ea; --sock-edge: #1a1c1f;
+  /* --bg-n, --wash-n, --code-n and the two rules are the neutral tones; see "Part tint" below */
+  --bg-n: #f2f3f5; --surface: #ffffff; --wash-n: #e8eaee; --ink: #1a1c1f; --muted: #575e68;
+  --rule-n: #d6d9de; --rule-strong-n: #b4b9c1; --code-n: #e4e6ea; --sock-edge: #1a1c1f;
   --node: #ffffff; --node-edge: #c3c7ce;
+  --tint: 8%;
   --accent: var(--deep);
   --shadow: 0 1px 2px rgb(20 24 30 / 0.07), 0 6px 18px rgb(20 24 30 / 0.06);
   --measure: 38.5rem;
@@ -38,18 +41,20 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --bg: #1d1d1d; --surface: #272727; --wash: #2c2c2c; --ink: #e2e2e2; --muted: #a0a0a0;
-    --rule: #3b3b3b; --rule-strong: #595959; --code: #383838; --sock-edge: #0d0d0d;
+    --bg-n: #1d1d1d; --surface: #272727; --wash-n: #2c2c2c; --ink: #e2e2e2; --muted: #a0a0a0;
+    --rule-n: #3b3b3b; --rule-strong-n: #595959; --code-n: #383838; --sock-edge: #0d0d0d;
     --node: #303030; --node-edge: #111111;
+    --tint: 7%;
     --accent: var(--sock);
     --shadow: 0 2px 8px rgb(0 0 0 / 0.45);
   }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #1d1d1d; --surface: #272727; --wash: #2c2c2c; --ink: #e2e2e2; --muted: #a0a0a0;
-  --rule: #3b3b3b; --rule-strong: #595959; --code: #383838; --sock-edge: #0d0d0d;
+  --bg-n: #1d1d1d; --surface: #272727; --wash-n: #2c2c2c; --ink: #e2e2e2; --muted: #a0a0a0;
+  --rule-n: #3b3b3b; --rule-strong-n: #595959; --code-n: #383838; --sock-edge: #0d0d0d;
   --node: #303030; --node-edge: #111111;
+  --tint: 7%;
   --accent: var(--sock);
   --shadow: 0 2px 8px rgb(0 0 0 / 0.45);
 }
@@ -63,6 +68,20 @@
 [data-socket="boolean"]  { --sock: var(--sock-boolean);  --deep: var(--deep-boolean); }
 [data-socket="object"]   { --sock: var(--sock-object);   --deep: var(--deep-object); }
 [data-socket="float"]    { --sock: var(--sock-float);    --deep: var(--deep-float); }
+
+/* Part tint: a part's page mixes --tint of its socket color into the neutral tones. Surfaces
+   (tables, figures, nodes) stay neutral, and so do pages that belong to no part. Text keeps at
+   least 4.5:1 contrast on every part color in both themes. */
+:root { --bg: var(--bg-n); --wash: var(--wash-n); --code: var(--code-n); --rule: var(--rule-n); --rule-strong: var(--rule-strong-n); }
+@supports (color: color-mix(in oklab, red, red)) {
+  :root[data-socket] {
+    --bg: color-mix(in oklab, var(--sock) var(--tint), var(--bg-n));
+    --wash: color-mix(in oklab, var(--sock) var(--tint), var(--wash-n));
+    --code: color-mix(in oklab, var(--sock) var(--tint), var(--code-n));
+    --rule: color-mix(in oklab, var(--sock) var(--tint), var(--rule-n));
+    --rule-strong: color-mix(in oklab, var(--sock) var(--tint), var(--rule-strong-n));
+  }
+}
 
 /* ------------------------------------------------------------------ base */
 
