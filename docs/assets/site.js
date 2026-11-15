@@ -184,13 +184,15 @@
       hits.push({ item: item, score: score, at: whole !== -1 ? whole : item.text.indexOf(words[0]) });
     });
     hits.sort(function (a, b) { return b.score - a.score; });
-    var pattern = new RegExp('(' + words.map(function (w) { return w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }).join('|') + ')', 'gi');
+    var pattern = new RegExp('(' + words.map(function (w) { return w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }).join('|') + ')', 'i');
+    // Mark the words before escaping, so a search for "amp" or "lt" cannot land inside &amp; or &lt;.
+    var marked = function (s) { return s.split(pattern).map(function (bit, i) { return i % 2 ? '<mark>' + escapeHtml(bit) + '</mark>' : escapeHtml(bit); }).join(''); };
     results.innerHTML = hits.slice(0, 24).map(function (h) {
       var e = h.item.e, at = Math.max(0, h.at - 50);
       var snippet = (at > 0 ? '…' : '') + e.x.slice(at, at + 150);
-      return '<li><a href="' + e.u + '"><span class="hit-title">' + escapeHtml(e.t).replace(pattern, '<mark>$1</mark>') + '</span>' +
+      return '<li><a href="' + e.u + '"><span class="hit-title">' + marked(e.t) + '</span>' +
         '<span class="hit-where">' + escapeHtml(e.w) + '</span>' +
-        '<span class="hit-text">' + escapeHtml(snippet).replace(pattern, '<mark>$1</mark>') + '</span></a></li>';
+        '<span class="hit-text">' + marked(snippet) + '</span></a></li>';
     }).join('') || '<li class="none">Nothing found for that.</li>';
     results.hidden = false;
     if (partsList) partsList.hidden = true;

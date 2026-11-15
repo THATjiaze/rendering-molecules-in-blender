@@ -20,7 +20,7 @@ Most requests look like this, often arriving through the site's "Fix with Claude
 1. Find the passage with `grep -n` on a distinctive few words. The quote is taken from the rendered page, so
    Markdown marks (`**`, backticks, links) are missing from it and a long quote may not match as one string.
 2. Edit the Markdown. Change what was asked and nothing around it.
-3. Rebuild and check, every time:
+3. Rebuild and check, every time (Python 3.11 or later; an older `python3` fails on `import tomllib`):
 
        pip install -r requirements.txt     (once per session)
        python3 build.py

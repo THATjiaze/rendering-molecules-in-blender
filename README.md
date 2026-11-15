@@ -4,6 +4,8 @@ A workbook for structural biologists who can already make a figure in ChimeraX a
 materials, light and geometry you control yourself. Eight parts, 73 chapters and 127 exercises, written for
 Blender 5.2 LTS and the [Molecular Nodes](https://bradyajohnston.github.io/MolecularNodes/) add-on.
 
+Read it at **https://thatjiaze.github.io/rendering-molecules-in-blender/**.
+
 | Part | What it covers |
 | --- | --- |
 | [Material recipes for molecular renders](content/01-material-recipes.md) | Settings tables for named looks, all on one Principled BSDF |
@@ -49,6 +51,9 @@ Figures are SVG files in `content/figures/`, placed with `![caption](figures/nam
 pip install -r requirements.txt
 python3 build.py
 ```
+
+Both scripts need Python 3.11 or later (they read `site.toml` with `tomllib`); the `python3` that ships with
+macOS is older and stops with "No module named 'tomllib'".
 
 Then run `python3 tools/check.py`. The build writes the whole site into `docs/`, which is what GitHub Pages serves (Settings, Pages, "Deploy from a
 branch", branch `main`, folder `/docs`). The pages are plain HTML with one stylesheet and one small script;

@@ -155,7 +155,11 @@ button { cursor: pointer; }
   }
   .js.nav-open .rail { transform: none; visibility: visible; transition: transform 0.18s ease; }
   .js.nav-open body::after { content: ""; position: fixed; inset: 0; z-index: 30; background: rgb(0 0 0 / 0.4); }
+  /* Without JavaScript there is no drawer: the contents follow the text. */
+  html:not(.js) .shell { display: flex; flex-direction: column; }
+  html:not(.js) .rail { order: 1; }
 }
+html:not(.js) .search { display: none; } /* search needs the script */
 
 /* --------------------------------------------------------------- a part */
 
@@ -172,7 +176,7 @@ h3 { margin: 0 0 0.6rem; font-size: 1.3rem; font-weight: 600; line-height: 1.25;
 .node { position: relative; margin-bottom: 1.9rem; background: var(--node); border: 1px solid var(--node-edge); border-radius: 8px; box-shadow: var(--shadow); font-family: var(--font-ui); }
 .node-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.05rem 0.7rem; padding: 0.55rem 0.95rem 0.62rem; background: var(--deep); color: #fff; border-radius: 7px 7px 0 0; }
 .node-head:last-child { border-radius: 7px; }
-.node-kicker { font-size: 0.8125rem; font-weight: 500; opacity: 0.86; white-space: nowrap; }
+.node-kicker { font-size: 0.8125rem; font-weight: 500; opacity: 0.9; white-space: nowrap; }
 h2 { margin: 0; font-family: var(--font-ui); font-size: 1.22rem; font-weight: 650; line-height: 1.25; letter-spacing: -0.012em; }
 .node-body { padding: 0.75rem 0 0.8rem; }
 .node-label { margin: 0 0.95rem 0.25rem; font-size: 0.75rem; font-weight: 550; color: var(--muted); }
@@ -186,7 +190,7 @@ h2 { margin: 0; font-family: var(--font-ui); font-size: 1.22rem; font-weight: 65
 .exercise-label { display: block; font-size: 0.8125rem; font-weight: 550; color: var(--muted); letter-spacing: 0; }
 .done { display: inline-flex; align-items: center; gap: 0.4rem; padding-top: 0.1rem; font-family: var(--font-ui); font-size: 0.8125rem; color: var(--muted); white-space: nowrap; cursor: pointer; }
 .done input { width: 1rem; height: 1rem; margin: 0; accent-color: var(--deep); }
-.result { margin-bottom: 0; padding: 0.7rem 0.9rem 0.75rem; background: var(--wash); border-radius: 6px; }
+.result { padding: 0.7rem 0.9rem 0.75rem; background: var(--wash); border-radius: 6px; }
 .result-label { display: block; margin-bottom: 0.12rem; font-family: var(--font-ui); font-size: 0.75rem; font-weight: 600; color: var(--muted); }
 .exercise > :last-child { margin-bottom: 0; }
 
@@ -234,6 +238,9 @@ figcaption { margin-top: 0.55rem; font-family: var(--font-ui); font-size: 0.8125
 .is-home .topbar-end { display: flex; align-items: center; gap: 0.9rem; margin-left: auto; white-space: nowrap; }
 .is-home .topbar-about { display: inline; }
 .is-home .rail { position: static; height: auto; border-right: 0; border-top: 1px solid var(--rule); padding: 1.5rem clamp(1.25rem, 5vw, 4.5rem) 2.5rem; }
+html:not(.js) .is-home .shell { display: flex; flex-direction: column; }
+html:not(.js) .is-home :is(.page, .rail) { width: 100%; max-width: 78rem; margin: 0 auto; }
+html:not(.js) .is-home .rail { order: 1; }
 .js .is-home .rail {
   position: fixed; inset: 0 auto 0 0; z-index: 40; width: min(20.5rem, 88vw); height: 100%; padding: 1.4rem 1rem 1.25rem 1.3rem;
   border-top: 0; border-right: 1px solid var(--rule); box-shadow: var(--shadow);
