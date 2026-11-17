@@ -1,7 +1,7 @@
 # Rendering Molecules in Blender
 
 A workbook for structural biologists who can already make a figure in ChimeraX and want what Blender adds:
-materials, light and geometry you control yourself. Eight parts, 73 chapters and 127 exercises, written for
+materials, light and geometry you control yourself. Nine parts, 87 chapters and 172 exercises, written for
 Blender 5.2 LTS and the [Molecular Nodes](https://bradyajohnston.github.io/MolecularNodes/) add-on.
 
 Read it at **https://thatjiaze.github.io/rendering-molecules-in-blender/**.
@@ -16,6 +16,7 @@ Read it at **https://thatjiaze.github.io/rendering-molecules-in-blender/**.
 | [Geometry Nodes for art](content/06-geometry-nodes-for-art.md) | The same nodes fed by formulas instead of files |
 | [Molecular Nodes as a second ChimeraX](content/07-molecular-nodes.md) | Selections as boolean fields, and what each Molecular Nodes node is built from |
 | [Handling objects and modeling](content/08-objects-and-modeling.md) | Selecting, placing, Edit Mode, modifiers, curves and the camera |
+| [Art direction: the whole picture](content/09-art-direction.md) | Seven decisions made together for one sentence, four complete looks, and inventing your own |
 
 ## How it was made, and how far to trust it
 
@@ -44,6 +45,8 @@ intro paragraphs
 Links between parts are ordinary relative links to the Markdown file, such as `[Lighting part](03-lighting.md)`,
 so they also work when reading the files on GitHub. "Chapter 6" and "Exercise 3.1" become links on their own.
 Figures are SVG files in `content/figures/`, placed with `![caption](figures/name.svg)` on a line of its own.
+Renders go in the same folder as WebP files, at full resolution, and are placed the same way; the build copies
+them into `docs/figures/` and links each to its full size.
 
 ## Building the site
 

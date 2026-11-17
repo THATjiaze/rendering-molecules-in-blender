@@ -5,7 +5,8 @@
 
 1. Every paragraph, list item, table cell and heading in content/*.md is present in the built page,
    so nothing was dropped on the way from Markdown to HTML.
-2. Every link between pages points at a page and an anchor that exist, and no page repeats an id.
+2. Every link between pages points at a page and an anchor that exist, every image or script a page
+   loads exists, and no page repeats an id.
 
 Exits with status 1 if anything is wrong.
 """
@@ -80,6 +81,13 @@ def check_links():
                     problems += 1
             elif not (DOCS / target).exists():
                 print(f"    {name}: missing file {href}")
+                problems += 1
+        for src in re.findall(r'\ssrc="([^"]+)"', page):  # images and scripts the page loads
+            if src.startswith(("http://", "https://", "data:")):
+                continue
+            count += 1
+            if not (DOCS / src).exists():
+                print(f"    {name}: missing file {src}")
                 problems += 1
     print(f"links: {count} checked, {problems} problems")
     return problems

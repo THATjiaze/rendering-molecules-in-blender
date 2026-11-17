@@ -83,6 +83,15 @@ gives = "A staged scene"
 blurb = "Selecting, placing and parenting objects, Edit Mode, modifiers, curves and the camera, with a cartoon house to practice on."
 graph = [1, 0]
 
+[[part]]
+file = "09-art-direction"
+slug = "art-direction"
+short = "Art direction"
+socket = "matrix"
+gives = "The whole picture"
+blurb = "Seven decisions made together for one sentence, from form and stage to palette and air, then four complete looks to build, take apart and outgrow."
+graph = [4, 1.5]
+
 # Wires on the front-page graph: [from, to]. "in" and "out" are the Group Input and Group Output nodes;
 # a wire into "out" names the socket it lands on.
 [[wire]]
@@ -111,17 +120,17 @@ from = "geometry-nodes"
 to = "molecular-nodes"
 [[wire]]
 from = "lighting"
-to = "out"
-socket = "Light"
+to = "art-direction"
 [[wire]]
 from = "shaders"
-to = "out"
-socket = "Surface"
+to = "art-direction"
 [[wire]]
 from = "geometry-nodes-for-art"
-to = "out"
-socket = "Geometry"
+to = "art-direction"
 [[wire]]
 from = "molecular-nodes"
+to = "art-direction"
+[[wire]]
+from = "art-direction"
 to = "out"
-socket = "Geometry"
+socket = "Picture"

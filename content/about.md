@@ -8,6 +8,8 @@ This guide was written by Claude, an AI model made by Anthropic, over a series o
 
 Not every chapter has been through that loop. Most of *Geometry Nodes, from zero* and scattered exercises in the other parts were done in Blender and fixed where they failed. The rest has not been checked click by click, so expect some wrong menu paths, renamed nodes and settings that have moved, more so in a version of Blender or Molecular Nodes other than the one above.
 
+*Art direction* was checked another way. The numbers it marks as tested come from scripted renders in Blender 5.2 with Molecular Nodes, and its names were read from Blender's own interface definitions, but its click paths were not clicked through, so a menu path there may be off where a number is not.
+
 The explanations of how things work are more reliable than the exact names of nodes and menus. When a step fails, the [Blender manual](https://docs.blender.org/manual/en/latest/) and the [Molecular Nodes documentation](https://bradyajohnston.github.io/MolecularNodes/) are the authorities, and most parts end with the pages they lean on.
 
 ## Reporting a mistake

@@ -39,6 +39,23 @@ def plain(markup):
     return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", markup))).strip()
 
 
+def image_size(path):
+    """(width, height) of a PNG or WebP render, read from its header, so the page can reserve its space."""
+    data = path.read_bytes()[:32]
+    if data[:8] == b"\x89PNG\r\n\x1a\n":
+        return int.from_bytes(data[16:20], "big"), int.from_bytes(data[20:24], "big")
+    if data[:4] == b"RIFF" and data[8:12] == b"WEBP":
+        kind = data[12:16]
+        if kind == b"VP8X":  # extended: canvas size minus one, 24 bits each
+            return 1 + int.from_bytes(data[24:27], "little"), 1 + int.from_bytes(data[27:30], "little")
+        if kind == b"VP8 ":  # lossy: 14-bit sizes after the frame tag and start code
+            return int.from_bytes(data[26:28], "little") & 0x3FFF, int.from_bytes(data[28:30], "little") & 0x3FFF
+        if kind == b"VP8L":  # lossless: 14-bit sizes minus one, packed
+            bits = int.from_bytes(data[21:25], "little")
+            return (bits & 0x3FFF) + 1, ((bits >> 14) & 0x3FFF) + 1
+    raise ValueError(f"{path}: a render must be a PNG or WebP file")
+
+
 def split_at(text, level):
     """Split Markdown at headings of one level -> (text before the first, [(heading, body), ...])."""
     bits = re.split(rf"^{'#' * level} (.+)$", text, flags=re.M)
@@ -110,11 +127,18 @@ class Site:
         """Markdown -> HTML, with figures inlined, tables made scrollable and links pointed at pages."""
 
         def figure(match):
-            svg = (CONTENT / match.group(2)).read_text(encoding="utf-8")
-            svg = re.sub(r'\sfont-family="[^"]*"', "", svg, count=1)  # inherit the page's font when inline
-            return f'<figure class="figure">{svg.strip()}<figcaption>{html.escape(match.group(1))}</figcaption></figure>'
+            caption, path = html.escape(match.group(1)), match.group(2)
+            if path.endswith(".svg"):
+                svg = (CONTENT / path).read_text(encoding="utf-8")
+                svg = re.sub(r'\sfont-family="[^"]*"', "", svg, count=1)  # inherit the page's font when inline
+                return f'<figure class="figure">{svg.strip()}<figcaption>{caption}</figcaption></figure>'
+            # A render: shown at the column's width, and a link to the file itself for reading its small print.
+            width, height = image_size(CONTENT / path)
+            return (f'<figure class="figure figure-image"><a class="figure-link" href="{path}">'
+                    f'<img src="{path}" alt="{caption}" width="{width}" height="{height}" loading="lazy" decoding="async"></a>'
+                    f'<figcaption>{caption} <a class="figure-full" href="{path}">Full size</a></figcaption></figure>')
 
-        text = re.sub(r"^!\[(.+?)\]\((figures/[\w-]+\.svg)\)$", figure, text, flags=re.M)
+        text = re.sub(r"^!\[(.+?)\]\((figures/[\w-]+\.(?:svg|webp|png))\)$", figure, text, flags=re.M)
         out = MD.render(text)
         out = out.replace("<table>", '<div class="table-wrap"><table>').replace("</table>", "</table></div>")
 
@@ -233,8 +257,11 @@ class Site:
 
     def graph(self):
         """Lay out the front page's node graph: parts as nodes, wires from site.toml."""
-        col_x, node_w, end_w = [16, 252, 510, 768, 1066], 204, 136
+        node_w, end_w, gap_in, gap, gap_out = 204, 136, 72, 48, 72
         top, pitch, head, row = 14, 112, 28, 24
+        last = max(p["graph"][0] for p in self.parts)  # parts sit in columns 1 to last; Group Output follows
+        col_x = [16] + [16 + end_w + gap_in + i * (node_w + gap) for i in range(last)]
+        col_x.append(col_x[-1] + node_w + gap_out)
         nodes = {}
         for p in self.parts:
             col, r = p["graph"]
@@ -246,7 +273,11 @@ class Site:
         sockets = list(dict.fromkeys(w["socket"] for w in self.cfg["wire"] if w["to"] == "out"))
         in_node = {"x": col_x[0], "y": mid - 10, "w": end_w, "h": head + row + 8}
         in_node["out"] = (in_node["x"] + end_w, in_node["y"] + head + row / 2 + 2)
-        out_node = {"x": col_x[4], "y": mid - 34, "w": end_w, "h": head + len(sockets) * row + 8, "sockets": []}
+        out_y = mid - 34
+        feeds = [nodes[w["from"]]["out"][1] for w in self.cfg["wire"] if w["to"] == "out" and w["from"] != "in"]
+        if len(sockets) == 1 and feeds:  # one output socket: level with what feeds it, so the wire runs straight
+            out_y = sum(feeds) / len(feeds) - (head + row / 2 + 2)
+        out_node = {"x": col_x[-1], "y": out_y, "w": end_w, "h": head + len(sockets) * row + 8, "sockets": []}
         for i, name in enumerate(sockets):
             out_node["sockets"].append({"name": name, "y": out_node["y"] + head + row * (i + 0.5) + 2})
         wires = []
@@ -261,7 +292,7 @@ class Site:
             wires.append({"d": f"M{x1:.0f} {y1:.0f}C{x1 + bend:.0f} {y1:.0f} {x2 - bend:.0f} {y2:.0f} {x2:.0f} {y2:.0f}", "socket": socket})
         height = top * 2 + rows * pitch + head + 2 * row + 8
         return {"nodes": list(nodes.values()), "in": in_node, "out": out_node, "wires": wires,
-                "width": col_x[4] + end_w + 16, "height": height, "head": head, "row": row}
+                "width": col_x[-1] + end_w + 16, "height": height, "head": head, "row": row}
 
     # ---------------------------------------------------------------- writing
 
@@ -272,6 +303,11 @@ class Site:
         for item in ("style.css", "site.js", "favicon.svg"):
             shutil.copy(THEME / item, OUT / "assets" / item)
         shutil.copytree(THEME / "fonts", OUT / "assets" / "fonts")
+        renders = sorted(f for f in (CONTENT / "figures").iterdir() if f.suffix in (".webp", ".png"))
+        if renders:  # SVG figures are written into the page; renders are files the page points at
+            (OUT / "figures").mkdir()
+            for f in renders:
+                shutil.copy(f, OUT / "figures" / f.name)
         (OUT / ".nojekyll").write_text("")
         index = json.dumps(self.search, ensure_ascii=False, separators=(",", ":"))
         (OUT / "assets" / "search-index.js").write_text(f"window.SEARCH_INDEX = {index};\n", encoding="utf-8")

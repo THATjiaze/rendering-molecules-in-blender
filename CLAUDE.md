@@ -45,7 +45,7 @@ reference versions.
 
 ## Conventions in the text
 
-- The eight files are "parts". The word "tab" is kept for Blender's own interface tabs (Material tab,
+- The nine files are "parts". The word "tab" is kept for Blender's own interface tabs (Material tab,
   Modifier tab), never for a part of this guide.
 - Link to another part as `[Lighting part](03-lighting.md)`. `build.py` turns these into page links.
 - "Chapter 6" and "Exercise 3.1" become links by themselves and point within the same part. To point at a
@@ -58,7 +58,8 @@ reference versions.
 - Voice: second person, plain and exact, no em dashes, no filler. Say what to click and what will happen.
 - Figures are hand-written SVG in `content/figures/`, colored only through the CSS variables `--fig-line`,
   `--fig-grid`, `--fig-accent`, `--fig-ink`, `--fig-muted` and `--fig-tint` (each with a fallback), so they
-  follow the light and dark themes.
+  follow the light and dark themes. Renders are WebP files in the same folder, kept at full resolution
+  because each one links to itself at full size.
 
 ## Adding a chapter or a part
 

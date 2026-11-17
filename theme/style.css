@@ -25,6 +25,7 @@
   --sock-vector: #6363c7;   --deep-vector: #3c3c83;
   --sock-boolean: #cca6d6;  --deep-boolean: #7d5187;
   --sock-object: #ed9e5c;   --deep-object: #a1561d;
+  --sock-matrix: #b83385;   --deep-matrix: #8f2266;
   --sock-float: #a1a1a1;    --deep-float: #4b4e54;
   --sock: var(--sock-float); --deep: var(--deep-float);
 
@@ -67,6 +68,7 @@
 [data-socket="vector"]   { --sock: var(--sock-vector);   --deep: var(--deep-vector); }
 [data-socket="boolean"]  { --sock: var(--sock-boolean);  --deep: var(--deep-boolean); }
 [data-socket="object"]   { --sock: var(--sock-object);   --deep: var(--deep-object); }
+[data-socket="matrix"]   { --sock: var(--sock-matrix);   --deep: var(--deep-matrix); }
 [data-socket="float"]    { --sock: var(--sock-float);    --deep: var(--deep-float); }
 
 /* Part tint: a part's page mixes --tint of its socket color into the neutral tones. Surfaces
@@ -237,6 +239,11 @@ tbody tr:last-child td { border-bottom: 0; }
 .figure { overflow-x: auto; }
 .figure svg { display: block; width: 100%; min-width: 38rem; height: auto; font-family: var(--font-ui); }
 figcaption { margin-top: 0.55rem; font-family: var(--font-ui); font-size: 0.8125rem; color: var(--muted); }
+/* A render: as wide as the column, and a link to the file at full size, where its labels can be read. */
+.figure-image { overflow: visible; }
+.figure-link { display: block; cursor: zoom-in; }
+.figure-image img { display: block; width: 100%; height: auto; border-radius: 4px; background: var(--wash); }
+.figure-full { margin-left: 0.3em; white-space: nowrap; }
 
 .pager { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 5rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); font-family: var(--font-ui); }
 .pager a { display: block; text-decoration: none; }
@@ -311,7 +318,7 @@ html:not(.js) .is-home .rail { order: 1; }
 @media (prefers-reduced-motion: reduce) { .rail { transition: none !important; } }
 
 @media print {
-  .rail, .topbar, .done, .reveal, .pager, .skip, .passage-bar { display: none !important; }
+  .rail, .topbar, .done, .reveal, .pager, .skip, .passage-bar, .figure-full { display: none !important; }
   .shell { display: block; }
   body { background: #fff; font-size: 10.5pt; }
   .page { max-width: none; padding: 0; }

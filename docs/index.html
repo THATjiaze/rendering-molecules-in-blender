@@ -60,6 +60,9 @@
       <li data-socket="object">
         <a class="part-link" href="objects-and-modeling.html"><span class="sock" aria-hidden="true"></span>Objects and modeling</a>
       </li>
+      <li data-socket="matrix">
+        <a class="part-link" href="art-direction.html"><span class="sock" aria-hidden="true"></span>Art direction</a>
+      </li>
     </ol>
     <div class="rail-foot">
       <span class="rail-links"><a href="about.html">About</a><a href="https://github.com/THATjiaze/rendering-molecules-in-blender" rel="noopener">Source</a></span>
@@ -70,24 +73,25 @@
     <header class="hero">
       <h1>Rendering Molecules in Blender</h1>
       <p class="hero-lede">A workbook for structural biologists who can already make a figure in ChimeraX and want what Blender adds: materials, light and geometry you control yourself.</p>
-      <p class="hero-facts">8 parts, 73 chapters and 127 exercises, written for Blender 5.2 LTS and the Molecular Nodes add-on.</p>
+      <p class="hero-facts">9 parts, 87 chapters and 172 exercises, written for Blender 5.2 LTS and the Molecular Nodes add-on.</p>
     </header>
 
     <div class="graph" aria-hidden="true">
-      <svg viewBox="0 0 1218 448" focusable="false">
+      <svg viewBox="0 0 1408 448" focusable="false">
         <g class="wires">
-          <path d="M152 214C202 214 202 80 252 80" data-socket="float"/>
-          <path d="M152 214C202 214 202 192 252 192" data-socket="float"/>
-          <path d="M152 214C202 214 202 304 252 304" data-socket="float"/>
-          <path d="M456 56C612 56 612 80 768 80" data-socket="object"/>
-          <path d="M456 168C492 168 474 192 510 192" data-socket="material"/>
-          <path d="M714 168C750 168 732 192 768 192" data-socket="color"/>
-          <path d="M456 280C492 280 474 304 510 304" data-socket="geometry"/>
-          <path d="M456 280C492 280 474 416 510 416" data-socket="geometry"/>
-          <path d="M972 56C1019 56 1019 190 1066 190" data-socket="string"/>
-          <path d="M972 168C1019 168 1019 214 1066 214" data-socket="shader"/>
-          <path d="M714 280C890 280 890 238 1066 238" data-socket="vector"/>
-          <path d="M714 392C890 392 890 238 1066 238" data-socket="boolean"/>
+          <path d="M152 214C188 214 188 80 224 80" data-socket="float"/>
+          <path d="M152 214C188 214 188 192 224 192" data-socket="float"/>
+          <path d="M152 214C188 214 188 304 224 304" data-socket="float"/>
+          <path d="M428 56C578 56 578 80 728 80" data-socket="object"/>
+          <path d="M428 168C464 168 440 192 476 192" data-socket="material"/>
+          <path d="M680 168C716 168 692 192 728 192" data-socket="color"/>
+          <path d="M428 280C464 280 440 304 476 304" data-socket="geometry"/>
+          <path d="M428 280C464 280 440 416 476 416" data-socket="geometry"/>
+          <path d="M932 56C968 56 944 248 980 248" data-socket="string"/>
+          <path d="M932 168C968 168 944 248 980 248" data-socket="shader"/>
+          <path d="M680 280C830 280 830 248 980 248" data-socket="vector"/>
+          <path d="M680 392C830 392 830 248 980 248" data-socket="boolean"/>
+          <path d="M1184 224C1220 224 1220 224 1256 224" data-socket="matrix"/>
         </g>
         <g transform="translate(16 172.0)" data-socket="float">
           <rect class="gnode-body" width="136" height="60" rx="6"/>
@@ -97,7 +101,7 @@
           <circle class="gsock" cx="136" cy="42" r="5.5"/>
         </g>
         <a href="material-recipes.html" tabindex="-1">
-          <g transform="translate(252 126)" data-socket="material">
+          <g transform="translate(224 126)" data-socket="material">
             <rect class="gnode-body" width="204" height="84" rx="6"/>
             <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h192a6 6 0 0 1 6 6v22z"/>
             <text class="gnode-title" x="10" y="19">Recipes</text>
@@ -108,7 +112,7 @@
           </g>
         </a>
         <a href="designing-a-look.html" tabindex="-1">
-          <g transform="translate(510 126)" data-socket="color">
+          <g transform="translate(476 126)" data-socket="color">
             <rect class="gnode-body" width="204" height="84" rx="6"/>
             <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h192a6 6 0 0 1 6 6v22z"/>
             <text class="gnode-title" x="10" y="19">Designing a look</text>
@@ -119,7 +123,7 @@
           </g>
         </a>
         <a href="lighting.html" tabindex="-1">
-          <g transform="translate(768 14)" data-socket="string">
+          <g transform="translate(728 14)" data-socket="string">
             <rect class="gnode-body" width="204" height="84" rx="6"/>
             <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h192a6 6 0 0 1 6 6v22z"/>
             <text class="gnode-title" x="10" y="19">Lighting</text>
@@ -130,7 +134,7 @@
           </g>
         </a>
         <a href="shaders.html" tabindex="-1">
-          <g transform="translate(768 126)" data-socket="shader">
+          <g transform="translate(728 126)" data-socket="shader">
             <rect class="gnode-body" width="204" height="84" rx="6"/>
             <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h192a6 6 0 0 1 6 6v22z"/>
             <text class="gnode-title" x="10" y="19">Shaders</text>
@@ -141,7 +145,7 @@
           </g>
         </a>
         <a href="geometry-nodes.html" tabindex="-1">
-          <g transform="translate(252 238)" data-socket="geometry">
+          <g transform="translate(224 238)" data-socket="geometry">
             <rect class="gnode-body" width="204" height="84" rx="6"/>
             <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h192a6 6 0 0 1 6 6v22z"/>
             <text class="gnode-title" x="10" y="19">Geometry Nodes</text>
@@ -152,7 +156,7 @@
           </g>
         </a>
         <a href="geometry-nodes-for-art.html" tabindex="-1">
-          <g transform="translate(510 238)" data-socket="vector">
+          <g transform="translate(476 238)" data-socket="vector">
             <rect class="gnode-body" width="204" height="84" rx="6"/>
             <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h192a6 6 0 0 1 6 6v22z"/>
             <text class="gnode-title" x="10" y="19">Geometry Nodes for art</text>
@@ -163,7 +167,7 @@
           </g>
         </a>
         <a href="molecular-nodes.html" tabindex="-1">
-          <g transform="translate(510 350)" data-socket="boolean">
+          <g transform="translate(476 350)" data-socket="boolean">
             <rect class="gnode-body" width="204" height="84" rx="6"/>
             <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h192a6 6 0 0 1 6 6v22z"/>
             <text class="gnode-title" x="10" y="19">Molecular Nodes</text>
@@ -174,7 +178,7 @@
           </g>
         </a>
         <a href="objects-and-modeling.html" tabindex="-1">
-          <g transform="translate(252 14)" data-socket="object">
+          <g transform="translate(224 14)" data-socket="object">
             <rect class="gnode-body" width="204" height="84" rx="6"/>
             <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h192a6 6 0 0 1 6 6v22z"/>
             <text class="gnode-title" x="10" y="19">Objects and modeling</text>
@@ -184,16 +188,23 @@
             <circle class="gsock" cx="0" cy="66" r="5.5" data-socket="float"/>
           </g>
         </a>
-        <g transform="translate(1066 148.0)" data-socket="float">
-          <rect class="gnode-body" width="136" height="108" rx="6"/>
+        <a href="art-direction.html" tabindex="-1">
+          <g transform="translate(980 182.0)" data-socket="matrix">
+            <rect class="gnode-body" width="204" height="84" rx="6"/>
+            <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h192a6 6 0 0 1 6 6v22z"/>
+            <text class="gnode-title" x="10" y="19">Art direction</text>
+            <text class="gnode-row" x="191" y="46" text-anchor="end">The whole picture</text>
+            <text class="gnode-quiet" x="13" y="70">14 chapters, 45 exercises</text>
+            <circle class="gsock" cx="204" cy="42" r="5.5"/>
+            <circle class="gsock" cx="0" cy="66" r="5.5" data-socket="float"/>
+          </g>
+        </a>
+        <g transform="translate(1256 182.0)" data-socket="float">
+          <rect class="gnode-body" width="136" height="60" rx="6"/>
           <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h124a6 6 0 0 1 6 6v22z"/>
           <text class="gnode-title" x="10" y="19">Group Output</text>
-          <text class="gnode-row" x="13" y="46.0">Light</text>
+          <text class="gnode-row" x="13" y="46.0">Picture</text>
           <circle class="gsock" cx="0" cy="42.0" r="5.5"/>
-          <text class="gnode-row" x="13" y="70.0">Surface</text>
-          <circle class="gsock" cx="0" cy="66.0" r="5.5"/>
-          <text class="gnode-row" x="13" y="94.0">Geometry</text>
-          <circle class="gsock" cx="0" cy="90.0" r="5.5"/>
         </g>
       </svg>
       <p class="graph-note">How the parts feed each other. Start at any node whose input you already have.</p>
@@ -272,6 +283,15 @@
           </span>
         </a>
       </li>
+      <li data-socket="matrix">
+        <a class="part-card" href="art-direction.html">
+          <span class="part-card-head">Art direction: the whole picture</span>
+          <span class="part-card-body">
+            <span>Seven decisions made together for one sentence, from form and stage to palette and air, then four complete looks to build, take apart and outgrow.</span>
+            <span class="part-card-meta">14 chapters, 45 exercises</span>
+          </span>
+        </a>
+      </li>
     </ol>
 
     <div class="home-notes">
@@ -286,6 +306,7 @@
           <li>You have never moved an object in Blender: <a href="objects-and-modeling.html">Objects and modeling</a>, Chapters 1 to 3.</li>
           <li>Your structure is on screen and looks like wet plastic: <a href="material-recipes.html">Recipes</a>, which opens with why.</li>
           <li>You want to change what is drawn, not how it is shaded: <a href="geometry-nodes.html">Geometry Nodes, from zero</a>, then <a href="molecular-nodes.html">Molecular Nodes</a>.</li>
+          <li>Every control is in place and the picture still looks regular: <a href="art-direction.html">Art direction</a>, Chapters 1 to 3.</li>
         </ul>
       </section>
       <section>
