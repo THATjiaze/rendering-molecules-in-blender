@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif" viewBox="0 0 760 360" role="img" aria-label="Three ways to balance, three ways to repeat" font-size="13"> <text x="24" y="30" font-size="15" font-weight="600" fill="var(--fig-ink, #1a1c20)">Three ways to balance, three ways to repeat</text> <g transform="translate(24 52)">
+<rect x="0" y="0" width="216" height="100" rx="8" fill="none" stroke="var(--fig-grid, #c9cdd3)" stroke-width="1.25"/>
+<g>
+<path d="M28 72H188" stroke="var(--fig-line, #6b7280)" stroke-width="2"/>
+<path d="M108 73l9 14h-18z" fill="var(--fig-line, #6b7280)"/>
+</g>
+<g fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85">
+<rect x="48" y="42" width="30" height="30"/>
+<rect x="138" y="42" width="30" height="30"/>
+</g>
+</g> <g transform="translate(272 52)">
+<rect x="0" y="0" width="216" height="100" rx="8" fill="none" stroke="var(--fig-grid, #c9cdd3)" stroke-width="1.25"/>
+<g>
+<path d="M28 72H188" stroke="var(--fig-line, #6b7280)" stroke-width="2"/>
+<path d="M92 73l9 14h-18z" fill="var(--fig-line, #6b7280)"/>
+</g>
+<g fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85">
+<rect x="58" y="28" width="44" height="44"/>
+<rect x="155" y="54" width="18" height="18"/>
+</g>
+</g> <g transform="translate(520 52)">
+<rect x="0" y="0" width="216" height="100" rx="8" fill="none" stroke="var(--fig-grid, #c9cdd3)" stroke-width="1.25"/>
+<circle cx="140" cy="50" r="7" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<circle cx="130.62741699796953" cy="72.62741699796952" r="7" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<circle cx="108" cy="82" r="7" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<circle cx="85.37258300203048" cy="72.62741699796952" r="7" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<circle cx="76" cy="50.00000000000001" r="7" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<circle cx="85.37258300203047" cy="27.37258300203048" r="7" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<circle cx="108" cy="18" r="7" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<circle cx="130.6274169979695" cy="27.372583002030474" r="7" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<circle cx="108" cy="50" r="9" fill="var(--fig-accent, #0f9d7a)"/>
+</g> <g transform="translate(24 204)">
+<rect x="0" y="0" width="216" height="100" rx="8" fill="none" stroke="var(--fig-grid, #c9cdd3)" stroke-width="1.25"/>
+<rect x="24" y="40" width="8" height="44" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="44" y="40" width="8" height="44" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="64" y="40" width="8" height="44" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="84" y="40" width="8" height="44" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="104" y="40" width="8" height="44" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="124" y="40" width="8" height="44" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="144" y="40" width="8" height="44" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="164" y="40" width="8" height="44" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="184" y="40" width="8" height="44" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+</g> <g transform="translate(272 204)">
+<rect x="0" y="0" width="216" height="100" rx="8" fill="none" stroke="var(--fig-grid, #c9cdd3)" stroke-width="1.25"/>
+<rect x="24" y="30" width="8" height="54" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="44" y="58" width="8" height="26" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="64" y="30" width="8" height="54" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="84" y="58" width="8" height="26" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="104" y="30" width="8" height="54" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="124" y="58" width="8" height="26" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="144" y="30" width="8" height="54" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="164" y="58" width="8" height="26" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="184" y="30" width="8" height="54" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+</g> <g transform="translate(520 204)">
+<rect x="0" y="0" width="216" height="100" rx="8" fill="none" stroke="var(--fig-grid, #c9cdd3)" stroke-width="1.25"/>
+<rect x="24" y="72" width="8" height="12" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="44" y="65" width="8" height="19" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="64" y="58" width="8" height="26" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="84" y="51" width="8" height="33" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="104" y="44" width="8" height="40" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="124" y="37" width="8" height="47" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="144" y="30" width="8" height="54" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="164" y="23" width="8" height="61" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="184" y="16" width="8" height="68" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+</g> <text x="132" y="172" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Symmetrical</text> <text x="132" y="190" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">equal weights at equal distances</text> <text x="380" y="172" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Asymmetrical</text> <text x="380" y="190" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">large near the pivot, small far out</text> <text x="628" y="172" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Radial</text> <text x="628" y="190" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">everything around one center</text> <text x="132" y="324" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Regular</text> <text x="132" y="342" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">equal steps: calm, mechanical</text> <text x="380" y="324" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Alternating</text> <text x="380" y="342" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">two beats: livelier</text> <text x="628" y="324" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Progressive</text> <text x="628" y="342" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">steady change: movement</text> </svg>

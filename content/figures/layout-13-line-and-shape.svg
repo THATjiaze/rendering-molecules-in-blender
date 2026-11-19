@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif" viewBox="0 0 760 366" role="img" aria-label="Directions and shapes carry feeling before any detail does" font-size="13"> <text x="24" y="30" font-size="15" font-weight="600" fill="var(--fig-ink, #1a1c20)">Directions and shapes carry feeling before any detail does</text> <g transform="translate(24 52)">
+<rect x="0" y="0" width="166" height="96" rx="8" fill="none" stroke="var(--fig-grid, #c9cdd3)" stroke-width="1.25"/>
+<path d="M16 26H150" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.45" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M16 46H150" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.6" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M16 66H150" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.85" stroke-width="5" stroke-linecap="round"/>
+<path d="M44 80H122" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"/>
+</g> <g transform="translate(206 52)">
+<rect x="0" y="0" width="166" height="96" rx="8" fill="none" stroke="var(--fig-grid, #c9cdd3)" stroke-width="1.25"/>
+<path d="M32 16V80" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"/>
+<path d="M58 16V80" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.7" stroke-width="4" stroke-linecap="round"/>
+<path d="M83 16V80" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.85" stroke-width="6" stroke-linecap="round"/>
+<path d="M108 16V80" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.7" stroke-width="4" stroke-linecap="round"/>
+<path d="M134 16V80" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"/>
+</g> <g transform="translate(388 52)">
+<rect x="0" y="0" width="166" height="96" rx="8" fill="none" stroke="var(--fig-grid, #c9cdd3)" stroke-width="1.25"/>
+<path d="M18 80L104 16" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.85" stroke-width="5" stroke-linecap="round"/>
+<path d="M62 84L148 24" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.65" stroke-width="3" stroke-linecap="round"/>
+<path d="M108 86L150 56" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"/>
+</g> <g transform="translate(570 52)">
+<rect x="0" y="0" width="166" height="96" rx="8" fill="none" stroke="var(--fig-grid, #c9cdd3)" stroke-width="1.25"/>
+<path d="M16 66C52 6 92 104 150 30" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.85" stroke-width="4" stroke-linecap="round"/>
+<path d="M16 84C60 40 100 112 150 58" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"/>
+</g> <g transform="translate(24 214)">
+<rect x="0" y="0" width="166" height="96" rx="8" fill="none" stroke="var(--fig-grid, #c9cdd3)" stroke-width="1.25"/>
+<g fill="var(--fig-ink, #1a1c20)" opacity="0.85">
+<circle cx="83" cy="30" r="14"/>
+<circle cx="83" cy="64" r="22"/>
+<circle cx="57" cy="58" r="8"/>
+<circle cx="109" cy="58" r="8"/>
+</g>
+</g> <g transform="translate(206 214)">
+<rect x="0" y="0" width="166" height="96" rx="8" fill="none" stroke="var(--fig-grid, #c9cdd3)" stroke-width="1.25"/>
+<g fill="var(--fig-ink, #1a1c20)" opacity="0.85">
+<rect x="71" y="12" width="24" height="24"/>
+<rect x="63" y="40" width="40" height="44"/>
+<rect x="48" y="42" width="11" height="30"/>
+<rect x="107" y="42" width="11" height="30"/>
+</g>
+</g> <g transform="translate(388 214)">
+<rect x="0" y="0" width="166" height="96" rx="8" fill="none" stroke="var(--fig-grid, #c9cdd3)" stroke-width="1.25"/>
+<g fill="var(--fig-ink, #1a1c20)" opacity="0.85">
+<path d="M83 8L97 36H69Z"/>
+<path d="M83 34L114 86H52Z"/>
+<path d="M60 58L36 42L64 50Z"/>
+<path d="M106 58L130 42L102 50Z"/>
+</g>
+</g> <g transform="translate(570 214)">
+<rect x="0" y="0" width="166" height="96" rx="8" fill="none" stroke="var(--fig-grid, #c9cdd3)" stroke-width="1.25"/>
+<g fill="var(--fig-ink, #1a1c20)" stroke="var(--fig-ink, #1a1c20)" opacity="0.85">
+<circle cx="48" cy="32" r="7" stroke="none"/>
+<path d="M48 39l-11 37h22z" stroke="none"/>
+<circle cx="112" cy="32" r="7" stroke="none"/>
+<path d="M112 39l-11 37h22z" stroke="none"/>
+<path d="M107 29q-13 3 -13 16" fill="none" stroke-width="4" stroke-linecap="round"/>
+<path d="M116 49l18 -7v10" fill="none" stroke-width="2"/>
+<circle cx="134" cy="58" r="6" stroke="none"/>
+</g>
+</g> <text x="107" y="168" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Horizontal</text> <text x="107" y="186" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">rest</text> <text x="289" y="168" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Vertical</text> <text x="289" y="186" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">upright, formal</text> <text x="471" y="168" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Diagonal</text> <text x="471" y="186" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">movement</text> <text x="653" y="168" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Curve</text> <text x="653" y="186" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">flow</text> <text x="107" y="330" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Round</text> <text x="107" y="348" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">soft, safe</text> <text x="289" y="330" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Square</text> <text x="289" y="348" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">solid, dependable</text> <text x="471" y="330" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Pointed</text> <text x="471" y="348" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">fast, dangerous</text> <text x="653" y="330" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Silhouette</text> <text x="653" y="348" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">closed pose, open pose</text> </svg>

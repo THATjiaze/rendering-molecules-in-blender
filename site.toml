@@ -92,6 +92,15 @@ gives = "The whole picture"
 blurb = "Seven decisions made together for one sentence, from form and stage to palette and air, then four complete looks to build, take apart and outgrow."
 graph = [4, 1.5]
 
+[[part]]
+file = "10-composition-and-layout"
+slug = "composition-and-layout"
+short = "Composition and layout"
+socket = "bundle"
+gives = "A page that reads"
+blurb = "Arranging things so a viewer sees what matters first: hierarchy, grouping, the grid, the frame and the eye path, applied to figures, posters, renders and manga pages."
+graph = [4, 2.5]
+
 # Wires on the front-page graph: [from, to]. "in" and "out" are the Group Input and Group Output nodes;
 # a wire into "out" names the socket it lands on.
 [[wire]]
@@ -134,3 +143,7 @@ to = "art-direction"
 from = "art-direction"
 to = "out"
 socket = "Picture"
+[[wire]]
+from = "composition-and-layout"
+to = "out"
+socket = "Page"

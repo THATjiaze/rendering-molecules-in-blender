@@ -45,7 +45,7 @@ reference versions.
 
 ## Conventions in the text
 
-- The nine files are "parts". The word "tab" is kept for Blender's own interface tabs (Material tab,
+- The ten files are "parts". The word "tab" is kept for Blender's own interface tabs (Material tab,
   Modifier tab), never for a part of this guide.
 - Link to another part as `[Lighting part](03-lighting.md)`. `build.py` turns these into page links.
 - "Chapter 6" and "Exercise 3.1" become links by themselves and point within the same part. To point at a
@@ -57,13 +57,15 @@ reference versions.
   numbered list of "Question? *Answer in italics.*"; the site folds the answers away.
 - Voice: second person, plain and exact, no em dashes, no filler. Say what to click and what will happen.
 - Figures are hand-written SVG in `content/figures/`, colored only through the CSS variables `--fig-line`,
-  `--fig-grid`, `--fig-accent`, `--fig-ink`, `--fig-muted` and `--fig-tint` (each with a fallback), so they
-  follow the light and dark themes. Renders are WebP files in the same folder, kept at full resolution
+  `--fig-grid`, `--fig-accent`, `--fig-ink`, `--fig-muted` and `--fig-tint`, plus `--fig-cat-2` to `--fig-cat-7`
+  for a figure that needs more hues (each with a fallback), so they follow the light and dark themes. Figures
+  from a Claude Doc come across with `tools/widget_to_svg.js`. Renders are WebP files in the same folder, kept at full resolution
   because each one links to itself at full size.
 
 ## Adding a chapter or a part
 
-A new chapter is a new `## Chapter N. Title` in the right file, in the shape README.md describes. A new part
+A new chapter is a new `## Chapter N. Title` in the right file, in the shape README.md describes (numbering may
+start at 0; a part that numbers its chapters is credited with only those, not its About or appendices). A new part
 is a new file in `content/` plus a `[[part]]` entry in `site.toml` (with a socket color not yet used and a
 place on the front page's graph). After either, look at the front page and the new page in a browser at a
 wide and a narrow width before committing.

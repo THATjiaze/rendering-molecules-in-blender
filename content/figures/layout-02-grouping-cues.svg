@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif" viewBox="0 0 760 440" role="img" aria-label="Six cues the eye uses to group marks before reading" font-size="13"> <text x="24" y="30" font-size="15" font-weight="600" fill="var(--fig-ink, #1a1c20)">Six cues the eye uses to group marks before reading</text> <g>
+<rect x="24" y="52" width="216" height="132" rx="8" fill="none" stroke="var(--fig-grid, #c9cdd3)" stroke-width="1.25"/> <circle cx="62" cy="82" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="62" cy="106" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="62" cy="130" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="62" cy="154" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="82" cy="82" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="82" cy="106" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="82" cy="130" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="82" cy="154" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="122" cy="82" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="122" cy="106" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="122" cy="130" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="122" cy="154" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="142" cy="82" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="142" cy="106" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="142" cy="130" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="142" cy="154" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="182" cy="82" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="182" cy="106" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="182" cy="130" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="182" cy="154" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="202" cy="82" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="202" cy="106" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="202" cy="130" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="202" cy="154" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/> <text x="132" y="208" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Proximity</text> <text x="132" y="226" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">three groups, not 24 dots</text>
+</g> <g>
+<rect x="272" y="52" width="216" height="132" rx="8" fill="none" stroke="var(--fig-grid, #c9cdd3)" stroke-width="1.25"/> <circle cx="320" cy="82" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="344" cy="82" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="368" cy="82" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="392" cy="82" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="416" cy="82" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="440" cy="82" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="320" cy="106" r="4" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.75" stroke-width="2"/>
+<circle cx="344" cy="106" r="4" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.75" stroke-width="2"/>
+<circle cx="368" cy="106" r="4" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.75" stroke-width="2"/>
+<circle cx="392" cy="106" r="4" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.75" stroke-width="2"/>
+<circle cx="416" cy="106" r="4" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.75" stroke-width="2"/>
+<circle cx="440" cy="106" r="4" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.75" stroke-width="2"/>
+<circle cx="320" cy="130" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="344" cy="130" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="368" cy="130" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="392" cy="130" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="416" cy="130" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="440" cy="130" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="320" cy="154" r="4" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.75" stroke-width="2"/>
+<circle cx="344" cy="154" r="4" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.75" stroke-width="2"/>
+<circle cx="368" cy="154" r="4" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.75" stroke-width="2"/>
+<circle cx="392" cy="154" r="4" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.75" stroke-width="2"/>
+<circle cx="416" cy="154" r="4" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.75" stroke-width="2"/>
+<circle cx="440" cy="154" r="4" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.75" stroke-width="2"/> <text x="380" y="208" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Similarity</text> <text x="380" y="226" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">rows, because like joins like</text>
+</g> <g>
+<rect x="520" y="52" width="216" height="132" rx="8" fill="none" stroke="var(--fig-grid, #c9cdd3)" stroke-width="1.25"/> <rect x="541" y="92" width="54" height="52" rx="10" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/> <rect x="601" y="92" width="114" height="52" rx="10" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/> <circle cx="553" cy="104" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="583" cy="104" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="613" cy="104" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="643" cy="104" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="673" cy="104" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="703" cy="104" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="553" cy="132" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="583" cy="132" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="613" cy="132" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="643" cy="132" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="673" cy="132" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/>
+<circle cx="703" cy="132" r="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.75"/> <text x="628" y="208" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Common region</text> <text x="628" y="226" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">the boundary decides the groups</text>
+</g> <g>
+<rect x="24" y="244" width="216" height="132" rx="8" fill="none" stroke="var(--fig-grid, #c9cdd3)" stroke-width="1.25"/> <g fill="var(--fig-ink, #1a1c20)" opacity="0.75">
+<circle cx="60" cy="346" r="4"/>
+<circle cx="78" cy="337" r="4"/>
+<circle cx="96" cy="328" r="4"/>
+<circle cx="114" cy="319" r="4"/>
+<circle cx="132" cy="310" r="4"/>
+<circle cx="150" cy="301" r="4"/>
+<circle cx="168" cy="292" r="4"/>
+<circle cx="186" cy="283" r="4"/>
+<circle cx="204" cy="274" r="4"/>
+<circle cx="48" cy="310" r="4"/>
+<circle cx="62" cy="295" r="4"/>
+<circle cx="76" cy="284.01923788646684" r="4"/>
+<circle cx="90" cy="280" r="4"/>
+<circle cx="104" cy="284.01923788646684" r="4"/>
+<circle cx="118" cy="295" r="4"/>
+<circle cx="132" cy="310" r="4"/>
+<circle cx="146" cy="325" r="4"/>
+<circle cx="160" cy="335.98076211353316" r="4"/>
+<circle cx="174" cy="340" r="4"/>
+<circle cx="188" cy="335.98076211353316" r="4"/>
+<circle cx="202" cy="325" r="4"/>
+<circle cx="216" cy="310" r="4"/>
+</g> <text x="132" y="400" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Continuity</text> <text x="132" y="418" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">one straight line, one wave</text>
+</g> <g>
+<rect x="272" y="244" width="216" height="132" rx="8" fill="none" stroke="var(--fig-grid, #c9cdd3)" stroke-width="1.25"/> <path d="M320 298V274H344M416 274H440V298M440 322V346H416M344 346H320V322" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/> <text x="380" y="400" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Closure</text> <text x="380" y="418" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">four corners make a rectangle</text>
+</g> <g>
+<rect x="520" y="244" width="216" height="132" rx="8" fill="none" stroke="var(--fig-grid, #c9cdd3)" stroke-width="1.25"/> <rect x="532" y="256" width="192" height="108" rx="4" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.12"/> <circle cx="606" cy="314" r="28" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/> <text x="628" y="400" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Figure and ground</text> <text x="628" y="418" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">the dark shape is the object</text>
+</g> </svg>

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif" viewBox="0 0 760 386" role="img" aria-label="Spacing alone shows which things belong together" font-size="13"> <text x="24" y="30" font-size="15" font-weight="600" fill="var(--fig-ink, #1a1c20)">Spacing alone shows which things belong together</text> <text x="24" y="62" font-weight="600" fill="var(--fig-ink, #1a1c20)">Ranked, but crowded</text> <text x="396" y="62" font-weight="600" fill="var(--fig-ink, #1a1c20)">Grouped by spacing</text> <g transform="translate(24 74)">
+<rect x="0" y="0" width="340" height="255" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/> <rect x="6" y="6" width="22" height="16" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="312" y="6" width="22" height="16" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="52" y="8" width="236" height="12" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.9"/>
+<rect x="86" y="24" width="168" height="12" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.9"/>
+<rect x="125" y="41" width="90" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.4"/> <rect x="8" y="52" width="44" height="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.8"/>
+<rect x="8" y="62" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="69" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="76" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="83" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="90" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="97" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="104" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="111" width="60" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="8" y="125" width="52" height="5" fill="var(--fig-cat-2, #a1561d)" fill-opacity="0.8"/>
+<rect x="8" y="135" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="142" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="149" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="156" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="163" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="170" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="177" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="184" width="60" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="8" y="198" width="40" height="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.8"/>
+<rect x="8" y="208" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="215" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="222" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="229" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="236" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="243" width="60" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="121" y="54" width="211" height="92" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1"/>
+<g>
+<ellipse cx="226" cy="104" rx="32" ry="26" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<path d="M202 80q24 -20 48 0" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.6" stroke-width="6" stroke-linecap="round"/>
+</g>
+<rect x="121" y="151" width="90" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="121" y="161" width="48" height="5" fill="var(--fig-cat-3, #3c3c83)" fill-opacity="0.8"/>
+<rect x="127" y="171" width="82" height="44" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1"/>
+<path d="M140 204l18 -12l18 5l22 -16" fill="none" stroke="var(--fig-cat-3, #3c3c83)" stroke-width="2"/>
+<rect x="121" y="221" width="96" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="121" y="228" width="96" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="121" y="235" width="96" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="121" y="242" width="57.599999999999994" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="228" y="160" width="104" height="40" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1"/>
+<rect x="254" y="188" width="9" height="8" fill="var(--fig-cat-2, #a1561d)"/>
+<rect x="268" y="182" width="9" height="14" fill="var(--fig-cat-2, #a1561d)"/>
+<rect x="282" y="176" width="9" height="20" fill="var(--fig-cat-2, #a1561d)"/>
+<rect x="296" y="170" width="9" height="26" fill="var(--fig-cat-2, #a1561d)"/> <rect x="228" y="208" width="70" height="7" fill="var(--fig-cat-2, #a1561d)" fill-opacity="0.9"/>
+<rect x="228" y="220" width="104" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="228" y="227" width="104" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="228" y="234" width="104" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="228" y="241" width="62.4" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+</g> <g transform="translate(396 74)">
+<rect x="0" y="0" width="340" height="255" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/> <rect x="16" y="16" width="20" height="14" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="304" y="16" width="20" height="14" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="52" y="16" width="236" height="12" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.9"/>
+<rect x="86" y="32" width="168" height="12" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.9"/>
+<rect x="125" y="49" width="90" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.4"/> <rect x="18" y="68" width="44" height="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.8"/>
+<rect x="18" y="76" width="90" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="18" y="83" width="90" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="18" y="90" width="90" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="18" y="97" width="54" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="18" y="116" width="52" height="5" fill="var(--fig-cat-2, #a1561d)" fill-opacity="0.8"/>
+<rect x="18" y="124" width="90" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="18" y="131" width="90" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="18" y="138" width="90" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="18" y="145" width="54" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="20" y="172" width="70" height="7" fill="var(--fig-cat-2, #a1561d)" fill-opacity="0.9"/>
+<rect x="20" y="183" width="88" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="20" y="190" width="88" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="20" y="197" width="88" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="20" y="204" width="88" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="20" y="211" width="52.8" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="127" y="64" width="193" height="90" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1"/>
+<g>
+<ellipse cx="223" cy="112" rx="32" ry="26" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<path d="M199 88q24 -20 48 0" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.6" stroke-width="6" stroke-linecap="round"/>
+</g>
+<rect x="127" y="158" width="90" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="124" y="170" width="48" height="5" fill="var(--fig-cat-3, #3c3c83)" fill-opacity="0.8"/>
+<rect x="124" y="178" width="88" height="40" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1"/>
+<path d="M140 208l18 -12l18 5l22 -16" fill="none" stroke="var(--fig-cat-3, #3c3c83)" stroke-width="2"/>
+<rect x="124" y="222" width="42" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="236" y="174" width="84" height="44" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1"/>
+<rect x="256" y="204" width="9" height="8" fill="var(--fig-cat-2, #a1561d)"/>
+<rect x="270" y="198" width="9" height="14" fill="var(--fig-cat-2, #a1561d)"/>
+<rect x="284" y="192" width="9" height="20" fill="var(--fig-cat-2, #a1561d)"/>
+<rect x="298" y="186" width="9" height="26" fill="var(--fig-cat-2, #a1561d)"/>
+<rect x="236" y="222" width="42" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="16" y="238" width="150" height="2" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.25"/>
+</g> <text x="24" y="350" font-size="11.5" fill="var(--fig-muted, #5b616b)">Equal gaps: each heading floats between two blocks.</text> <text x="24" y="367" font-size="11.5" fill="var(--fig-muted, #5b616b)">Text runs to the edges of the sheet.</text> <text x="396" y="350" font-size="11.5" fill="var(--fig-muted, #5b616b)">Small gaps inside groups, large gaps between them.</text> <text x="396" y="367" font-size="11.5" fill="var(--fig-muted, #5b616b)">About half of the words are cut, and the margin is clear.</text> </svg>

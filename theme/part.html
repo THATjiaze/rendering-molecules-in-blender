@@ -14,7 +14,7 @@
     <article class="chapter" aria-labelledby="{{ c.id }}">
       <header class="node">
         <div class="node-head">
-          {% if c.num %}<span class="node-kicker">Chapter {{ c.num }}</span>{% endif %}
+          {% if c.num is not none %}<span class="node-kicker">Chapter {{ c.num }}</span>{% endif %}
           <h2 id="{{ c.id }}">{{ c.title }}</h2>
         </div>
         {% if c.objectives %}

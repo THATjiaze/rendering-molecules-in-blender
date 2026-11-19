@@ -42,7 +42,7 @@
         {% if current and p.slug == current.slug %}
         <ol class="chapters">
           {% for c in p.chapters %}
-          <li><a href="#{{ c.id }}">{% if c.num %}<span class="num">{{ c.num }}</span>{% endif %}<span>{{ c.title }}</span></a></li>
+          <li><a href="#{{ c.id }}">{% if c.num is not none %}<span class="num">{{ c.num }}</span>{% endif %}<span>{{ c.title }}</span></a></li>
           {% endfor %}
         </ol>
         {% endif %}

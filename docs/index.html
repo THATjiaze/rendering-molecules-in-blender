@@ -63,6 +63,9 @@
       <li data-socket="matrix">
         <a class="part-link" href="art-direction.html"><span class="sock" aria-hidden="true"></span>Art direction</a>
       </li>
+      <li data-socket="bundle">
+        <a class="part-link" href="composition-and-layout.html"><span class="sock" aria-hidden="true"></span>Composition and layout</a>
+      </li>
     </ol>
     <div class="rail-foot">
       <span class="rail-links"><a href="about.html">About</a><a href="https://github.com/THATjiaze/rendering-molecules-in-blender" rel="noopener">Source</a></span>
@@ -73,7 +76,7 @@
     <header class="hero">
       <h1>Rendering Molecules in Blender</h1>
       <p class="hero-lede">A workbook for structural biologists who can already make a figure in ChimeraX and want what Blender adds: materials, light and geometry you control yourself.</p>
-      <p class="hero-facts">9 parts, 87 chapters and 172 exercises, written for Blender 5.2 LTS and the Molecular Nodes add-on.</p>
+      <p class="hero-facts">10 parts, 109 chapters and 194 exercises, written for Blender 5.2 LTS and the Molecular Nodes add-on.</p>
     </header>
 
     <div class="graph" aria-hidden="true">
@@ -91,7 +94,8 @@
           <path d="M932 168C968 168 944 248 980 248" data-socket="shader"/>
           <path d="M680 280C830 280 830 248 980 248" data-socket="vector"/>
           <path d="M680 392C830 392 830 248 980 248" data-socket="boolean"/>
-          <path d="M1184 224C1220 224 1220 224 1256 224" data-socket="matrix"/>
+          <path d="M1184 224C1220 224 1220 268 1256 268" data-socket="matrix"/>
+          <path d="M1184 336C1220 336 1220 292 1256 292" data-socket="bundle"/>
         </g>
         <g transform="translate(16 172.0)" data-socket="float">
           <rect class="gnode-body" width="136" height="60" rx="6"/>
@@ -199,12 +203,25 @@
             <circle class="gsock" cx="0" cy="66" r="5.5" data-socket="float"/>
           </g>
         </a>
-        <g transform="translate(1256 182.0)" data-socket="float">
-          <rect class="gnode-body" width="136" height="60" rx="6"/>
+        <a href="composition-and-layout.html" tabindex="-1">
+          <g transform="translate(980 294.0)" data-socket="bundle">
+            <rect class="gnode-body" width="204" height="84" rx="6"/>
+            <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h192a6 6 0 0 1 6 6v22z"/>
+            <text class="gnode-title" x="10" y="19">Composition and layout</text>
+            <text class="gnode-row" x="191" y="46" text-anchor="end">A page that reads</text>
+            <text class="gnode-quiet" x="13" y="70">22 chapters, 22 exercises</text>
+            <circle class="gsock" cx="204" cy="42" r="5.5"/>
+            <circle class="gsock" cx="0" cy="66" r="5.5" data-socket="float"/>
+          </g>
+        </a>
+        <g transform="translate(1256 226.0)" data-socket="float">
+          <rect class="gnode-body" width="136" height="84" rx="6"/>
           <path class="gnode-head" d="M0 28V6a6 6 0 0 1 6-6h124a6 6 0 0 1 6 6v22z"/>
           <text class="gnode-title" x="10" y="19">Group Output</text>
           <text class="gnode-row" x="13" y="46.0">Picture</text>
           <circle class="gsock" cx="0" cy="42.0" r="5.5"/>
+          <text class="gnode-row" x="13" y="70.0">Page</text>
+          <circle class="gsock" cx="0" cy="66.0" r="5.5"/>
         </g>
       </svg>
       <p class="graph-note">How the parts feed each other. Start at any node whose input you already have.</p>
@@ -292,6 +309,15 @@
           </span>
         </a>
       </li>
+      <li data-socket="bundle">
+        <a class="part-card" href="composition-and-layout.html">
+          <span class="part-card-head">Composition and layout: a step-by-step tutorial</span>
+          <span class="part-card-body">
+            <span>Arranging things so a viewer sees what matters first: hierarchy, grouping, the grid, the frame and the eye path, applied to figures, posters, renders and manga pages.</span>
+            <span class="part-card-meta">22 chapters, 22 exercises</span>
+          </span>
+        </a>
+      </li>
     </ol>
 
     <div class="home-notes">
@@ -307,6 +333,7 @@
           <li>Your structure is on screen and looks like wet plastic: <a href="material-recipes.html">Recipes</a>, which opens with why.</li>
           <li>You want to change what is drawn, not how it is shaded: <a href="geometry-nodes.html">Geometry Nodes, from zero</a>, then <a href="molecular-nodes.html">Molecular Nodes</a>.</li>
           <li>Every control is in place and the picture still looks regular: <a href="art-direction.html">Art direction</a>, Chapters 1 to 3.</li>
+          <li>Your figure, poster or slide is crowded or hard to follow: <a href="composition-and-layout.html">Composition and layout</a>, Chapters 0 to 11.</li>
         </ul>
       </section>
       <section>

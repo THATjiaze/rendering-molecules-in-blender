@@ -1,7 +1,7 @@
 # Rendering Molecules in Blender
 
 A workbook for structural biologists who can already make a figure in ChimeraX and want what Blender adds:
-materials, light and geometry you control yourself. Nine parts, 87 chapters and 172 exercises, written for
+materials, light and geometry you control yourself. Ten parts, 109 chapters and 194 exercises, written for
 Blender 5.2 LTS and the [Molecular Nodes](https://bradyajohnston.github.io/MolecularNodes/) add-on.
 
 Read it at **https://thatjiaze.github.io/rendering-molecules-in-blender/**.
@@ -17,6 +17,7 @@ Read it at **https://thatjiaze.github.io/rendering-molecules-in-blender/**.
 | [Molecular Nodes as a second ChimeraX](content/07-molecular-nodes.md) | Selections as boolean fields, and what each Molecular Nodes node is built from |
 | [Handling objects and modeling](content/08-objects-and-modeling.md) | Selecting, placing, Edit Mode, modifiers, curves and the camera |
 | [Art direction: the whole picture](content/09-art-direction.md) | Seven decisions made together for one sentence, four complete looks, and inventing your own |
+| [Composition and layout: a step-by-step tutorial](content/10-composition-and-layout.md) | Hierarchy, grouping, the grid, the frame and the eye path, learned on paper, then applied to figures, posters, renders and manga pages |
 
 ## How it was made, and how far to trust it
 
@@ -35,7 +36,7 @@ The text is plain Markdown, one file per part, in `content/`. Each file keeps on
 ```
 # Part title
 intro paragraphs
-## Chapter 3. Fields              (or any "## Heading" for an unnumbered section)
+## Chapter 3. Fields              (numbering may start at 0; any other "## Heading" is an unnumbered section)
 ### Objectives                    a bullet list; drawn as the chapter's output sockets
 ### Any heading                   ordinary prose
 ### Exercise 3.1: do the thing    steps, then a paragraph starting "What you should see:"

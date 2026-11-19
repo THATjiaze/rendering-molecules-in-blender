@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif" viewBox="0 0 760 352" role="img" aria-label="Rank the panels, label the data directly, and remove the boxes" font-size="13"> <text x="24" y="30" font-size="15" font-weight="600" fill="var(--fig-ink, #1a1c20)">Rank the panels, label the data directly, and remove the boxes</text> <text x="24" y="62" font-weight="600" fill="var(--fig-ink, #1a1c20)">Before: four equal boxes</text> <text x="396" y="62" font-weight="600" fill="var(--fig-ink, #1a1c20)">After: ranked and labeled directly</text> <g transform="translate(24 74)"> <rect x="0" y="0" width="164" height="104" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-width="2"/>
+<rect x="176" y="0" width="164" height="104" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-width="2"/>
+<rect x="0" y="116" width="164" height="104" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-width="2"/>
+<rect x="176" y="116" width="164" height="104" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-width="2"/> <path d="M24 14V88H152" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<path d="M200 14V88H328" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<path d="M24 130V204H152" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<path d="M200 130V204H328" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/> <path d="M30 82C60 74 90 48 146 34" fill="none" stroke="var(--fig-cat-2, #a1561d)" stroke-width="2"/>
+<path d="M30 84C70 80 100 70 146 62" fill="none" stroke="var(--fig-cat-3, #3c3c83)" stroke-width="2"/> <g fill="var(--fig-cat-7, #7d5187)">
+<rect x="212" y="58" width="16" height="30"/>
+<rect x="238" y="44" width="16" height="44"/>
+<rect x="264" y="34" width="16" height="54"/>
+</g> <path d="M30 196l28 -16l28 8l28 -24l30 6" fill="none" stroke="var(--fig-cat-5, #ad3a4b)" stroke-width="2"/> <g fill="var(--fig-cat-3, #3c3c83)">
+<circle cx="212" cy="196" r="3"/>
+<circle cx="234" cy="186" r="3"/>
+<circle cx="256" cy="182" r="3"/>
+<circle cx="278" cy="170" r="3"/>
+<circle cx="300" cy="164" r="3"/>
+</g> <g>
+<rect x="106" y="8" width="50" height="24" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-width="1"/>
+<rect x="111" y="13" width="6" height="6" fill="var(--fig-cat-2, #a1561d)"/>
+<rect x="111" y="22" width="6" height="6" fill="var(--fig-cat-3, #3c3c83)"/>
+<rect x="121" y="14" width="28" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="121" y="23" width="22" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+</g>
+<g>
+<rect x="282" y="8" width="50" height="24" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-width="1"/>
+<rect x="287" y="13" width="6" height="6" fill="var(--fig-cat-7, #7d5187)"/>
+<rect x="287" y="22" width="6" height="6" fill="var(--fig-cat-7, #7d5187)"/>
+<rect x="297" y="14" width="28" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="297" y="23" width="22" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+</g>
+<g>
+<rect x="106" y="124" width="50" height="24" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-width="1"/>
+<rect x="111" y="129" width="6" height="6" fill="var(--fig-cat-5, #ad3a4b)"/>
+<rect x="111" y="138" width="6" height="6" fill="var(--fig-cat-5, #ad3a4b)"/>
+<rect x="121" y="130" width="28" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="121" y="139" width="22" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+</g>
+<g>
+<rect x="282" y="124" width="50" height="24" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-width="1"/>
+<rect x="287" y="129" width="6" height="6" fill="var(--fig-cat-3, #3c3c83)"/>
+<rect x="287" y="138" width="6" height="6" fill="var(--fig-cat-3, #3c3c83)"/>
+<rect x="297" y="130" width="28" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="297" y="139" width="22" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+</g> <text x="6" y="15" font-weight="600" fill="var(--fig-ink, #1a1c20)">A</text> <text x="182" y="101" font-weight="600" fill="var(--fig-ink, #1a1c20)">B</text> <text x="6" y="217" font-weight="600" fill="var(--fig-ink, #1a1c20)">C</text> <text x="182" y="131" font-weight="600" fill="var(--fig-ink, #1a1c20)">D</text>
+</g> <g transform="translate(396 74)"> <path d="M24 8V204H196" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<path d="M236 8V60H336" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<path d="M236 80V132H336" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<path d="M236 152V204H336" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/> <path d="M32 196C80 186 130 160 190 142" fill="none" stroke="var(--fig-muted, #5b616b)" stroke-width="1.5"/> <path d="M32 192C70 166 120 60 190 30" fill="none" stroke="var(--fig-accent, #0f9d7a)" stroke-width="2.5"/> <g fill="var(--fig-muted, #5b616b)">
+<rect x="250" y="38" width="16" height="22"/>
+<rect x="276" y="26" width="16" height="34"/>
+<rect x="302" y="16" width="16" height="44"/>
+</g> <path d="M244 126l22 -14l22 6l22 -20l18 4" fill="none" stroke="var(--fig-muted, #5b616b)" stroke-width="1.5"/> <g fill="var(--fig-muted, #5b616b)">
+<circle cx="252" cy="196" r="3"/>
+<circle cx="270" cy="186" r="3"/>
+<circle cx="288" cy="182" r="3"/>
+<circle cx="306" cy="170" r="3"/>
+<circle cx="322" cy="164" r="3"/>
+</g> <text x="152" y="40" text-anchor="end" font-size="11.5" font-weight="600" fill="var(--fig-ink, #1a1c20)">with zinc</text> <text x="190" y="186" text-anchor="end" font-size="11.5" fill="var(--fig-muted, #5b616b)">without zinc</text> <text x="0" y="14" font-weight="600" fill="var(--fig-ink, #1a1c20)">a</text> <text x="212" y="14" font-weight="600" fill="var(--fig-ink, #1a1c20)">b</text> <text x="212" y="86" font-weight="600" fill="var(--fig-ink, #1a1c20)">c</text> <text x="212" y="158" font-weight="600" fill="var(--fig-ink, #1a1c20)">d</text>
+</g> <text x="24" y="316" font-size="11.5" fill="var(--fig-muted, #5b616b)">Four equal boxes: the key result hides among controls.</text> <text x="24" y="333" font-size="11.5" fill="var(--fig-muted, #5b616b)">Legends sit far from the curves they explain.</text> <text x="396" y="316" font-size="11.5" fill="var(--fig-muted, #5b616b)">The key panel gets the area and the only accent.</text> <text x="396" y="333" font-size="11.5" fill="var(--fig-muted, #5b616b)">Labels sit on the data. Small panels share axis lines.</text> </svg>

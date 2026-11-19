@@ -100,8 +100,9 @@ class Site:
         for heading, body in chapters:
             numbered = re.match(r"Chapter (\d+)\. (.+)", heading)
             num, name = (int(numbered.group(1)), numbered.group(2)) if numbered else (None, heading)
-            chapter = {"num": num, "title": name, "id": ids.make(f"chapter-{num}" if num else slugify(name)), "sections": []}
-            if num:
+            # A part may start at Chapter 0, so test the number against None, never for truth.
+            chapter = {"num": num, "title": name, "id": ids.make(f"chapter-{num}" if num is not None else slugify(name)), "sections": []}
+            if num is not None:
                 part["chapter_ids"][num] = chapter["id"]
             chapter["lead_md"], sections = split_at(body, 3)
             for sec_title, sec_body in sections:
@@ -118,7 +119,9 @@ class Site:
                 section.setdefault("id", ids.make(slugify(sec_title)) if section["kind"] == "prose" else None)
                 chapter["sections"].append(section)
             part["chapters"].append(chapter)
-        part["n_chapters"] = len(part["chapters"])
+        # A part that numbers its chapters counts only those (not its About, group headings or appendices);
+        # a part of unnumbered sections, like the Recipes, counts every section.
+        part["n_chapters"] = sum(c["num"] is not None for c in part["chapters"]) or len(part["chapters"])
         part["n_exercises"] = sum(s["kind"] == "exercise" for c in part["chapters"] for s in c["sections"])
 
     # -------------------------------------------------------------- rendering
@@ -248,7 +251,7 @@ class Site:
         return f'<li><p class="q">{split.group(1)}</p><details><summary>Answer</summary><p>{split.group(2)}</p></details></li>'
 
     def index(self, part, chapter, title, url, markup):
-        where = part["short"] + (f", Chapter {chapter['num']}" if chapter and chapter["num"] else "")
+        where = part["short"] + (f", Chapter {chapter['num']}" if chapter and chapter["num"] is not None else "")
         entry = {"t": plain(title), "w": where, "u": url, "x": plain(markup)}
         self.search.append(entry)
         return entry
@@ -273,10 +276,9 @@ class Site:
         sockets = list(dict.fromkeys(w["socket"] for w in self.cfg["wire"] if w["to"] == "out"))
         in_node = {"x": col_x[0], "y": mid - 10, "w": end_w, "h": head + row + 8}
         in_node["out"] = (in_node["x"] + end_w, in_node["y"] + head + row / 2 + 2)
-        out_y = mid - 34
         feeds = [nodes[w["from"]]["out"][1] for w in self.cfg["wire"] if w["to"] == "out" and w["from"] != "in"]
-        if len(sockets) == 1 and feeds:  # one output socket: level with what feeds it, so the wire runs straight
-            out_y = sum(feeds) / len(feeds) - (head + row / 2 + 2)
+        # Center the output sockets on what feeds them, so the wires into the Group Output run nearly level.
+        out_y = sum(feeds) / len(feeds) - (head + row * len(sockets) / 2 + 2) if feeds else mid - 34
         out_node = {"x": col_x[-1], "y": out_y, "w": end_w, "h": head + len(sockets) * row + 8, "sockets": []}
         for i, name in enumerate(sockets):
             out_node["sockets"].append({"name": name, "y": out_node["y"] + head + row * (i + 0.5) + 2})

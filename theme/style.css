@@ -26,6 +26,7 @@
   --sock-boolean: #cca6d6;  --deep-boolean: #7d5187;
   --sock-object: #ed9e5c;   --deep-object: #a1561d;
   --sock-matrix: #b83385;   --deep-matrix: #8f2266;
+  --sock-bundle: #4d8080;   --deep-bundle: #2c5f5f;
   --sock-float: #a1a1a1;    --deep-float: #4b4e54;
   --sock: var(--sock-float); --deep: var(--deep-float);
 
@@ -69,6 +70,7 @@
 [data-socket="boolean"]  { --sock: var(--sock-boolean);  --deep: var(--deep-boolean); }
 [data-socket="object"]   { --sock: var(--sock-object);   --deep: var(--deep-object); }
 [data-socket="matrix"]   { --sock: var(--sock-matrix);   --deep: var(--deep-matrix); }
+[data-socket="bundle"]   { --sock: var(--sock-bundle);   --deep: var(--deep-bundle); }
 [data-socket="float"]    { --sock: var(--sock-float);    --deep: var(--deep-float); }
 
 /* Part tint: a part's page mixes --tint of its socket color into the neutral tones. Surfaces
@@ -237,6 +239,16 @@ tbody tr:last-child td { border-bottom: 0; }
 .figure { margin: 2rem 0; max-width: 47.5rem; padding: 0.9rem 1rem 0.8rem; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px;
   --fig-line: var(--muted); --fig-grid: var(--rule); --fig-accent: var(--accent); --fig-ink: var(--ink); --fig-muted: var(--muted); --fig-tint: var(--wash); }
 .figure { overflow-x: auto; }
+/* Six more figure colors for figures that need several hues, taken from the socket colors: the deep shade on
+   light pages, the socket color itself on dark ones, as --fig-accent does. */
+.figure { --fig-cat-2: var(--deep-object); --fig-cat-3: var(--deep-vector); --fig-cat-4: var(--deep-color);
+  --fig-cat-5: var(--deep-material); --fig-cat-6: var(--deep-string); --fig-cat-7: var(--deep-boolean); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .figure { --fig-cat-2: var(--sock-object); --fig-cat-3: var(--sock-vector); --fig-cat-4: var(--sock-color);
+    --fig-cat-5: var(--sock-material); --fig-cat-6: var(--sock-string); --fig-cat-7: var(--sock-boolean); }
+}
+:root[data-theme="dark"] .figure { --fig-cat-2: var(--sock-object); --fig-cat-3: var(--sock-vector); --fig-cat-4: var(--sock-color);
+  --fig-cat-5: var(--sock-material); --fig-cat-6: var(--sock-string); --fig-cat-7: var(--sock-boolean); }
 .figure svg { display: block; width: 100%; min-width: 38rem; height: auto; font-family: var(--font-ui); }
 figcaption { margin-top: 0.55rem; font-family: var(--font-ui); font-size: 0.8125rem; color: var(--muted); }
 /* A render: as wide as the column, and a link to the file at full size, where its labels can be read. */

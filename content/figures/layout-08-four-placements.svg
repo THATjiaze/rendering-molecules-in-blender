@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif" viewBox="0 0 760 250" role="img" aria-label="Where the subject sits changes what the picture says" font-size="13"> <text x="24" y="30" font-size="15" font-weight="600" fill="var(--fig-ink, #1a1c20)">Where the subject sits changes what the picture says</text> <g transform="translate(24 56)"> <g fill="var(--fig-line, #6b7280)">
+<rect x="125" y="32" width="3" height="28"/>
+<rect x="144" y="32" width="3" height="28"/>
+<rect x="120" y="28" width="32" height="4"/>
+<rect x="125" y="37" width="22" height="2.5"/>
+</g>
+<rect x="0" y="58" width="166" height="58" fill="var(--fig-ink, #1a1c20)"/>
+<g fill="var(--fig-ink, #1a1c20)" stroke="var(--fig-ink, #1a1c20)">
+<path d="M83 37l-6 21h12z" stroke="none"/>
+<circle cx="83" cy="33" r="4.5" stroke="none"/>
+<path d="M80 31q-8 2 -8 10" fill="none" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M86 43l10 -4v7" fill="none" stroke-width="1.25"/>
+<circle cx="96" cy="49" r="3.5" fill="var(--fig-accent, #0f9d7a)" stroke="none"/>
+</g>
+<rect x="0" y="0" width="166" height="116" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+</g> <g transform="translate(206 56)"> <g fill="var(--fig-line, #6b7280)">
+<rect x="111" y="51" width="3" height="28"/>
+<rect x="130" y="51" width="3" height="28"/>
+<rect x="106" y="47" width="32" height="4"/>
+<rect x="111" y="56" width="22" height="2.5"/>
+</g>
+<path d="M0 84C40 76 110 82 166 70V116H0Z" fill="var(--fig-ink, #1a1c20)"/>
+<g fill="var(--fig-ink, #1a1c20)" stroke="var(--fig-ink, #1a1c20)">
+<path d="M52 59l-6 21h12z" stroke="none"/>
+<circle cx="52" cy="55" r="4.5" stroke="none"/>
+<path d="M49 53q-8 2 -8 10" fill="none" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M55 65l10 -4v7" fill="none" stroke-width="1.25"/>
+<circle cx="65" cy="71" r="3.5" fill="var(--fig-accent, #0f9d7a)" stroke="none"/>
+</g> <line x1="55.3" y1="0" x2="55.3" y2="116" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="110.7" y1="0" x2="110.7" y2="116" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="0" y1="38.7" x2="166" y2="38.7" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="0" y1="77.3" x2="166" y2="77.3" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1" stroke-dasharray="3 3"/>
+<rect x="0" y="0" width="166" height="116" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+</g> <g transform="translate(388 56)"> <g fill="var(--fig-line, #6b7280)">
+<rect x="29" y="55" width="3" height="28"/>
+<rect x="48" y="55" width="3" height="28"/>
+<rect x="24" y="51" width="32" height="4"/>
+<rect x="29" y="60" width="22" height="2.5"/>
+</g>
+<path d="M0 84C40 76 110 82 166 70V116H0Z" fill="var(--fig-ink, #1a1c20)"/>
+<g fill="var(--fig-ink, #1a1c20)" stroke="var(--fig-ink, #1a1c20)">
+<path d="M140 54l-6 21h12z" stroke="none"/>
+<circle cx="140" cy="50" r="4.5" stroke="none"/>
+<path d="M137 48q-8 2 -8 10" fill="none" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M143 60l10 -4v7" fill="none" stroke-width="1.25"/>
+<circle cx="153" cy="66" r="3.5" fill="var(--fig-accent, #0f9d7a)" stroke="none"/>
+</g>
+<rect x="0" y="0" width="166" height="116" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+</g> <g transform="translate(570 56)"> <rect x="0" y="66.5" width="166" height="49.5" fill="var(--fig-grid, #c9cdd3)"/>
+<circle cx="30" cy="9" r="9" fill="var(--fig-line, #6b7280)"/>
+<g fill="var(--fig-line, #6b7280)">
+<rect x="139" y="70" width="3" height="28"/>
+<rect x="158" y="70" width="3" height="28"/>
+<rect x="134" y="66" width="32" height="4"/>
+<rect x="139" y="75" width="22" height="2.5"/>
+</g>
+<rect x="0" y="96" width="166" height="20" fill="var(--fig-ink, #1a1c20)"/>
+<g fill="var(--fig-ink, #1a1c20)" stroke="var(--fig-ink, #1a1c20)">
+<path d="M58 75l-6 21h12z" stroke="none"/>
+<circle cx="58" cy="71" r="4.5" stroke="none"/>
+<path d="M55 69q-8 2 -8 10" fill="none" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M61 81l10 -4v7" fill="none" stroke-width="1.25"/>
+<circle cx="71" cy="87" r="3.5" fill="var(--fig-accent, #0f9d7a)" stroke="none"/>
+</g> <rect x="0" y="0" width="166" height="116" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+<circle cx="58" cy="66.5" r="7" fill="none" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1.5"/>
+<circle cx="30" cy="0" r="7" fill="none" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1.5"/>
+<circle cx="166" cy="68" r="7" fill="none" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1.5"/>
+</g> <text x="107" y="196" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Centered</text> <text x="107" y="214" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">calm and static;</text> <text x="107" y="230" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">the horizon halves the frame</text> <text x="289" y="196" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">On a third</text> <text x="289" y="214" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">the room ahead of her reads</text> <text x="289" y="230" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">as a journey to the gate</text> <text x="471" y="196" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Facing out</text> <text x="471" y="214" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">the eye follows her out,</text> <text x="471" y="230" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">and the space behind is dead</text> <text x="653" y="196" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Tangents</text> <text x="653" y="214" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">head on the horizon,</text> <text x="653" y="230" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">moon and beam on the edge</text> </svg>

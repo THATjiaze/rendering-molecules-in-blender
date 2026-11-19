@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif" viewBox="0 0 760 386" role="img" aria-label="Ranking gives the page an entry point" font-size="13"> <text x="24" y="30" font-size="15" font-weight="600" fill="var(--fig-ink, #1a1c20)">Ranking gives the page an entry point</text> <text x="24" y="62" font-weight="600" fill="var(--fig-ink, #1a1c20)">First draft</text> <text x="396" y="62" font-weight="600" fill="var(--fig-ink, #1a1c20)">After ranking</text> <g transform="translate(24 74)">
+<rect x="0" y="0" width="340" height="255" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/> <rect x="6" y="6" width="40" height="30" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.7"/>
+<rect x="294" y="6" width="40" height="30" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.7"/> <rect x="100" y="12" width="140" height="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.8"/>
+<rect x="125" y="23" width="90" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.4"/> <rect x="8" y="46" width="44" height="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.8"/>
+<rect x="8" y="56" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="63" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="70" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="77" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="84" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="91" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="98" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="105" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="112" width="60" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="8" y="126" width="52" height="5" fill="var(--fig-cat-2, #a1561d)" fill-opacity="0.8"/>
+<rect x="8" y="136" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="143" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="150" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="157" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="164" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="171" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="178" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="185" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="192" width="60" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="8" y="206" width="40" height="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.8"/>
+<rect x="8" y="216" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="223" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="230" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="237" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="244" width="60" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="121" y="50" width="96" height="60" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1"/>
+<g>
+<ellipse cx="169" cy="82" rx="16" ry="13" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<path d="M157 70q12 -10 24 0" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.6" stroke-width="3" stroke-linecap="round"/>
+</g>
+<rect x="121" y="116" width="96" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="121" y="123" width="57.599999999999994" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="121" y="136" width="48" height="5" fill="var(--fig-cat-3, #3c3c83)" fill-opacity="0.8"/>
+<rect x="127" y="147" width="82" height="52" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1"/>
+<path d="M140 186l18 -12l18 5l22 -16" fill="none" stroke="var(--fig-cat-3, #3c3c83)" stroke-width="2"/>
+<rect x="121" y="206" width="96" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="121" y="213" width="96" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="121" y="220" width="96" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="121" y="227" width="96" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="121" y="234" width="96" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="121" y="241" width="57.599999999999994" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="230" y="42" width="50" height="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.8"/>
+<rect x="228" y="52" width="104" height="56" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1"/>
+<rect x="254" y="92" width="9" height="8" fill="var(--fig-cat-2, #a1561d)"/>
+<rect x="268" y="86" width="9" height="14" fill="var(--fig-cat-2, #a1561d)"/>
+<rect x="282" y="80" width="9" height="20" fill="var(--fig-cat-2, #a1561d)"/>
+<rect x="296" y="74" width="9" height="26" fill="var(--fig-cat-2, #a1561d)"/>
+<rect x="228" y="114" width="104" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="228" y="121" width="104" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="228" y="128" width="104" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="228" y="135" width="62.4" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="228" y="146" width="60" height="5" fill="var(--fig-cat-2, #a1561d)" fill-opacity="0.8"/>
+<rect x="228" y="156" width="104" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="228" y="163" width="104" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="228" y="170" width="104" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="228" y="177" width="104" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="228" y="184" width="104" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="228" y="191" width="104" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="228" y="198" width="62.4" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="228" y="210" width="46" height="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.8"/>
+<rect x="228" y="220" width="104" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="228" y="227" width="104" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="228" y="234" width="104" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="228" y="241" width="62.4" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+</g> <g transform="translate(396 74)">
+<rect x="0" y="0" width="340" height="255" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/> <rect x="6" y="6" width="22" height="16" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="312" y="6" width="22" height="16" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="52" y="8" width="236" height="12" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.9"/>
+<rect x="86" y="24" width="168" height="12" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.9"/>
+<rect x="125" y="41" width="90" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.4"/> <rect x="8" y="52" width="44" height="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.8"/>
+<rect x="8" y="62" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="69" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="76" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="83" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="90" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="97" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="104" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="111" width="60" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="8" y="125" width="52" height="5" fill="var(--fig-cat-2, #a1561d)" fill-opacity="0.8"/>
+<rect x="8" y="135" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="142" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="149" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="156" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="163" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="170" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="177" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="184" width="60" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="8" y="198" width="40" height="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.8"/>
+<rect x="8" y="208" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="215" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="222" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="229" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="236" width="100" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="8" y="243" width="60" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="121" y="54" width="211" height="92" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1"/>
+<g>
+<ellipse cx="226" cy="104" rx="32" ry="26" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<path d="M202 80q24 -20 48 0" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.6" stroke-width="6" stroke-linecap="round"/>
+</g>
+<rect x="121" y="151" width="90" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="121" y="161" width="48" height="5" fill="var(--fig-cat-3, #3c3c83)" fill-opacity="0.8"/>
+<rect x="127" y="171" width="82" height="44" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1"/>
+<path d="M140 204l18 -12l18 5l22 -16" fill="none" stroke="var(--fig-cat-3, #3c3c83)" stroke-width="2"/>
+<rect x="121" y="221" width="96" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="121" y="228" width="96" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="121" y="235" width="96" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="121" y="242" width="57.599999999999994" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="228" y="160" width="104" height="40" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1"/>
+<rect x="254" y="188" width="9" height="8" fill="var(--fig-cat-2, #a1561d)"/>
+<rect x="268" y="182" width="9" height="14" fill="var(--fig-cat-2, #a1561d)"/>
+<rect x="282" y="176" width="9" height="20" fill="var(--fig-cat-2, #a1561d)"/>
+<rect x="296" y="170" width="9" height="26" fill="var(--fig-cat-2, #a1561d)"/> <rect x="228" y="208" width="70" height="7" fill="var(--fig-cat-2, #a1561d)" fill-opacity="0.9"/>
+<rect x="228" y="220" width="104" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="228" y="227" width="104" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="228" y="234" width="104" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="228" y="241" width="62.4" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+</g> <text x="24" y="350" font-size="11.5" fill="var(--fig-muted, #5b616b)">Title, headings and text carry equal weight.</text> <text x="24" y="367" font-size="11.5" fill="var(--fig-muted, #5b616b)">The logos and colored headings out-shout the title.</text> <text x="396" y="350" font-size="11.5" fill="var(--fig-muted, #5b616b)">The title wins, and the key figure comes second.</text> <text x="396" y="367" font-size="11.5" fill="var(--fig-muted, #5b616b)">The logos shrink. Spacing and alignment are still rough.</text> </svg>

@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif" viewBox="0 0 760 544" role="img" aria-label="Nine patterns built from the same hill, gate and courier" font-size="13"> <text x="24" y="30" font-size="15" font-weight="600" fill="var(--fig-ink, #1a1c20)">Nine patterns built from the same hill, gate and courier</text> <g transform="translate(24 52)">
+<g fill="var(--fig-line, #6b7280)" transform="translate(150 73.5) scale(1)">
+<rect x="-11" y="-26" width="3" height="28"/>
+<rect x="8" y="-26" width="3" height="28"/>
+<rect x="-16" y="-30" width="32" height="4"/>
+<rect x="-11" y="-21" width="22" height="2.5"/>
+</g>
+<path d="M0 78C50 72 150 76 216 68V110H0Z" fill="var(--fig-ink, #1a1c20)"/>
+<g fill="var(--fig-ink, #1a1c20)" stroke="var(--fig-ink, #1a1c20)">
+<path d="M72 54l-6 21h12z" stroke="none"/>
+<circle cx="72" cy="50" r="4.5" stroke="none"/>
+<path d="M69 48q-8 2 -8 10" fill="none" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M75 60l10 -4v7" fill="none" stroke-width="1.25"/>
+<circle cx="85" cy="66" r="3.5" fill="var(--fig-accent, #0f9d7a)" stroke="none"/>
+</g>
+<path d="M72 0V110M144 0V110M0 36.7H216M0 73.3H216" fill="none" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1.25" stroke-dasharray="4 3"/>
+<rect x="0" y="0" width="216" height="110" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+</g> <g transform="translate(272 52)">
+<g fill="var(--fig-line, #6b7280)" transform="translate(108 84) scale(2.2)">
+<rect x="-11" y="-26" width="3" height="28"/>
+<rect x="8" y="-26" width="3" height="28"/>
+<rect x="-16" y="-30" width="32" height="4"/>
+<rect x="-11" y="-21" width="22" height="2.5"/>
+</g>
+<path d="M34 62l8 23h-16z" fill="var(--fig-ink, #1a1c20)"/>
+<path d="M182 62l8 23h-16z" fill="var(--fig-ink, #1a1c20)"/>
+<path d="M0 84H216V110H0Z" fill="var(--fig-ink, #1a1c20)"/>
+<g fill="var(--fig-ink, #1a1c20)" stroke="var(--fig-ink, #1a1c20)">
+<path d="M108 63l-6 21h12z" stroke="none"/>
+<circle cx="108" cy="59" r="4.5" stroke="none"/>
+<path d="M105 57q-8 2 -8 10" fill="none" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M111 69l10 -4v7" fill="none" stroke-width="1.25"/>
+<circle cx="121" cy="75" r="3.5" fill="var(--fig-accent, #0f9d7a)" stroke="none"/>
+</g>
+<path d="M108 0V110" fill="none" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1.25" stroke-dasharray="4 3"/>
+<rect x="0" y="0" width="216" height="110" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+</g> <g transform="translate(520 52)">
+<g fill="var(--fig-line, #6b7280)" transform="translate(184 41.5) scale(1)">
+<rect x="-11" y="-26" width="3" height="28"/>
+<rect x="8" y="-26" width="3" height="28"/>
+<rect x="-16" y="-30" width="32" height="4"/>
+<rect x="-11" y="-21" width="22" height="2.5"/>
+</g>
+<path d="M0 100L216 30V110H0Z" fill="var(--fig-ink, #1a1c20)"/>
+<g fill="var(--fig-ink, #1a1c20)" stroke="var(--fig-ink, #1a1c20)">
+<path d="M92 50l-6 21h12z" stroke="none"/>
+<circle cx="92" cy="46" r="4.5" stroke="none"/>
+<path d="M89 44q-8 2 -8 10" fill="none" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M95 56l10 -4v7" fill="none" stroke-width="1.25"/>
+<circle cx="105" cy="62" r="3.5" fill="var(--fig-accent, #0f9d7a)" stroke="none"/>
+</g>
+<path d="M0 100L216 30" fill="none" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1.25" stroke-dasharray="4 3"/>
+<rect x="0" y="0" width="216" height="110" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+</g> <g transform="translate(24 214)">
+<circle cx="108" cy="26" r="11" fill="var(--fig-line, #6b7280)"/>
+<g fill="var(--fig-line, #6b7280)" transform="translate(166 92) scale(1)">
+<rect x="-11" y="-26" width="3" height="28"/>
+<rect x="8" y="-26" width="3" height="28"/>
+<rect x="-16" y="-30" width="32" height="4"/>
+<rect x="-11" y="-21" width="22" height="2.5"/>
+</g>
+<path d="M0 92H216V110H0Z" fill="var(--fig-ink, #1a1c20)"/>
+<g fill="var(--fig-ink, #1a1c20)" stroke="var(--fig-ink, #1a1c20)">
+<path d="M52 71l-6 21h12z" stroke="none"/>
+<circle cx="52" cy="67" r="4.5" stroke="none"/>
+<path d="M49 65q-8 2 -8 10" fill="none" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M55 77l10 -4v7" fill="none" stroke-width="1.25"/>
+<circle cx="65" cy="83" r="3.5" fill="var(--fig-accent, #0f9d7a)" stroke="none"/>
+</g>
+<path d="M52 66L108 26L166 62Z" fill="none" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1.25" stroke-dasharray="4 3"/>
+<rect x="0" y="0" width="216" height="110" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+</g> <g transform="translate(272 214)">
+<g fill="var(--fig-line, #6b7280)" transform="translate(186 86) scale(0.8)">
+<rect x="-11" y="-26" width="3" height="28"/>
+<rect x="8" y="-26" width="3" height="28"/>
+<rect x="-16" y="-30" width="32" height="4"/>
+<rect x="-11" y="-21" width="22" height="2.5"/>
+</g>
+<rect x="0" y="0" width="38" height="110" fill="var(--fig-ink, #1a1c20)"/>
+<path d="M0 86H216V110H0Z" fill="var(--fig-ink, #1a1c20)"/>
+<g fill="var(--fig-ink, #1a1c20)" stroke="var(--fig-ink, #1a1c20)">
+<path d="M120 65l-6 21h12z" stroke="none"/>
+<circle cx="120" cy="61" r="4.5" stroke="none"/>
+<path d="M117 59q-8 2 -8 10" fill="none" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M123 71l10 -4v7" fill="none" stroke-width="1.25"/>
+<circle cx="133" cy="77" r="3.5" fill="var(--fig-accent, #0f9d7a)" stroke="none"/>
+</g>
+<path d="M42 4V82H212" fill="none" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1.25" stroke-dasharray="4 3"/>
+<rect x="0" y="0" width="216" height="110" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+</g> <g transform="translate(520 214)">
+<path d="M0 50H216V110H0Z" fill="var(--fig-grid, #c9cdd3)"/>
+<path d="M164 110C40 98 190 78 104 66C70 60 122 54 114 50" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="7" stroke-linecap="round"/>
+<g fill="var(--fig-ink, #1a1c20)" transform="translate(116 50) scale(0.7)">
+<rect x="-11" y="-26" width="3" height="28"/>
+<rect x="8" y="-26" width="3" height="28"/>
+<rect x="-16" y="-30" width="32" height="4"/>
+<rect x="-11" y="-21" width="22" height="2.5"/>
+</g>
+<g fill="var(--fig-ink, #1a1c20)" stroke="var(--fig-ink, #1a1c20)">
+<path d="M120 67l-6 21h12z" stroke="none"/>
+<circle cx="120" cy="63" r="4.5" stroke="none"/>
+<path d="M123 61q8 2 8 10" fill="none" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M117 73l-10 -4v7" fill="none" stroke-width="1.25"/>
+<circle cx="107" cy="79" r="3.5" fill="var(--fig-accent, #0f9d7a)" stroke="none"/>
+</g>
+<path d="M164 110C40 98 190 78 104 66C70 60 122 54 114 50" fill="none" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1.25" stroke-dasharray="4 3"/>
+<rect x="0" y="0" width="216" height="110" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+</g> <g transform="translate(24 376)">
+<line x1="138" y1="62" x2="208" y2="62" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1.25" stroke-dasharray="4 3"/>
+<line x1="78" y1="62.00000000000001" x2="8" y2="62.000000000000014" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1.25" stroke-dasharray="4 3"/>
+<line x1="80.28361402466139" y1="50.519497029047315" x2="15.612046748871322" y2="23.73165676349104" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1.25" stroke-dasharray="4 3"/>
+<line x1="86.78679656440357" y1="40.78679656440357" x2="51.999999999999986" y2="6.000000000000007" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1.25" stroke-dasharray="4 3"/>
+<line x1="96.51949702904729" y1="34.283614024661404" x2="84.80404050710663" y2="6" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1.25" stroke-dasharray="4 3"/>
+<line x1="108" y1="32" x2="107.99999999999999" y2="6" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1.25" stroke-dasharray="4 3"/>
+<line x1="119.4805029709527" y1="34.283614024661404" x2="131.19595949289334" y2="6" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1.25" stroke-dasharray="4 3"/>
+<line x1="129.21320343559643" y1="40.78679656440357" x2="163.99999999999997" y2="6" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1.25" stroke-dasharray="4 3"/>
+<line x1="135.7163859753386" y1="50.51949702904729" x2="200.38795325112864" y2="23.73165676349096" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1.25" stroke-dasharray="4 3"/>
+<g fill="var(--fig-line, #6b7280)" transform="translate(108 88) scale(1)">
+<rect x="-11" y="-26" width="3" height="28"/>
+<rect x="8" y="-26" width="3" height="28"/>
+<rect x="-16" y="-30" width="32" height="4"/>
+<rect x="-11" y="-21" width="22" height="2.5"/>
+</g>
+<path d="M0 88H216V110H0Z" fill="var(--fig-ink, #1a1c20)"/>
+<g fill="var(--fig-ink, #1a1c20)" stroke="var(--fig-ink, #1a1c20)">
+<path d="M72 67l-6 21h12z" stroke="none"/>
+<circle cx="72" cy="63" r="4.5" stroke="none"/>
+<path d="M69 61q-8 2 -8 10" fill="none" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M75 73l10 -4v7" fill="none" stroke-width="1.25"/>
+<circle cx="85" cy="79" r="3.5" fill="var(--fig-accent, #0f9d7a)" stroke="none"/>
+</g>
+<rect x="0" y="0" width="216" height="110" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+</g> <g transform="translate(272 376)">
+<g fill="var(--fig-line, #6b7280)" transform="translate(132 86) scale(0.75)">
+<rect x="-11" y="-26" width="3" height="28"/>
+<rect x="8" y="-26" width="3" height="28"/>
+<rect x="-16" y="-30" width="32" height="4"/>
+<rect x="-11" y="-21" width="22" height="2.5"/>
+</g>
+<path d="M60 86H156V110H60Z" fill="var(--fig-ink, #1a1c20)"/>
+<g fill="var(--fig-ink, #1a1c20)" stroke="var(--fig-ink, #1a1c20)">
+<path d="M96 65l-6 21h12z" stroke="none"/>
+<circle cx="96" cy="61" r="4.5" stroke="none"/>
+<path d="M93 59q-8 2 -8 10" fill="none" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M99 71l10 -4v7" fill="none" stroke-width="1.25"/>
+<circle cx="109" cy="77" r="3.5" fill="var(--fig-accent, #0f9d7a)" stroke="none"/>
+</g>
+<path d="M0 0H216V110H156V16H60V110H0Z" fill="var(--fig-ink, #1a1c20)"/>
+<path d="M64 20H152V82H64Z" fill="none" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1.25" stroke-dasharray="4 3"/>
+<rect x="0" y="0" width="216" height="110" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+</g> <g transform="translate(520 376)">
+<g fill="var(--fig-line, #6b7280)" transform="translate(78 86) scale(2)">
+<rect x="-11" y="-26" width="3" height="28"/>
+<rect x="8" y="-26" width="3" height="28"/>
+<rect x="-16" y="-30" width="32" height="4"/>
+<rect x="-11" y="-21" width="22" height="2.5"/>
+</g>
+<path d="M0 86H216V110H0Z" fill="var(--fig-ink, #1a1c20)"/>
+<g fill="var(--fig-ink, #1a1c20)" stroke="var(--fig-ink, #1a1c20)">
+<path d="M190 65l-6 21h12z" stroke="none"/>
+<circle cx="190" cy="61" r="4.5" stroke="none"/>
+<path d="M193 59q8 2 8 10" fill="none" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M187 71l-10 -4v7" fill="none" stroke-width="1.25"/>
+<circle cx="177" cy="77" r="3.5" fill="var(--fig-accent, #0f9d7a)" stroke="none"/>
+</g>
+<path d="M52 100H204" fill="none" stroke="var(--fig-cat-2, #a1561d)" stroke-width="1.25" stroke-dasharray="4 3"/>
+<path d="M104 100l5 8h-10z" fill="var(--fig-cat-2, #a1561d)"/>
+<rect x="0" y="0" width="216" height="110" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/>
+</g> <text x="132" y="182" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Thirds</text> <text x="132" y="200" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">the subject on a crossing</text> <text x="380" y="182" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Symmetry</text> <text x="380" y="200" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">mirrored halves, one axis</text> <text x="628" y="182" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Diagonal</text> <text x="628" y="200" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">masses along one slope</text> <text x="132" y="344" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Triangle</text> <text x="132" y="362" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">three points, broad base</text> <text x="380" y="344" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">L-frame</text> <text x="380" y="362" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">a tall side and a low base</text> <text x="628" y="344" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">S-curve</text> <text x="628" y="362" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">a winding way in</text> <text x="132" y="506" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Radial</text> <text x="132" y="524" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">lines meet at one point</text> <text x="380" y="506" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Frame within a frame</text> <text x="380" y="524" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">seen through an opening</text> <text x="628" y="506" text-anchor="middle" font-weight="600" fill="var(--fig-ink, #1a1c20)">Steelyard</text> <text x="628" y="524" text-anchor="middle" font-size="11.5" fill="var(--fig-muted, #5b616b)">large near, small far</text> </svg>

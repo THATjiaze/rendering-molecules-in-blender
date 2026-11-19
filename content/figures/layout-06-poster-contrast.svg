@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif" viewBox="0 0 760 386" role="img" aria-label="One style list and one accent finish the page" font-size="13"> <text x="24" y="30" font-size="15" font-weight="600" fill="var(--fig-ink, #1a1c20)">One style list and one accent finish the page</text> <text x="24" y="62" font-weight="600" fill="var(--fig-ink, #1a1c20)">Aligned, but inconsistent</text> <text x="396" y="62" font-weight="600" fill="var(--fig-ink, #1a1c20)">Finished</text> <g transform="translate(24 74)">
+<rect x="0" y="0" width="340" height="255" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/> <rect x="16" y="16" width="240" height="12" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.9"/>
+<rect x="16" y="32" width="172" height="12" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.9"/>
+<rect x="16" y="49" width="90" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.4"/> <rect x="280" y="16" width="20" height="14" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="304" y="16" width="20" height="14" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="16" y="68" width="44" height="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.8"/>
+<rect x="16" y="76" width="92" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="16" y="83" width="92" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="16" y="90" width="92" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="16" y="97" width="55.199999999999996" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="16" y="116" width="52" height="5" fill="var(--fig-cat-2, #a1561d)" fill-opacity="0.8"/>
+<rect x="16" y="124" width="92" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="16" y="131" width="92" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="16" y="138" width="92" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="16" y="145" width="55.199999999999996" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="16" y="180" width="70" height="7" fill="var(--fig-cat-2, #a1561d)" fill-opacity="0.9"/>
+<rect x="16" y="191" width="92" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="16" y="198" width="92" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="16" y="205" width="92" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="16" y="212" width="92" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="16" y="219" width="55.199999999999996" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="124" y="68" width="200" height="90" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1"/>
+<g>
+<ellipse cx="224" cy="116" rx="32" ry="26" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<path d="M200 92q24 -20 48 0" fill="none" stroke="var(--fig-ink, #1a1c20)" stroke-opacity="0.6" stroke-width="6" stroke-linecap="round"/>
+</g>
+<rect x="124" y="162" width="90" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="124" y="171" width="48" height="5" fill="var(--fig-cat-3, #3c3c83)" fill-opacity="0.8"/>
+<rect x="124" y="180" width="92" height="40" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1"/>
+<path d="M141 210l18 -12l18 5l22 -16" fill="none" stroke="var(--fig-cat-3, #3c3c83)" stroke-width="2"/>
+<rect x="124" y="224" width="42" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="232" y="180" width="92" height="40" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1"/>
+<rect x="254" y="206" width="9" height="8" fill="var(--fig-cat-2, #a1561d)"/>
+<rect x="268" y="200" width="9" height="14" fill="var(--fig-cat-2, #a1561d)"/>
+<rect x="282" y="194" width="9" height="20" fill="var(--fig-cat-2, #a1561d)"/>
+<rect x="296" y="188" width="9" height="26" fill="var(--fig-cat-2, #a1561d)"/>
+<rect x="232" y="224" width="42" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="16" y="238" width="150" height="2" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.25"/>
+</g> <g transform="translate(396 74)">
+<rect x="0" y="0" width="340" height="255" fill="none" stroke="var(--fig-line, #6b7280)" stroke-width="1.25"/> <rect x="16" y="16" width="240" height="12" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.9"/>
+<rect x="16" y="32" width="172" height="12" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.9"/>
+<rect x="16" y="49" width="90" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.4"/> <rect x="280" y="16" width="20" height="14" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.2"/>
+<rect x="304" y="16" width="20" height="14" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.2"/> <rect x="16" y="68" width="44" height="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="16" y="76" width="92" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.2"/>
+<rect x="16" y="83" width="92" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.2"/>
+<rect x="16" y="90" width="92" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.2"/>
+<rect x="16" y="97" width="55.199999999999996" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.2"/> <rect x="16" y="116" width="52" height="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="16" y="124" width="92" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.2"/>
+<rect x="16" y="131" width="92" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.2"/>
+<rect x="16" y="138" width="92" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.2"/>
+<rect x="16" y="145" width="55.199999999999996" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.2"/> <rect x="16" y="171" width="92" height="60" rx="3" fill="var(--fig-accent, #0f9d7a)" fill-opacity="0.12" stroke="var(--fig-accent, #0f9d7a)" stroke-width="1.5"/> <rect x="24" y="180" width="56" height="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="24" y="190" width="76" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="24" y="197" width="76" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="24" y="204" width="76" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="24" y="211" width="76" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<rect x="24" y="218" width="45.6" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/> <rect x="124" y="68" width="200" height="90" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1"/>
+<g>
+<ellipse cx="224" cy="116" rx="32" ry="26" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.3"/>
+<path d="M200 92q24 -20 48 0" fill="none" stroke="var(--fig-accent, #0f9d7a)" stroke-opacity="1" stroke-width="6" stroke-linecap="round"/>
+</g>
+<rect x="124" y="162" width="90" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.2"/> <rect x="124" y="171" width="48" height="5" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.85"/>
+<rect x="124" y="180" width="92" height="40" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1"/>
+<path d="M141 210l18 -12l18 5l22 -16" fill="none" stroke="var(--fig-muted, #5b616b)" stroke-width="2"/>
+<rect x="124" y="224" width="42" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.2"/> <rect x="232" y="180" width="92" height="40" fill="var(--fig-tint, #e8ebef)" stroke="var(--fig-line, #6b7280)" stroke-width="1"/>
+<rect x="254" y="206" width="9" height="8" fill="var(--fig-muted, #5b616b)"/>
+<rect x="268" y="200" width="9" height="14" fill="var(--fig-muted, #5b616b)"/>
+<rect x="282" y="194" width="9" height="20" fill="var(--fig-muted, #5b616b)"/>
+<rect x="296" y="188" width="9" height="26" fill="var(--fig-muted, #5b616b)"/>
+<rect x="232" y="224" width="42" height="3" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.2"/> <rect x="16" y="241" width="150" height="2" fill="var(--fig-ink, #1a1c20)" fill-opacity="0.2"/>
+</g> <text x="24" y="350" font-size="11.5" fill="var(--fig-muted, #5b616b)">Three heading colors that mean nothing.</text> <text x="24" y="367" font-size="11.5" fill="var(--fig-muted, #5b616b)">Each plot has its own palette.</text> <text x="396" y="350" font-size="11.5" fill="var(--fig-muted, #5b616b)">One heading style, and quieter body text.</text> <text x="396" y="367" font-size="11.5" fill="var(--fig-muted, #5b616b)">One accent, on the lid and the conclusion only.</text> </svg>
